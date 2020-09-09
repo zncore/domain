@@ -3,28 +3,30 @@
 namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
-use ZnCore\Domain\Entities\ValidateErrorEntity;
-use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
+use ZnCore\Domain\Entities\ValidateErrorEntity;
+use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
+use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 
 class ValidationHelper
 {
 
-    public static function throwUnprocessable(array $errorArray) {
+    public static function throwUnprocessable(array $errorArray)
+    {
         $errorCollection = ValidationHelper::generateErrorCollectionFromArray($errorArray);
         $exception = new UnprocessibleEntityException;
         $exception->setErrorCollection($errorCollection);
         throw $exception;
     }
 
-    public static function generateErrorCollectionFromArray(array $errorArray): Collection {
+    public static function generateErrorCollectionFromArray(array $errorArray): Collection
+    {
         $errorCollection = new Collection;
 
         foreach ($errorArray as $field => $message) {
-            if(is_array($message)) {
+            if (is_array($message)) {
                 foreach ($message as $m) {
                     $validateErrorEntity = new ValidateErrorEntity;
                     $validateErrorEntity->setField($field);
@@ -58,7 +60,7 @@ class ValidationHelper
     public static function validate($rules, $data): Collection
     {
         $violations = [];
-        if ( ! empty($rules)) {
+        if (!empty($rules)) {
             $validator = Validation::createValidator();
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             foreach ($rules as $name => $rule) {
@@ -73,7 +75,7 @@ class ValidationHelper
     }
 
     /**
-     * @param   array | ConstraintViolationList[] $violations
+     * @param array | ConstraintViolationList[] $violations
      * @return  array | Collection | ValidateErrorEntity[]
      */
     private static function prepareUnprocessible(array $violations): Collection

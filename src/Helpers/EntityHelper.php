@@ -3,15 +3,12 @@
 namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
-use ZnCore\Base\Helpers\InstanceHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ReflectionClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 
 class EntityHelper
 {
@@ -27,7 +24,7 @@ class EntityHelper
 
     public static function isEntity($data)
     {
-        return is_object($data) && ! ($data instanceof Collection);
+        return is_object($data) && !($data instanceof Collection);
     }
 
     public static function indexingCollection(Collection $collection, string $fieldName): array
@@ -80,7 +77,7 @@ class EntityHelper
     public static function toArray($entity, bool $recursive = false): array
     {
         $array = [];
-        if(is_array($entity)) {
+        if (is_array($entity)) {
             $array = $entity;
         } elseif ($entity instanceof Collection) {
             $array = $entity->toArray();
@@ -91,9 +88,9 @@ class EntityHelper
                 $array[$attribute] = $propertyAccessor->getValue($entity, $attribute);
             }
         }
-        if($recursive) {
+        if ($recursive) {
             foreach ($array as &$item) {
-                if(is_object($item)) {
+                if (is_object($item)) {
                     $item = self::toArray($item);
                 }
             }
@@ -128,7 +125,7 @@ class EntityHelper
         foreach ($data as $name => $value) {
             $name = Inflector::variablize($name);
             $isAllow = empty($filedsOnly) || in_array($name, $filedsOnly);
-            if($isAllow) {
+            if ($isAllow) {
                 $propertyAccessor->setValue($entity, $name, $value);
             }
         }
