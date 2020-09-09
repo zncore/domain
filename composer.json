@@ -10,8 +10,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "symfony/validator": "4.*|5.*",
-    "symfony/serializer": "4.*|5.*"
+    
   },
   "autoload": {
     "psr-4": {
