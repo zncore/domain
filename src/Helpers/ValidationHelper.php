@@ -21,6 +21,18 @@ class ValidationHelper
         throw $exception;
     }
 
+    public static function collectionToArray(Collection $errorCollection): array {
+        $array = [];
+        /** @var ValidateErrorEntity $validateErrorEntity */
+        foreach ($errorCollection as $validateErrorEntity) {
+            $array[] = [
+                'field' => $validateErrorEntity->getField(),
+                'message' => $validateErrorEntity->getMessage(),
+            ];
+        }
+        return $array;
+    }
+
     public static function generateErrorCollectionFromArray(array $errorArray): Collection
     {
         $errorCollection = new Collection;
