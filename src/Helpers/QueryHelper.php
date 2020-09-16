@@ -87,7 +87,7 @@ class QueryHelper
         return $result;
     }
 
-    protected static function splitStringParam($value)
+    public static function splitStringParam($value)
     {
         if (empty($value) || ! is_string($value)) {
             return [];
@@ -96,7 +96,7 @@ class QueryHelper
         return $values;
     }
 
-    protected static function splitSortParam($params)
+    public static function splitSortParam($params)
     {
         $sortParams = [];
         foreach ($params as $sort) {
