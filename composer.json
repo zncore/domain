@@ -16,7 +16,7 @@
   "autoload": {
     "psr-4": {
       "ZnCore\\Domain\\": "src",
-      "ZnCore\\Domian\\Tests\\": "tests"
+      "ZnCore\\Domain\\Tests\\": "tests"
     }
   }
 }
