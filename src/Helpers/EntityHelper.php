@@ -13,6 +13,11 @@ use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 class EntityHelper
 {
 
+    public static function getValue(object $enitity, string $attribute) {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        return $propertyAccessor->getValue($enitity, $attribute);
+    }
+
     public static function createEntity(string $entityClass, $attributes = [])
     {
         $entityInstance = new $entityClass;
