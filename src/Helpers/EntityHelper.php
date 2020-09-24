@@ -3,12 +3,14 @@
 namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
+use Packages\Eav\Domain\Entities\DynamicEntity;
 use ReflectionClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Domain\Interfaces\Entity\EntityAttributesInterface;
 
 class EntityHelper
 {
@@ -105,9 +107,18 @@ class EntityHelper
 
     public static function getAttributeNames(object $entity): array
     {
+        if($entity instanceof EntityAttributesInterface) {
+            return $entity->attributes();
+        }
         $reflClass = new ReflectionClass($entity);
         $attributesRef = $reflClass->getProperties();
-        return ArrayHelper::getColumn($attributesRef, 'name');
+        $attributes = ArrayHelper::getColumn($attributesRef, 'name');
+        foreach ($attributes as $index => $attributeName) {
+            if($attributeName[0] == '_') {
+                unset($attributes[$index]);
+            }
+        }
+        return $attributes;
         /*$attributes = [];
         foreach ($attributesRef as $reflectionProperty) {
             $attributes[] = $reflectionProperty->;
