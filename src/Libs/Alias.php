@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Libs;
 
+use Illuminate\Support\Facades\DB;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 
 class Alias
