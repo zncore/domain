@@ -2,9 +2,7 @@
 
 namespace ZnCore\Domain\Enums;
 
-use ZnCore\Domain\Base\BaseEnum;
-
-class OperatorEnum extends BaseEnum
+class OperatorEnum
 {
 
     const NULL = 'NULL';

@@ -2,8 +2,16 @@
 
 namespace ZnCore\Domain\Base;
 
+use ZnCore\Base\Exceptions\DeprecatedException;
 use ZnCore\Base\Helpers\ReflectionHelper;
 
+throw new DeprecatedException;
+
+/**
+ * Class BaseEnum
+ * @package ZnCore\Domain\Base
+ * @deprecated
+ */
 abstract class BaseEnum
 {
 

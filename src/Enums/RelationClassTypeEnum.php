@@ -2,9 +2,7 @@
 
 namespace ZnCore\Domain\Enums;
 
-use ZnCore\Domain\Base\BaseEnum;
-
-class RelationClassTypeEnum extends BaseEnum
+class RelationClassTypeEnum
 {
 
     const SERVICE = 'SERVICE';

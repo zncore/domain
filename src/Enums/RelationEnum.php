@@ -2,9 +2,7 @@
 
 namespace ZnCore\Domain\Enums;
 
-use ZnCore\Domain\Base\BaseEnum;
-
-class RelationEnum extends BaseEnum
+class RelationEnum
 {
 
     const ONE = 'one';
