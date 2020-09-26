@@ -7,7 +7,6 @@ use php7extension\yii\db\Expression;
 use php7extension\yii\db\ExpressionInterface;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
-use ZnCore\Base\Helpers\TypeHelper;
 
 /**
  * Class Query
@@ -100,7 +99,7 @@ class Query
 
     private function findWhereInArray($fieldName, $array)
     {
-        if ( ! is_array($array) || empty($array)) {
+        if (!is_array($array) || empty($array)) {
             return null;
         }
         foreach ($array as $key => &$value) {
@@ -108,7 +107,7 @@ class Query
                 return $value;
             } elseif (is_array($value)) {
                 $value = $this->findWhereInArray($fieldName, $value);
-                if ( ! empty($value)) {
+                if (!empty($value)) {
                     return $value;
                 }
             }
@@ -184,7 +183,7 @@ class Query
 
     private function removeWhereInArray($fieldName, $array)
     {
-        if ( ! is_array($array) || empty($array)) {
+        if (!is_array($array) || empty($array)) {
             return null;
         }
         foreach ($array as $key => &$value) {
@@ -205,7 +204,7 @@ class Query
         if (empty($condition)) {
             return;
         }
-        if ( ! empty($condition)) {
+        if (!empty($condition)) {
             foreach ($condition as $name => $value) {
                 $this->where($name, $value);
             }
@@ -230,7 +229,7 @@ class Query
 
     public function removeWith($key)
     {
-        if ( ! empty($key)) {
+        if (!empty($key)) {
             unset($this->query[self::WITH][$key]);
         } else {
             unset($this->query[self::WITH]);
@@ -354,12 +353,9 @@ class Query
         return ArrayHelper::has($this->query, $key);
     }
 
-    public function getParam($key, $type = null)
+    public function getParam(string $key, $default = null)
     {
-        $value = ArrayHelper::getValue($this->query, $key);
-        if ( ! empty($type)) {
-            $value = TypeHelper::encode($value, $type);
-        }
+        $value = ArrayHelper::getValue($this->query, $key, $default);
         return $value;
     }
 
@@ -488,7 +484,7 @@ class Query
     public function createJsonBCondition($attr, $fn, $jsonbFieldName, $jsonPath, $operator, $value, $lower)
     {
         if ($operator == "IN") {
-            if ( ! is_array($value)) {
+            if (!is_array($value)) {
                 $value = [$value];
             }
             $inConditionElements = "";

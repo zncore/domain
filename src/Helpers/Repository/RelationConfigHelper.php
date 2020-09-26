@@ -9,13 +9,6 @@ use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
 class RelationConfigHelper
 {
 
-    public static function getRelationsConfig22(RelationConfigInterface $repository): array
-    {
-        $relations = $repository->relations();
-        $relations = Helper::forgeEntity($relations, RelationEntity::class, true, true);
-        return $relations;
-    }
-
     /**
      * @param RelationConfigInterface $repository
      * @return RelationEntity[]
