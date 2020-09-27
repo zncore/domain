@@ -174,7 +174,7 @@ class Query
         return $this;
     }
 
-    public function removeWhere($fieldName)
+    /*public function removeWhere($fieldName)
     {
         $where = $this->query[self::WHERE];
         $where = $this->removeWhereInArray($fieldName, $where);
@@ -197,7 +197,7 @@ class Query
             }
         }
         return $array;
-    }
+    }*/
 
     public function whereFromCondition($condition)
     {
