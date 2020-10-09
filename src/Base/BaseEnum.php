@@ -5,7 +5,7 @@ namespace ZnCore\Domain\Base;
 use ZnCore\Base\Exceptions\DeprecatedException;
 use ZnCore\Base\Helpers\ReflectionHelper;
 
-throw new DeprecatedException;
+//throw new DeprecatedException;
 
 /**
  * Class BaseEnum

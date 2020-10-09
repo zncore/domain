@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
-use Packages\Eav\Domain\Entities\DynamicEntity;
+use ZnSandbox\Sandbox\Eav\Domain\Entities\DynamicEntity;
 use ReflectionClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
