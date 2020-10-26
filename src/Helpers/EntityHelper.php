@@ -47,12 +47,12 @@ class EntityHelper
 
     public static function createEntityCollection(string $entityClass, array $data = [], array $filedsOnly = []): Collection
     {
-        $collection = new Collection;
-        foreach ($data as $item) {
+        foreach ($data as $key => $item) {
             $entity = new $entityClass;
             self::setAttributes($entity, $item, $filedsOnly);
-            $collection->add($entity);
+            $data[$key] = $entity;
         }
+        $collection = new Collection($data);
         return $collection;
     }
 
