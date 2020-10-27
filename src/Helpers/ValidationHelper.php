@@ -3,6 +3,7 @@
 namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
