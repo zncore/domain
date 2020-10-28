@@ -7,6 +7,7 @@ use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
+use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
@@ -40,10 +41,16 @@ class ValidationHelper
 
         foreach ($errorArray as $field => $message) {
             if (is_array($message)) {
-                foreach ($message as $m) {
+                if(ArrayHelper::isAssociative($message)) {
                     $validateErrorEntity = new ValidateErrorEntity;
-                    $validateErrorEntity->setField($field);
-                    $validateErrorEntity->setMessage($m);
+                    $validateErrorEntity->setField($message['field']);
+                    $validateErrorEntity->setMessage($message['message']);
+                } else {
+                    foreach ($message as $m) {
+                        $validateErrorEntity = new ValidateErrorEntity;
+                        $validateErrorEntity->setField($field);
+                        $validateErrorEntity->setMessage($m);
+                    }
                 }
             } else {
                 $validateErrorEntity = new ValidateErrorEntity;
