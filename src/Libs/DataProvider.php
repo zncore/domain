@@ -59,7 +59,7 @@ class DataProvider
         return $this->entity;
     }
 
-    private function getCollection(): Collection
+    public function getCollection(): Collection
     {
         if ($this->entity->getCollection() === null) {
             $query = clone $this->query;
@@ -70,7 +70,7 @@ class DataProvider
         return $this->entity->getCollection();
     }
 
-    private function getTotalCount(): int
+    public function getTotalCount(): int
     {
         if ( $this->entity->getTotalCount() === null) {
             $query = clone $this->query;
