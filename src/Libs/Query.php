@@ -30,7 +30,7 @@ class Query
     const GROUP = 'group';
     const JOIN = 'join';
 
-    private $query = [
+    protected $query = [
         self::WHERE => [],
         self::WHERE_NEW => [],
         'nestedQuery' => [],
