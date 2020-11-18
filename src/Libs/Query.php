@@ -21,9 +21,10 @@ class Query
     const WHERE = 'where';
     const WHERE_NEW = 'whereNew';
     const SELECT = 'select';
+//    const SELECT = 'fields';
     const WITH = 'with';
     const PAGE = 'page';
-    const PER_PAGE = 'per_page';
+    const PER_PAGE = 'per-page';
     const LIMIT = 'limit';
     const OFFSET = 'offset';
     const ORDER = 'order';
@@ -335,8 +336,10 @@ class Query
         return $this;
     }
 
-    public function fields()
+    public function fields($fields)
     {
+        $this->select($fields);
+        return $this;
     }
 
     public function extraFields()

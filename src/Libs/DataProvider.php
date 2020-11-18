@@ -24,31 +24,39 @@ class DataProvider
         $this->service = $service;
         $this->query = Query::forge($query);
         $this->entity = new DataProviderEntity;
-        $this->entity->setPage($page);
-        $this->entity->setPageSize($pageSize);
+        $this->entity->setPage($query->getParam(Query::PAGE) ?: $page);
+//        $this->entity->setPage($page);
+        $this->entity->setPageSize($query->getParam(Query::PER_PAGE) ?: $pageSize);
+//        $this->entity->setPageSize($pageSize);
     }
 
-    public function setService(object $service) {
+    public function setService(object $service)
+    {
         $this->service = $service;
     }
 
-    public function getService(): ?object {
+    public function getService(): ?object
+    {
         return $this->service;
     }
 
-    public function setQuery(Query $query) {
+    public function setQuery(Query $query)
+    {
         $this->query = $query;
     }
 
-    public function getQuery(): ?Query {
+    public function getQuery(): ?Query
+    {
         return $this->query;
     }
 
-    public function setEntity(DataProviderEntity $entity) {
+    public function setEntity(DataProviderEntity $entity)
+    {
         $this->entity = $entity;
     }
 
-    public function getEntity(): ?DataProviderEntity {
+    public function getEntity(): ?DataProviderEntity
+    {
         return $this->entity;
     }
 
@@ -72,7 +80,7 @@ class DataProvider
 
     public function getTotalCount(): int
     {
-        if ( $this->entity->getTotalCount() === null) {
+        if ($this->entity->getTotalCount() === null) {
             $query = clone $this->query;
             $query->removeParam(Query::PER_PAGE);
             $query->removeParam(Query::LIMIT);
