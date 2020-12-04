@@ -10,7 +10,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "zncore/base": "v0.0.*",
+    "zncore/base": "v0.0.*|dev-master",
     "symfony/validator": "^4.4|^5.0"
   },
   "autoload": {
