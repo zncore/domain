@@ -21,17 +21,16 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
 
     public function all(Query $query = null)
     {
-        $all = EnumHelper::all($this->enumClass());
-        $labels = EnumHelper::getLabels($this->enumClass());
-        $list = [];
-        foreach ($all as $name => $id) {
-            $list[] = [
-                'id' => $id,
-                'name' => mb_strtolower($name),
-                'title' => $labels[$id],
-            ];
+        $items = $this->getItems();
+        if($query) {
+            $items = $this->processItems($items, $query);
         }
-        $collection = new Collection($list);
+        return EntityHelper::createEntityCollection($this->getEntityClass(), $items);
+    }
+
+    protected function processItems(array $items, Query $query): array
+    {
+        $collection = new Collection($items);
         /** @var Where[] $where */
         $where = $query->getParam(Query::WHERE_NEW);
         if ($where) {
@@ -45,7 +44,22 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
                 $collection = $resultCollection;
             }
         }
-        return EntityHelper::createEntityCollection($this->getEntityClass(), $collection->toArray());
+        return $collection->toArray();
+    }
+
+    protected function getItems(): array
+    {
+        $all = EnumHelper::all($this->enumClass());
+        $labels = EnumHelper::getLabels($this->enumClass());
+        $items = [];
+        foreach ($all as $name => $id) {
+            $items[] = [
+                'id' => $id,
+                'name' => mb_strtolower($name),
+                'title' => $labels[$id],
+            ];
+        }
+        return $items;
     }
 
     public function count(Query $query = null): int
