@@ -21,27 +21,10 @@ use ZnCore\Base\Libs\I18Next\Facades\I18Next;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
+use ZnLib\Web\Symfony4\MicroApp\ContainerHelper;
 
 class ValidationHelper
 {
-
-    private static $container;
-
-    public static function setContainer(ContainerInterface $container)
-    {
-        self::$container = $container;
-    }
-
-    private static function getContainer(): ContainerInterface
-    {
-        if(isset(self::$container)) {
-            return self::$container;
-        }
-        if(class_exists(Container::class)) {
-            return Container::getInstance();
-        }
-
-    }
 
     public static function throwUnprocessable(array $errorArray)
     {
@@ -126,8 +109,8 @@ class ValidationHelper
 
     private static function createValidator(): ValidatorInterface
     {
-        $container = self::getContainer();
-        if($container->has(TranslatorInterface::class)) {
+        $container = ContainerHelper::getContainer();
+        if($container instanceof ContainerInterface && $container->has(TranslatorInterface::class)) {
             $validatorBuilder = $container->get(ValidatorBuilder::class);
             $translator = $container->get(TranslatorInterface::class);
             $validatorBuilder->setTranslator($translator);
@@ -136,21 +119,6 @@ class ValidationHelper
             $validator = Validation::createValidator();
         }
         return $validator;
-    }
-
-    private static function translateMessage(string $message): string
-    {
-        $messageHash = StringHelper::extractWords($message);
-        $messageHash = str_replace(' ', '_', $messageHash);
-        $key = 'constraint.' . Inflector::underscore($messageHash);
-        try {
-            $translatedMessage = I18Next::t('domain', $key);
-            if ($translatedMessage != $key || EnvHelper::isProd()) {
-                $message = $translatedMessage;
-            }
-        } catch (NotFoundBundleException $e) {
-        }
-        return $message;
     }
 
     /**
@@ -165,7 +133,6 @@ class ValidationHelper
                 $violation->getCode();
                 $entity = new ValidateErrorEntity;
                 $entity->setField($name);
-//                $message = self::translateMessage($violation->getMessage());
                 $message = $violation->getMessage();
                 $entity->setMessage($message);
                 $entity->setViolation($violation);
@@ -174,5 +141,4 @@ class ValidationHelper
         }
         return $collection;
     }
-
 }
