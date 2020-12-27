@@ -7,7 +7,12 @@ use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
+use ZnCore\Base\Helpers\EnvHelper;
+use ZnCore\Base\Helpers\StringHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\I18Next\Exceptions\NotFoundBundleException;
+use ZnCore\Base\Libs\I18Next\Facades\I18Next;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
@@ -23,7 +28,8 @@ class ValidationHelper
         throw $exception;
     }
 
-    public static function collectionToArray(Collection $errorCollection): array {
+    public static function collectionToArray(Collection $errorCollection): array
+    {
         $array = [];
         /** @var ValidateErrorEntity $validateErrorEntity */
         foreach ($errorCollection as $validateErrorEntity) {
@@ -41,7 +47,7 @@ class ValidationHelper
 
         foreach ($errorArray as $field => $message) {
             if (is_array($message)) {
-                if(ArrayHelper::isAssociative($message)) {
+                if (ArrayHelper::isAssociative($message)) {
                     $validateErrorEntity = new ValidateErrorEntity;
                     $validateErrorEntity->setField($message['field']);
                     $validateErrorEntity->setMessage($message['message']);
@@ -94,6 +100,20 @@ class ValidationHelper
         return self::prepareUnprocessible($violations);
     }
 
+    private static function translateMessage(string $message): string
+    {
+        $messageHash = StringHelper::extractWords($message);
+        $messageHash = str_replace(' ', '_', $messageHash);
+        $key = 'constraint.' . Inflector::underscore($messageHash);
+        try {
+            $translatedMessage = I18Next::t('domain', $key);
+            if ($translatedMessage != $key || EnvHelper::isProd()) {
+                $message = $translatedMessage;
+            }
+        } catch (NotFoundBundleException $e) {}
+        return $message;
+    }
+
     /**
      * @param array | ConstraintViolationList[] $violations
      * @return  array | Collection | ValidateErrorEntity[]
@@ -106,7 +126,8 @@ class ValidationHelper
                 $violation->getCode();
                 $entity = new ValidateErrorEntity;
                 $entity->setField($name);
-                $entity->setMessage($violation->getMessage());
+                $message = self::translateMessage($violation->getMessage());
+                $entity->setMessage($message);
                 $entity->setViolation($violation);
                 $collection->add($entity);
             }
