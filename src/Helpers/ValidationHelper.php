@@ -2,11 +2,16 @@
 
 namespace ZnCore\Domain\Helpers;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Validator\ValidatorBuilder;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use ZnCore\Base\Helpers\EnvHelper;
 use ZnCore\Base\Helpers\StringHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
@@ -19,6 +24,24 @@ use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 
 class ValidationHelper
 {
+
+    private static $container;
+
+    public static function setContainer(ContainerInterface $container)
+    {
+        self::$container = $container;
+    }
+
+    private static function getContainer(): ContainerInterface
+    {
+        if(isset(self::$container)) {
+            return self::$container;
+        }
+        if(class_exists(Container::class)) {
+            return Container::getInstance();
+        }
+
+    }
 
     public static function throwUnprocessable(array $errorArray)
     {
@@ -87,7 +110,8 @@ class ValidationHelper
     {
         $violations = [];
         if (!empty($rules)) {
-            $validator = Validation::createValidator();
+            $validator = self::createValidator();
+//
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             foreach ($rules as $name => $rule) {
                 $value = $propertyAccessor->getValue($data, $name);
@@ -100,6 +124,20 @@ class ValidationHelper
         return self::prepareUnprocessible($violations);
     }
 
+    private static function createValidator(): ValidatorInterface
+    {
+        $container = self::getContainer();
+        if($container->has(TranslatorInterface::class)) {
+            $validatorBuilder = $container->get(ValidatorBuilder::class);
+            $translator = $container->get(TranslatorInterface::class);
+            $validatorBuilder->setTranslator($translator);
+            $validator = $validatorBuilder->getValidator();
+        } else {
+            $validator = Validation::createValidator();
+        }
+        return $validator;
+    }
+
     private static function translateMessage(string $message): string
     {
         $messageHash = StringHelper::extractWords($message);
@@ -110,7 +148,8 @@ class ValidationHelper
             if ($translatedMessage != $key || EnvHelper::isProd()) {
                 $message = $translatedMessage;
             }
-        } catch (NotFoundBundleException $e) {}
+        } catch (NotFoundBundleException $e) {
+        }
         return $message;
     }
 
@@ -126,7 +165,8 @@ class ValidationHelper
                 $violation->getCode();
                 $entity = new ValidateErrorEntity;
                 $entity->setField($name);
-                $message = self::translateMessage($violation->getMessage());
+//                $message = self::translateMessage($violation->getMessage());
+                $message = $violation->getMessage();
                 $entity->setMessage($message);
                 $entity->setViolation($violation);
                 $collection->add($entity);
