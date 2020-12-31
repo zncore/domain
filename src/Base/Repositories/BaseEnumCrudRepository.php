@@ -12,12 +12,20 @@ use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Interfaces\Repository\ReadOneInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
+use ZnCore\Domain\Libs\EntityManager;
 use ZnCore\Domain\Libs\Query;
 
 abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityClassInterface, ReadAllInterface, ReadOneInterface
 {
 
+    private $em;
+
     abstract public function enumClass(): string;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
     public function all(Query $query = null)
     {
@@ -25,7 +33,7 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
         if($query) {
             $items = $this->processItems($items, $query);
         }
-        return EntityHelper::createEntityCollection($this->getEntityClass(), $items);
+        return $this->em->createEntityCollection($this->getEntityClass(), $items);
     }
 
     protected function processItems(array $items, Query $query): array
