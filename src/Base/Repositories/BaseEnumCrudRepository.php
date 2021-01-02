@@ -29,7 +29,9 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
 
     public function all(Query $query = null)
     {
+
         $items = $this->getItems();
+//        dd($items);
         if($query) {
             $items = $this->processItems($items, $query);
         }
