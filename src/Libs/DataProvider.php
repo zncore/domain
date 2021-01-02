@@ -4,7 +4,9 @@ namespace ZnCore\Domain\Libs;
 
 use Illuminate\Support\Collection;
 use ZnCore\Domain\Entities\DataProviderEntity;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Entities\Query\Where;
+use ZnCore\Domain\Helpers\EntityHelper;
+use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 
@@ -81,10 +83,26 @@ class DataProvider
         return $this->entity;
     }
 
+    private function forgeQuery(): Query
+    {
+        $query = clone $this->query;
+        if($this->filterModel) {
+            ValidationHelper::validateEntity($this->filterModel);
+            $params = EntityHelper::toArrayForTablize($this->filterModel);
+            foreach ($params as $paramsName => $paramValue) {
+                if($paramValue !== null) {
+                    $query->whereNew(new Where($paramsName, $paramValue));
+                }
+            }
+            //dd($query);
+        }
+        return $query;
+    }
+
     public function getCollection(): Collection
     {
         if ($this->entity->getCollection() === null) {
-            $query = clone $this->query;
+            $query = $this->forgeQuery();
             $query->limit($this->entity->getPageSize());
             $query->offset($this->entity->getPageSize() * ($this->entity->getPage() - 1));
             $this->entity->setCollection($this->service->all($query));
@@ -95,7 +113,7 @@ class DataProvider
     public function getTotalCount(): int
     {
         if ($this->entity->getTotalCount() === null) {
-            $query = clone $this->query;
+            $query = $this->forgeQuery();
             $query->removeParam(Query::PER_PAGE);
             $query->removeParam(Query::LIMIT);
             $query->removeParam(Query::ORDER);
