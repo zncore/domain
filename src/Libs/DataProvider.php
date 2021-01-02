@@ -5,6 +5,7 @@ namespace ZnCore\Domain\Libs;
 use Illuminate\Support\Collection;
 use ZnCore\Domain\Entities\DataProviderEntity;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 
 class DataProvider
@@ -18,6 +19,9 @@ class DataProvider
 
     /** @var DataProviderEntity */
     private $entity;
+
+    /** @var ValidateEntityInterface */
+    private $filterModel;
 
     public function __construct(object $service, Query $query = null, int $page = 1, int $pageSize = 10)
     {
@@ -60,6 +64,16 @@ class DataProvider
         return $this->entity;
     }
 
+    public function getFilterModel(): ValidateEntityInterface
+    {
+        return $this->filterModel;
+    }
+
+    public function setFilterModel(ValidateEntityInterface $filterModel): void
+    {
+        $this->filterModel = $filterModel;
+    }
+
     public function getAll(): DataProviderEntity
     {
         $this->entity->setTotalCount($this->getTotalCount());
@@ -89,5 +103,4 @@ class DataProvider
         }
         return $this->entity->getTotalCount();
     }
-
 }

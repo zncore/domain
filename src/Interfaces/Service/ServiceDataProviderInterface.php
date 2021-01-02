@@ -1,11 +1,11 @@
 <?php
 
-namespace ZnCore\Domain\Interfaces;
+namespace ZnCore\Domain\Interfaces\Service;
 
 use ZnCore\Domain\Libs\DataProvider;
 use ZnCore\Domain\Libs\Query;
 
-interface DataProviderInterface
+interface ServiceDataProviderInterface
 {
 
     public function getDataProvider(Query $query = null): DataProvider;

@@ -55,10 +55,20 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
         return $collection->toArray();
     }
 
+    protected function getItemValues(): array
+    {
+        return EnumHelper::all($this->enumClass());
+    }
+
+    protected function getItemLabels(): array
+    {
+        return EnumHelper::getLabels($this->enumClass());
+    }
+
     protected function getItems(): array
     {
-        $all = EnumHelper::all($this->enumClass());
-        $labels = EnumHelper::getLabels($this->enumClass());
+        $all = $this->getItemValues();
+        $labels = $this->getItemLabels();
         $items = [];
         foreach ($all as $name => $id) {
             $items[] = [
