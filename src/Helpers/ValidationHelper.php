@@ -6,6 +6,7 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
@@ -94,10 +95,13 @@ class ValidationHelper
         $violations = [];
         if (!empty($rules)) {
             $validator = self::createValidator();
-//
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             foreach ($rules as $name => $rule) {
-                $value = $propertyAccessor->getValue($data, $name);
+                try {
+                    $value = $propertyAccessor->getValue($data, $name);
+                } catch (UninitializedPropertyException $e) {
+                    $value = null;
+                }
                 $vol = $validator->validate($value, $rules[$name]);
                 if ($vol->count()) {
                     $violations[$name] = $vol;
