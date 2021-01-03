@@ -29,9 +29,7 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
 
     public function all(Query $query = null)
     {
-
         $items = $this->getItems();
-//        dd($items);
         if($query) {
             $items = $this->processItems($items, $query);
         }
@@ -41,14 +39,14 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
     protected function processItems(array $items, Query $query): array
     {
         $collection = new Collection($items);
-        /** @var Where[] $where */
-        $where = $query->getParam(Query::WHERE_NEW);
-        if ($where) {
-            foreach ($where as $condition) {
-                $values = ArrayHelper::toArray($condition->value);
+        /** @var Where[] $whereArray */
+        $whereArray = $query->getParam(Query::WHERE_NEW);
+        if ($whereArray) {
+            foreach ($whereArray as $where) {
+                $values = ArrayHelper::toArray($where->value);
                 $resultCollection = new Collection();
                 foreach ($values as $value) {
-                    $filteredCollection = $collection->where($condition->column, $condition->operator, $value);
+                    $filteredCollection = $collection->where($where->column, $where->operator, $value);
                     $resultCollection = $resultCollection->concat($filteredCollection);
                 }
                 $collection = $resultCollection;
@@ -57,29 +55,9 @@ abstract class BaseEnumCrudRepository implements RepositoryInterface, GetEntityC
         return $collection->toArray();
     }
 
-    protected function getItemValues(): array
-    {
-        return EnumHelper::all($this->enumClass());
-    }
-
-    protected function getItemLabels(): array
-    {
-        return EnumHelper::getLabels($this->enumClass());
-    }
-
     protected function getItems(): array
     {
-        $all = $this->getItemValues();
-        $labels = $this->getItemLabels();
-        $items = [];
-        foreach ($all as $name => $id) {
-            $items[] = [
-                'id' => $id,
-                'name' => mb_strtolower($name),
-                'title' => $labels[$id],
-            ];
-        }
-        return $items;
+        return EnumHelper::getItems($this->enumClass());
     }
 
     public function count(Query $query = null): int
