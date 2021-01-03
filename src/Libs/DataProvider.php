@@ -3,6 +3,7 @@
 namespace ZnCore\Domain\Libs;
 
 use Illuminate\Support\Collection;
+use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Domain\Entities\DataProviderEntity;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnCore\Domain\Interfaces\ForgeQueryByFilterInterface;
@@ -81,18 +82,12 @@ class DataProvider
         return $this->entity;
     }
 
-    private function forgeQueryByFilter()
-    {
-
-    }
-
     private function forgeQuery(): Query
     {
         $query = clone $this->query;
         if ($this->filterModel) {
-            if ($this->service instanceof ForgeQueryByFilterInterface) {
-                $this->service->forgeQueryByFilter($this->filterModel, $query);
-            }
+            ClassHelper::isInstanceOf($this->service, ForgeQueryByFilterInterface::class);
+            $this->service->forgeQueryByFilter($this->filterModel, $query);
         }
         return $query;
     }
