@@ -2,10 +2,13 @@
 
 namespace ZnCore\Domain\Base;
 
+use ZnCore\Base\Exceptions\NotInstanceOfException;
+use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
+use ZnCore\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnCore\Domain\Libs\DataProvider;
@@ -18,7 +21,7 @@ use ZnCore\Base\Exceptions\NotFoundException;
  *
  * @method CrudRepositoryInterface getRepository()
  */
-abstract class BaseCrudService extends BaseService implements CrudServiceInterface
+abstract class BaseCrudService extends BaseService implements CrudServiceInterface, ForgeQueryByFilterInterface
 {
 
     public function beforeMethod($method)
@@ -32,6 +35,14 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         return $query;
     }
 
+    public function forgeQueryByFilter(ValidateEntityInterface $filterModel, Query $query = null)
+    {
+        $query = $this->forgeQuery($query);
+        $repository = $this->getRepository();
+        ClassHelper::isInstanceOf($repository, ForgeQueryByFilterInterface::class);
+        $repository->forgeQueryByFilter($filterModel, $query);
+    }
+    
     public function getDataProvider(Query $query = null): DataProvider
     {
         $dataProvider = new DataProvider($this, $query);
@@ -104,5 +115,4 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         $isAvailable = $this->beforeMethod([$this, 'deleteById']);
         return $this->getRepository()->deleteById($id);
     }
-
 }

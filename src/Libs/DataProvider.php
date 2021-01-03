@@ -4,10 +4,8 @@ namespace ZnCore\Domain\Libs;
 
 use Illuminate\Support\Collection;
 use ZnCore\Domain\Entities\DataProviderEntity;
-use ZnCore\Domain\Entities\Query\Where;
-use ZnCore\Domain\Helpers\EntityHelper;
-use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
+use ZnCore\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 
 class DataProvider
@@ -83,18 +81,18 @@ class DataProvider
         return $this->entity;
     }
 
+    private function forgeQueryByFilter()
+    {
+
+    }
+
     private function forgeQuery(): Query
     {
         $query = clone $this->query;
-        if($this->filterModel) {
-            ValidationHelper::validateEntity($this->filterModel);
-            $params = EntityHelper::toArrayForTablize($this->filterModel);
-            foreach ($params as $paramsName => $paramValue) {
-                if($paramValue !== null) {
-                    $query->whereNew(new Where($paramsName, $paramValue));
-                }
+        if ($this->filterModel) {
+            if ($this->service instanceof ForgeQueryByFilterInterface) {
+                $this->service->forgeQueryByFilter($this->filterModel, $query);
             }
-            //dd($query);
         }
         return $query;
     }

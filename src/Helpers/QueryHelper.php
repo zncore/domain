@@ -4,10 +4,23 @@ namespace ZnCore\Domain\Helpers;
 
 use php7extension\yii\db\Expression;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Entities\Query\Where;
+use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnCore\Domain\Libs\Query;
 
 class QueryHelper
 {
+
+    public static function forgeQueryByFilter(Query $query, ValidateEntityInterface $filterModel)
+    {
+        ValidationHelper::validateEntity($filterModel);
+        $params = EntityHelper::toArrayForTablize($filterModel);
+        foreach ($params as $paramsName => $paramValue) {
+            if ($paramValue !== null) {
+                $query->whereNew(new Where($paramsName, $paramValue));
+            }
+        }
+    }
 
     public static function getFilterParams(Query $query = null)
     {
@@ -98,7 +111,7 @@ class QueryHelper
 
     public static function splitStringParam($value)
     {
-        if (empty($value) || ! is_string($value)) {
+        if (empty($value) || !is_string($value)) {
             return [];
         }
         $values = preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY);
