@@ -1,16 +1,16 @@
 <?php
 
-namespace ZnCore\Domain\Traits;
+namespace ZnCore\Domain\Traits\Service;
 
 use ZnCore\Base\Enums\StatusEnum;
 
-trait SoftDeleteTrait
+trait ChangeStatusTrait
 {
 
-    public function deleteById($id)
+    public function changeStatusById(int $id, int $statusId)
     {
         $entity = $this->oneById($id);
-        $entity->setStatusId(StatusEnum::DELETED);
+        $entity->setStatusId($statusId);
         $this->repository->update($entity);
         return true;
     }
