@@ -160,7 +160,7 @@ class EntityHelper
         return $tableNameArray;
     }*/
 
-    public static function getAttribute(object $entity, string $key): array
+    public static function getAttribute(object $entity, string $key)
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         return $propertyAccessor->getValue($entity, $key);
