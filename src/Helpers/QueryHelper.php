@@ -5,7 +5,10 @@ namespace ZnCore\Domain\Helpers;
 use php7extension\yii\db\Expression;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
+use ZnCore\Domain\Exceptions\BadFilterValidateException;
+use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
+use ZnCore\Domain\Interfaces\Filter\DefaultSortInterface;
 use ZnCore\Domain\Libs\Query;
 
 class QueryHelper
@@ -13,12 +16,23 @@ class QueryHelper
 
     public static function forgeQueryByFilter(Query $query, ValidateEntityInterface $filterModel)
     {
-        ValidationHelper::validateEntity($filterModel);
+        try {
+            ValidationHelper::validateEntity($filterModel);
+        } catch (UnprocessibleEntityException $e) {
+            $exception = new BadFilterValidateException();
+            $exception->setErrorCollection($e->getErrorCollection());
+            throw new $exception;
+        }
         $params = EntityHelper::toArrayForTablize($filterModel);
         foreach ($params as $paramsName => $paramValue) {
             if ($paramValue !== null) {
                 $query->whereNew(new Where($paramsName, $paramValue));
             }
+        }
+        $sort = $query->getParam(Query::ORDER);
+        if(empty($sort) && $filterModel instanceof DefaultSortInterface) {
+            $sort = $filterModel->defaultSort();
+            $query->orderBy($sort);
         }
     }
 
@@ -134,5 +148,4 @@ class QueryHelper
         //$result['sort'] = $sortParams;
         return $sortParams;
     }
-
 }
