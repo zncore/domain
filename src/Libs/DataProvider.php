@@ -29,9 +29,9 @@ class DataProvider
         $this->service = $service;
         $this->query = Query::forge($query);
         $this->entity = new DataProviderEntity;
-        $this->entity->setPage($query->getParam(Query::PAGE) ?: $page);
+        $this->entity->setPage($this->query->getParam(Query::PAGE) ?: $page);
 //        $this->entity->setPage($page);
-        $this->entity->setPageSize($query->getParam(Query::PER_PAGE) ?: $pageSize);
+        $this->entity->setPageSize($this->query->getParam(Query::PER_PAGE) ?: $pageSize);
 //        $this->entity->setPageSize($pageSize);
     }
 
