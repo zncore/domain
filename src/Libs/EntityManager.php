@@ -16,6 +16,11 @@ class EntityManager
         $this->container = $container;
     }
 
+    public function getRepositoryByClass(string $class): object
+    {
+        return $this->container->get($class);
+    }
+
     public function createEntity(string $entityClassName, $attributes = []): object
     {
         $entityInstance = $this->container->get($entityClassName);
