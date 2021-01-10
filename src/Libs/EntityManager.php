@@ -5,18 +5,48 @@ namespace ZnCore\Domain\Libs;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Domain\Helpers\EntityHelper;
+use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 
 class EntityManager
 {
 
     private $container;
+    private $config;
+    private $entityToRepository;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function getRepositoryByClass(string $class): object
+    public function setConfig(array $config): void
+    {
+        $this->config = $config;
+    }
+
+    public function bindEntity(string $entityClass, string $repositoryInterface): void
+    {
+        $this->entityToRepository[$entityClass] = $repositoryInterface;
+    }
+
+    public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface
+    {
+        $class = $this->entityToRepository[$entityClass];
+        return $this->getRepositoryByClass($class);
+    }
+
+    public function persist(EntityIdInterface $entity) {
+        $entityClass = get_class($entity);
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        if($entity->getId() === null) {
+            $repository->create($entity);
+        } else {
+            $repository->update($entity);
+        }
+    }
+
+    public function getRepositoryByClass(string $class): RepositoryInterface
     {
         return $this->container->get($class);
     }

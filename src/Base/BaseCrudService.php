@@ -104,7 +104,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         /** @var ValidateEntityInterface $entityInstance */
         $entityInstance = $this->oneById($id);
         EntityHelper::setAttributes($entityInstance, $data);
-        ValidationHelper::validateEntity($entityInstance);
+        //ValidationHelper::validateEntity($entityInstance);
         //dd($entityInstance);
         //$entityInstance->setId($id);
         return $this->getRepository()->update($entityInstance);
