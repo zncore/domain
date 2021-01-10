@@ -6,9 +6,10 @@ use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 
-class EntityManager
+class EntityManager implements EntityManagerInterface
 {
 
     private $container;
@@ -36,10 +37,30 @@ class EntityManager
         return $this->getRepositoryByClass($class);
     }
 
-    public function persist(EntityIdInterface $entity) {
+    public function all(string $entityClass, Query $query): Collection
+    {
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        return $repository->all($query);
+    }
+
+    public function one(string $entityClass, Query $query): EntityIdInterface
+    {
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        return $repository->one($query);
+    }
+
+    public function remove(EntityIdInterface $entity)
+    {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
-        if($entity->getId() === null) {
+        $repository->deleteById($entity->getId());
+    }
+
+    public function persist(EntityIdInterface $entity): void
+    {
+        $entityClass = get_class($entity);
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        if ($entity->getId() === null) {
             $repository->create($entity);
         } else {
             $repository->update($entity);
