@@ -3,15 +3,15 @@
 namespace ZnCore\Domain\Base\Repositories;
 
 use ZnCore\Domain\Interfaces\GetEntityClassInterface;
+use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
-use ZnCore\Domain\Libs\EntityManager;
 
 abstract class BaseRepository implements RepositoryInterface, GetEntityClassInterface
 {
 
     protected $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
