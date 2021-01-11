@@ -8,6 +8,7 @@ use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
+use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 
 class EntityManager implements EntityManagerInterface
@@ -44,6 +45,10 @@ class EntityManager implements EntityManagerInterface
         $this->entityToRepository[$entityClass] = $repositoryInterface;
     }
 
+    /**
+     * @param string $entityClass
+     * @return RepositoryInterface | CrudRepositoryInterface
+     */
     public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface
     {
         $class = $this->entityToRepository[$entityClass];
