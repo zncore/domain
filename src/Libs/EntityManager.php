@@ -4,6 +4,7 @@ namespace ZnCore\Domain\Libs;
 
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
+use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
@@ -15,10 +16,22 @@ class EntityManager implements EntityManagerInterface
     private $container;
     private $config;
     private $entityToRepository;
+    private static $instance;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public static function getInstance(ContainerInterface $container = null): self
+    {
+        if(!isset(self::$instance)) {
+            if($container == null) {
+                throw new InvalidMethodParameterException('Need Container for create EntityManager');
+            }
+            self::$instance = new self($container);
+        }
+        return self::$instance;
     }
 
     public function setConfig(array $config): void
