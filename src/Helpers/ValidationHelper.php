@@ -17,12 +17,12 @@ use ZnCore\Base\Helpers\EnvHelper;
 use ZnCore\Base\Helpers\StringHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\App\Helpers\ContainerHelper;
 use ZnCore\Base\Libs\I18Next\Exceptions\NotFoundBundleException;
 use ZnCore\Base\Libs\I18Next\Facades\I18Next;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
-use ZnLib\Web\Symfony4\MicroApp\ContainerHelper;
 
 class ValidationHelper
 {
