@@ -26,4 +26,9 @@ interface EntityManagerInterface
 
     public function createEntityCollection(string $entityClassName, array $items): Collection;
 
+    public function beginTransaction();
+
+    public function rollbackTransaction();
+
+    public function commitTransaction();
 }

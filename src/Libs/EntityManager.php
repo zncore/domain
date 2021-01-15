@@ -108,4 +108,19 @@ class EntityManager implements EntityManagerInterface
         }
         return $collection;
     }
+
+    public function beginTransaction()
+    {
+        // TODO: Implement beginTransaction() method.
+    }
+
+    public function rollbackTransaction()
+    {
+        // TODO: Implement rollbackTransaction() method.
+    }
+
+    public function commitTransaction()
+    {
+        // TODO: Implement commitTransaction() method.
+    }
 }
