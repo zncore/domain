@@ -2,8 +2,9 @@
 
 namespace ZnCore\Domain\Base;
 
-use ZnCore\Base\Exceptions\NotInstanceOfException;
+use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Domain\Entities\EventEntity;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
@@ -13,20 +14,23 @@ use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnCore\Domain\Libs\DataProvider;
 use ZnCore\Domain\Libs\Query;
-use ZnCore\Base\Exceptions\NotFoundException;
 
 /**
- * Class BaseCrudService
- * @package ZnCore\Domain\Base
- *
  * @method CrudRepositoryInterface getRepository()
  */
 abstract class BaseCrudService extends BaseService implements CrudServiceInterface, ForgeQueryByFilterInterface
 {
 
-    public function beforeMethod($method)
+    public function beforeMethod(string $method)
     {
         return true;
+    }
+
+    public function afterMethod(string $method, EventEntity $event)
+    {
+        $event->setMethod($method);
+        $event->setTarget($this);
+        $event->setType('after');
     }
 
     protected function forgeQuery(Query $query = null)
@@ -42,7 +46,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         ClassHelper::isInstanceOf($repository, ForgeQueryByFilterInterface::class);
         $repository->forgeQueryByFilter($filterModel, $query);
     }
-    
+
     public function getDataProvider(Query $query = null): DataProvider
     {
         $dataProvider = new DataProvider($this, $query);
@@ -51,7 +55,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function all(Query $query = null)
     {
-        $isAvailable = $this->beforeMethod([$this, 'all']);
+        $isAvailable = $this->beforeMethod('all');
         $query = $this->forgeQuery($query);
         $collection = $this->getRepository()->all($query);
         return $collection;
@@ -59,7 +63,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function count(Query $query = null): int
     {
-        $isAvailable = $this->beforeMethod([$this, 'count']);
+        $isAvailable = $this->beforeMethod('count');
         $query = $this->forgeQuery($query);
         return $this->getRepository()->count($query);
     }
@@ -73,30 +77,34 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
     public function oneById($id, Query $query = null)
     {
         $query = $this->forgeQuery($query);
-        $isAvailable = $this->beforeMethod([$this, 'oneById']);
+        $isAvailable = $this->beforeMethod('oneById');
         return $this->getRepository()->oneById($id, $query);
     }
 
-    public function persist(object $entity) {
+    public function persist(object $entity)
+    {
         ValidationHelper::validateEntity($entity);
         $this->getRepository()->create($entity);
     }
 
     public function create($data): EntityIdInterface
     {
-        $isAvailable = $this->beforeMethod([$this, 'create']);
+        $isAvailable = $this->beforeMethod('create');
         $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
         EntityHelper::setAttributes($entity, $data);
         ValidationHelper::validateEntity($entity);
         $this->getRepository()->create($entity);
+        $event = new EventEntity();
+        $event->setData($entity);
+        $entity = $this->afterMethod('create', $event);
         return $entity;
     }
 
     public function updateById($id, $data)
     {
-        $isAvailable = $this->beforeMethod([$this, 'updateById']);
-        if ( ! $isAvailable) {
+        $isAvailable = $this->beforeMethod('updateById');
+        if (!$isAvailable) {
             return;
         }
         //$entityClass = $this->getEntityClass();
@@ -112,7 +120,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function deleteById($id)
     {
-        $isAvailable = $this->beforeMethod([$this, 'deleteById']);
+        $isAvailable = $this->beforeMethod('deleteById');
         return $this->getRepository()->deleteById($id);
     }
 }
