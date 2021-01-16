@@ -97,7 +97,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         $this->getRepository()->create($entity);
         $event = new EventEntity();
         $event->setData($entity);
-        $entity = $this->afterMethod('create', $event);
+        $this->afterMethod('create', $event);
         return $entity;
     }
 
