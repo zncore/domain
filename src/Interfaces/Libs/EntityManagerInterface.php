@@ -12,9 +12,9 @@ interface EntityManagerInterface
 
     public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface;
 
-    public function all(string $entityClass, Query $query): Collection;
+    public function all(string $entityClass, Query $query = null): Collection;
 
-    public function one(string $entityClass, Query $query): EntityIdInterface;
+    public function one(string $entityClass, Query $query = null): EntityIdInterface;
 
     public function remove(EntityIdInterface $entity);
 
