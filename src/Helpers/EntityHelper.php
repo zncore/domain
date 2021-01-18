@@ -70,7 +70,7 @@ class EntityHelper
         return $arraySnakeCase;
     }
 
-    public static function collectionToArray(\Illuminate\Support\Collection $collection): array
+    public static function collectionToArray(Collection $collection): array
     {
         $serializer = new Serializer([new ObjectNormalizer()]);
         $normalizeHandler = function ($value) use ($serializer) {
