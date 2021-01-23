@@ -81,7 +81,7 @@ class EntityHelper
         return $normalizeCollection->all();
     }
 
-    public static function toArray($entity, bool $recursive = false): array
+    public static function toArray($entity, bool $recursive = false/*, string $keyFormat = null*/): array
     {
         $array = [];
         if (is_array($entity)) {
@@ -95,10 +95,25 @@ class EntityHelper
                 $array[$attribute] = $propertyAccessor->getValue($entity, $attribute);
             }
         }
+        /*if($keyFormat) {
+            $formattedArray = [];
+            foreach ($array as $key => $value) {
+                $formattedKey = $key;
+                if($keyFormat == 'snackCase') {
+                    $formattedKey = Inflector::underscore($key);
+                } elseif($keyFormat == 'camelCase') {
+                    $formattedKey = Inflector::camelize($key);
+                } elseif($keyFormat == 'kebabCase') {
+                    $formattedKey = Inflector::camel2id($key);
+                }
+                $formattedArray[$formattedKey] = $value;
+            }
+            $array = $formattedArray;
+        }*/
         if ($recursive) {
-            foreach ($array as &$item) {
-                if (is_object($item)) {
-                    $item = self::toArray($item);
+            foreach ($array as $key => $item) {
+                if (is_object($item) || is_array($item)) {
+                    $array[$key] = self::toArray($item, $recursive/*, $keyFormat*/);
                 }
             }
         }
