@@ -90,9 +90,13 @@ class EntityHelper
             $array = $entity->toArray();
         } elseif (is_object($entity)) {
             $attributes = self::getAttributeNames($entity);
-            $propertyAccessor = PropertyAccess::createPropertyAccessor();
-            foreach ($attributes as $attribute) {
-                $array[$attribute] = $propertyAccessor->getValue($entity, $attribute);
+            if($attributes) {
+                $propertyAccessor = PropertyAccess::createPropertyAccessor();
+                foreach ($attributes as $attribute) {
+                    $array[$attribute] = $propertyAccessor->getValue($entity, $attribute);
+                }
+            } else {
+                $array = (array) $entity;
             }
         }
         /*if($keyFormat) {
