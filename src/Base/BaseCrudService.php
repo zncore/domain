@@ -2,9 +2,13 @@
 
 namespace ZnCore\Domain\Base;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Contracts\EventDispatcher\Event;
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Domain\Entities\EventEntity;
+use ZnCore\Domain\Enums\EventEnum;
+use ZnCore\Domain\Events\EntityEvent;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
@@ -20,6 +24,21 @@ use ZnCore\Domain\Libs\Query;
  */
 abstract class BaseCrudService extends BaseService implements CrudServiceInterface, ForgeQueryByFilterInterface
 {
+
+    /** @var EventDispatcher */
+    private $eventDispatcher;
+    private $eventListener;
+
+    public function initEvent() {
+        if($this->eventDispatcher == null) {
+            $this->eventDispatcher = new EventDispatcher();
+        }
+    }
+
+    public function addListener(string $eventName, $listener, int $priority = 0) {
+        $this->initEvent();
+        $this->eventDispatcher->addListener($eventName, $listener, $priority);
+    }
 
     public function beforeMethod(string $method)
     {
@@ -91,13 +110,27 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
     {
         $isAvailable = $this->beforeMethod('create');
         $entityClass = $this->getEntityClass();
+
         $entity = new $entityClass;
         EntityHelper::setAttributes($entity, $data);
+        if($this->eventDispatcher) {
+            $event = new EntityEvent($entity);
+            $this->eventDispatcher->dispatch($event, EventEnum::BEFORE_CREATE_ENTITY);
+            if($event->isPropagationStopped()) {
+                return $entity;
+            }
+        }
         ValidationHelper::validateEntity($entity);
         $this->getRepository()->create($entity);
         $event = new EventEntity();
         $event->setData($entity);
         $this->afterMethod('create', $event);
+
+        if($this->eventDispatcher) {
+            $event = new EntityEvent($entity);
+            $this->eventDispatcher->dispatch($event, EventEnum::AFTER_CREATE_ENTITY);
+        }
+
         return $entity;
     }
 
