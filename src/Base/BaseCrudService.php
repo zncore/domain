@@ -3,9 +3,11 @@
 namespace ZnCore\Domain\Base;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Libs\App\Helpers\ContainerHelper;
 use ZnCore\Domain\Entities\EventEntity;
 use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Events\EntityEvent;
@@ -27,17 +29,44 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     /** @var EventDispatcher */
     private $eventDispatcher;
-    private $eventListener;
 
-    public function initEvent() {
-        if($this->eventDispatcher == null) {
+    private $subscriberClasseList = [];
+
+    public function initEvent()
+    {
+        if ($this->eventDispatcher == null) {
             $this->eventDispatcher = new EventDispatcher();
+        }
+        if ($this->subscriberClasseList) {
+            foreach ($this->subscriberClasseList as $index => $subscriberClass) {
+                $subscriberInstance = ContainerHelper::getContainer()->get($subscriberClass);
+                $this->eventDispatcher->addSubscriber($subscriberInstance);
+                unset($this->subscriberClasseList[$index]);
+            }
         }
     }
 
-    public function addListener(string $eventName, $listener, int $priority = 0) {
+    public function getEventDispatcher(): EventDispatcherInterface
+    {
         $this->initEvent();
-        $this->eventDispatcher->addListener($eventName, $listener, $priority);
+        return $this->eventDispatcher;
+    }
+
+    public function addListener(string $eventName, $listener, int $priority = 0)
+    {
+        $this->initEvent();
+        $this->getEventDispatcher()->addListener($eventName, $listener, $priority);
+    }
+
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+    {
+        $this->initEvent();
+        $this->getEventDispatcher()->addSubscriber($subscriber);
+    }
+
+    public function addSubscriberClass(string $subscriberClass)
+    {
+        $this->subscriberClasseList[] = $subscriberClass;
     }
 
     public function beforeMethod(string $method)
@@ -97,7 +126,12 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
     {
         $query = $this->forgeQuery($query);
         $isAvailable = $this->beforeMethod('oneById');
-        return $this->getRepository()->oneById($id, $query);
+        $entity = $this->getRepository()->oneById($id, $query);
+
+        $event = new EntityEvent($entity);
+        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_READ_ENTITY);
+
+        return $entity;
     }
 
     public function persist(object $entity)
@@ -113,23 +147,21 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
         $entity = new $entityClass;
         EntityHelper::setAttributes($entity, $data);
-        if($this->eventDispatcher) {
-            $event = new EntityEvent($entity);
-            $this->eventDispatcher->dispatch($event, EventEnum::BEFORE_CREATE_ENTITY);
-            if($event->isPropagationStopped()) {
-                return $entity;
-            }
+
+        $event = new EntityEvent($entity);
+        $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_CREATE_ENTITY);
+        if ($event->isPropagationStopped()) {
+            return $entity;
         }
+
         ValidationHelper::validateEntity($entity);
         $this->getRepository()->create($entity);
         $event = new EventEntity();
         $event->setData($entity);
         $this->afterMethod('create', $event);
 
-        if($this->eventDispatcher) {
-            $event = new EntityEvent($entity);
-            $this->eventDispatcher->dispatch($event, EventEnum::AFTER_CREATE_ENTITY);
-        }
+        $event = new EntityEvent($entity);
+        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_CREATE_ENTITY);
 
         return $entity;
     }
@@ -154,6 +186,12 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
     public function deleteById($id)
     {
         $isAvailable = $this->beforeMethod('deleteById');
-        return $this->getRepository()->deleteById($id);
+        $entity = $this->getRepository()->oneById($id);
+        $id = $this->getRepository()->deleteById($id);
+
+        $event = new EntityEvent($entity);
+        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_DELETE_ENTITY);
+
+        return $id;
     }
 }
