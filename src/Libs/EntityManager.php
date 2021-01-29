@@ -26,8 +26,8 @@ class EntityManager implements EntityManagerInterface
 
     public static function getInstance(ContainerInterface $container = null): self
     {
-        if(!isset(self::$instance)) {
-            if($container == null) {
+        if (!isset(self::$instance)) {
+            if ($container == null) {
                 throw new InvalidMethodParameterException('Need Container for create EntityManager');
             }
             self::$instance = new self($container);
@@ -65,6 +65,12 @@ class EntityManager implements EntityManagerInterface
     {
         $repository = $this->getRepositoryByEntityClass($entityClass);
         return $repository->one($query);
+    }
+
+    public function oneById(string $entityClass, $id, Query $query = null): EntityIdInterface
+    {
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        return $repository->oneById($id, $query);
     }
 
     public function remove(EntityIdInterface $entity)

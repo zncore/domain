@@ -16,6 +16,8 @@ interface EntityManagerInterface
 
     public function one(string $entityClass, Query $query = null): EntityIdInterface;
 
+    public function oneById(string $entityClass, $id, Query $query = null): EntityIdInterface;
+
     public function remove(EntityIdInterface $entity);
 
     public function persist(EntityIdInterface $entity): void;

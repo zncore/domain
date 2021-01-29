@@ -6,9 +6,12 @@ use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Traits\CreateEntityInterface;
 use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Base\Helpers\InstanceHelper;
+use ZnCore\Domain\Traits\EntityManagerTrait;
 
 abstract class BaseService implements GetEntityClassInterface, CreateEntityInterface
 {
+
+    use EntityManagerTrait;
 
     protected $repository;
 
@@ -17,13 +20,16 @@ abstract class BaseService implements GetEntityClassInterface, CreateEntityInter
      */
     protected function getRepository()
     {
-        return $this->repository;
+        if($this->repository) {
+            return $this->repository;
+        }
+        return $this->getEntityManager()->getRepositoryByEntityClass($this->getEntityClass());
     }
 
-    protected function setRepository($repository)
+    /*protected function setRepository($repository)
     {
         $this->repository = $repository;
-    }
+    }*/
 
     public function getEntityClass(): string
     {
