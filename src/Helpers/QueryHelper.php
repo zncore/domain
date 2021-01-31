@@ -14,7 +14,7 @@ use ZnCore\Domain\Libs\Query;
 class QueryHelper
 {
 
-    public static function forgeQueryByFilter(Query $query, ValidateEntityInterface $filterModel)
+    public static function forgeQueryByFilter(Query $query, object $filterModel)
     {
         try {
             ValidationHelper::validateEntity($filterModel);

@@ -65,12 +65,12 @@ class DataProvider
         return $this->entity;
     }
 
-    public function getFilterModel(): ValidateEntityInterface
+    public function getFilterModel(): object
     {
         return $this->filterModel;
     }
 
-    public function setFilterModel(ValidateEntityInterface $filterModel): void
+    public function setFilterModel(object $filterModel): void
     {
         $this->filterModel = $filterModel;
     }

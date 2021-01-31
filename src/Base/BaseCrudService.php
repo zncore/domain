@@ -44,7 +44,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         return $query;
     }
 
-    public function forgeQueryByFilter(ValidateEntityInterface $filterModel, Query $query = null)
+    public function forgeQueryByFilter(object $filterModel, Query $query = null)
     {
         $query = $this->forgeQuery($query);
         $repository = $this->getRepository();
