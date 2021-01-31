@@ -2,24 +2,21 @@
 
 namespace ZnCore\Domain\Helpers;
 
-use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ValidatorBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use ZnCore\Base\Helpers\EnvHelper;
-use ZnCore\Base\Helpers\StringHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\App\Helpers\ContainerHelper;
-use ZnCore\Base\Libs\I18Next\Exceptions\NotFoundBundleException;
 use ZnCore\Base\Libs\I18Next\Facades\I18Next;
+use ZnCore\Base\Libs\I18Next\SymfonyTranslation\Helpers\TranslatorHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
@@ -93,9 +90,11 @@ class ValidationHelper
     public static function validate($rules, $data): Collection
     {
         $violations = [];
+        $validator = self::createValidator();
         if (!empty($rules)) {
-            $validator = self::createValidator();
+
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
+
             foreach ($rules as $name => $rule) {
                 try {
                     $value = $propertyAccessor->getValue($data, $name);
@@ -107,20 +106,48 @@ class ValidationHelper
                     $violations[$name] = $vol;
                 }
             }
+            return self::prepareUnprocessible($violations);
+        } else {
+
+            /*$metadata = new ClassMetadata(get_class($data));
+            $loader = new StaticMethodLoader();
+            $loader->loadClassMetadata($metadata);*/
+
+            $validator = ContainerHelper::getContainer()->get(ValidatorBuilder::class)
+//            $validator = Validation::createValidatorBuilder()
+
+                ->addMethodMapping('loadValidatorMetadata')
+                ->getValidator();
+
+            /** @var ConstraintViolationList $violationsList */
+            $violationsList = $validator->validate($data);
+            //dd($violationsList);
+            if ($violationsList->count()) {
+                $violations = (array)$violationsList->getIterator();
+                //dd($violations);
+//                dd();
+            }
+            return self::prepareUnprocessible2($violationsList);
         }
-        return self::prepareUnprocessible($violations);
     }
 
     private static function createValidator(): ValidatorInterface
     {
         $container = ContainerHelper::getContainer();
-        if($container instanceof ContainerInterface && $container->has(TranslatorInterface::class)) {
+
+
+
+        if ($container instanceof ContainerInterface && $container->has(TranslatorInterface::class)) {
             $validatorBuilder = $container->get(ValidatorBuilder::class);
             $translator = $container->get(TranslatorInterface::class);
             $validatorBuilder->setTranslator($translator);
             $validator = $validatorBuilder->getValidator();
         } else {
-            $validator = Validation::createValidator();
+            //$validator = Validation::createValidator();
+            $validator = ContainerHelper::getContainer()->get(ValidatorBuilder::class)
+            //$validator = Validation::createValidatorBuilder()
+                ->addMethodMapping('loadValidatorMetadata')
+                ->getValidator();
         }
         return $validator;
     }
@@ -134,6 +161,7 @@ class ValidationHelper
         $collection = new Collection;
         foreach ($violations as $name => $violationList) {
             foreach ($violationList as $violation) {
+                //$name = $violation->propertyPath();
                 $violation->getCode();
                 $entity = new ValidateErrorEntity;
                 $entity->setField($name);
@@ -142,6 +170,36 @@ class ValidationHelper
                 $entity->setViolation($violation);
                 $collection->add($entity);
             }
+        }
+        return $collection;
+    }
+
+    private static function prepareUnprocessible2(ConstraintViolationList $violationList): Collection
+    {
+//        dd($violationList);
+        $collection = new Collection;
+        foreach ($violationList->getIterator() as $violation) {
+            $name = $violation->getPropertyPath();
+
+            $violation->getCode();
+            $entity = new ValidateErrorEntity;
+            $entity->setField($name);
+            $message = $violation->getMessage();
+
+            //$entity->setMessage($message);
+            $id = $violation->getMessageTemplate();
+            $parametersI18Next = TranslatorHelper::paramsToI18Next($violation->getParameters());
+            $id = TranslatorHelper::getSingularFromId($id);
+            $key = 'message.' . TranslatorHelper::messageToHash($id);
+            $transtatedMessage = I18Next::t('symfony', $key, $parametersI18Next);
+            if($transtatedMessage == $key) {
+                $entity->setMessage($message);
+            } else {
+                $entity->setMessage($transtatedMessage);
+            }
+
+            $entity->setViolation($violation);
+            $collection->add($entity);
         }
         return $collection;
     }
