@@ -10,8 +10,9 @@ use ZnLib\Telegram\Domain\Facades\Bot;
 
 class DynamicEntity implements ValidateEntityInterface, EntityIdInterface, EntityAttributesInterface
 {
-    private $_attributes = [];
-    private $_validationRules = [];
+    
+    protected $_attributes = [];
+    protected $_validationRules = [];
 
     public function __construct(object $entityEntity = null, array $attributes = [])
     {
