@@ -19,7 +19,7 @@ class ArrayValidationHelper
      */
     public static function validate($data): Collection
     {
-        $rules = $entity->validationRules();
+        $rules = $data->validationRules();
         return self::validateByRulesArray($data, $rules);
     }
 
