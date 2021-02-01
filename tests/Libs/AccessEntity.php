@@ -2,30 +2,24 @@
 
 namespace ZnCore\Domain\Tests\Libs;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
+use ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AccessEntity implements EntityIdInterface, ValidateEntityInterface
+class AccessEntity implements EntityIdInterface, ValidateEntityByMetadataInterface
 {
 
     private $id = null;
     private $userId = null;
     private $projectId = null;
 
-    public function validationRules(): array
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        return [
-            'userId' => [
-                new Assert\NotBlank,
-                new Assert\Positive,
-
-            ],
-            'projectId' => [
-                new Assert\NotBlank,
-                new Assert\Positive,
-            ],
-        ];
+        $metadata->addPropertyConstraint('userId', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('userId', new Assert\Positive);
+        $metadata->addPropertyConstraint('projectId', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('projectId', new Assert\Positive);
     }
 
     public function setId($value)

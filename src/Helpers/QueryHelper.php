@@ -7,7 +7,6 @@ use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Exceptions\BadFilterValidateException;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnCore\Domain\Interfaces\Filter\DefaultSortInterface;
 use ZnCore\Domain\Libs\Query;
 

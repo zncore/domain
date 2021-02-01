@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Relations\libs;
 
+use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Relations\relations\RelationInterface;
@@ -94,7 +95,7 @@ class RelationLoader
         if ($relation instanceof RelationInterface) {
 
         } elseif (is_array($relation) || is_string($relation)) {
-            $relation = Yii::createObject($relation);
+            $relation = ClassHelper::createObject($relation);
         } else {
             throw new InvalidArgumentException('Definition of relation not correct!');
         }

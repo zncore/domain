@@ -11,7 +11,6 @@ use ZnCore\Domain\Events\EntityEvent;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnCore\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
@@ -132,7 +131,6 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         }
         //$entityClass = $this->getEntityClass();
         //$entityInstance = new $entityClass;
-        /** @var ValidateEntityInterface $entityInstance */
         $entityInstance = $this->oneById($id);
         EntityHelper::setAttributes($entityInstance, $data);
         //ValidationHelper::validateEntity($entityInstance);

@@ -5,7 +5,6 @@ namespace ZnCore\Domain\Libs;
 use Illuminate\Support\Collection;
 use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Domain\Entities\DataProviderEntity;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnCore\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 
@@ -21,7 +20,6 @@ class DataProvider
     /** @var DataProviderEntity */
     private $entity;
 
-    /** @var ValidateEntityInterface */
     private $filterModel;
 
     public function __construct(object $service, Query $query = null, int $page = 1, int $pageSize = 10)
