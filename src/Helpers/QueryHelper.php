@@ -74,11 +74,12 @@ class QueryHelper
         }
         if (isset($params['where'])) {
             foreach ($params['where'] as $name => $value) {
-                if ($value == '{null}') {
+                $query->whereNew(new Where($name, $value));
+                /*if ($value == '{null}') {
                     $query->andWhere(new Expression('(' . $name . ' is null)'));
                 } else {
                     $query->where($name, $value);
-                }
+                }*/
             }
         }
         return $query;

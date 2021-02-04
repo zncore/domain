@@ -22,6 +22,10 @@ class DataProvider
 
     private $filterModel;
 
+    private $page;
+
+    private $pageSize;
+
     public function __construct(object $service, Query $query = null, int $page = 1, int $pageSize = 10)
     {
         $this->service = $service;
@@ -31,6 +35,30 @@ class DataProvider
 //        $this->entity->setPage($page);
         $this->entity->setPageSize($this->query->getParam(Query::PER_PAGE) ?: $pageSize);
 //        $this->entity->setPageSize($pageSize);
+    }
+
+    public function getPage(): int
+    {
+        return $this->entity->getPage();
+//        return $this->page;
+    }
+
+    public function setPage(int $page): void
+    {
+        $this->entity->setPage($page);
+//        $this->page = $page;
+    }
+
+    public function getPageSize(): int
+    {
+        return $this->entity->getPageSize();
+//        return $this->pageSize;
+    }
+
+    public function setPageSize(int $pageSize): void
+    {
+        $this->entity->setPageSize($pageSize);
+//        $this->pageSize = $pageSize;
     }
 
     public function setService(object $service)
@@ -63,7 +91,7 @@ class DataProvider
         return $this->entity;
     }
 
-    public function getFilterModel(): object
+    public function getFilterModel(): ?object
     {
         return $this->filterModel;
     }

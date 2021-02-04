@@ -13,7 +13,7 @@ class Where
     public $boolean;
     public $not;
 
-    public function __construct($column = null,  $value = null, $operator = OperatorEnum::EQUAL, $boolean = 'and', $not = false)
+    public function __construct(string $column = null,  $value = null, string $operator = OperatorEnum::EQUAL, string $boolean = 'and', bool $not = false)
     {
         $this->column = $column;
         $this->value = $value;

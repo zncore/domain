@@ -18,9 +18,16 @@ class SymfonyValidationHelper
     /**
      * @return array | Collection | ValidateErrorEntity[]
      */
-    public static function validate($data): Collection
+    public static function validate($entity): Collection
     {
-        return self::validateByMetadata($data);
+        $validator = self::createValidator();
+        /** @var ConstraintViolationList $violationsList */
+        $violationsList = $validator->validate($entity);
+        if ($violationsList->count()) {
+            $violations = (array)$violationsList->getIterator();
+        }
+        return self::prepareUnprocessible2($violationsList);
+//        return self::validateByMetadata($data);
     }
 
     public static function createValidator(): ValidatorInterface
@@ -60,17 +67,11 @@ class SymfonyValidationHelper
         return $validatorBuilder;
     }
 
-    private static function validateByMetadata(object $entity) {
+    /*private static function validateByMetadata(object $entity) {
 //        $validatorBuilder = self::createValidatorBuilder();
 //        $validator = $validatorBuilder->getValidator();
-        $validator = self::createValidator();
-        /** @var ConstraintViolationList $violationsList */
-        $violationsList = $validator->validate($entity);
-        if ($violationsList->count()) {
-            $violations = (array)$violationsList->getIterator();
-        }
-        return self::prepareUnprocessible2($violationsList);
-    }
+
+    }*/
 
     private static function prepareUnprocessible2(ConstraintViolationList $violationList): Collection
     {

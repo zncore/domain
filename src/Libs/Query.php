@@ -5,8 +5,10 @@ namespace ZnCore\Domain\Libs;
 use php7extension\core\db\domain\helpers\TableHelper;
 use php7extension\yii\db\Expression;
 use php7extension\yii\db\ExpressionInterface;
+use ZnCore\Base\Exceptions\DeprecatedException;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
+use ZnCore\Domain\Enums\OperatorEnum;
 
 /**
  * Class Query
@@ -37,7 +39,7 @@ class Query
         'nestedQuery' => [],
     ];
 
-    public function getHash()
+    /*public function getHash()
     {
         $query = $this->query;
         foreach ($query as $key => $value) {
@@ -54,7 +56,7 @@ class Query
     {
         $query = self::forge($query);
         return clone $query;
-    }
+    }*/
 
     /**
      * @param null $query
@@ -92,13 +94,13 @@ class Query
         return ArrayHelper::getValue($this->query, "nestedQuery.$key");
     }
 
-    public function getWhere($key)
+    /*public function getWhere($key)
     {
         $where = $this->query[self::WHERE];
         return $this->findWhereInArray($key, $where);
-    }
+    }*/
 
-    private function findWhereInArray($fieldName, $array)
+    /*private function findWhereInArray($fieldName, $array)
     {
         if (!is_array($array) || empty($array)) {
             return null;
@@ -114,7 +116,7 @@ class Query
             }
         }
         return null;
-    }
+    }*/
 
     public function whereNew(Where $where)
     {
@@ -123,16 +125,25 @@ class Query
 
     public function getWhereNew()
     {
-        return $this->query[self::WHERE_NEW];
+        return $this->query[self::WHERE_NEW] ?? [];
     }
 
-    public function where($key, $value = null)
+    public function whereByConditions(array $list)
+    {
+        foreach ($list as $itemName => $itemValue) {
+            $this->whereNew(new Where($itemName, $itemValue));
+        }
+    }
+
+    public function where($key, $value, string $operator = OperatorEnum::EQUAL)
     {
         if (func_num_args() == 1) {
-            $this->query[self::WHERE] = $key;
-        } else {
-            $this->oldWhere($key, $value);
+            throw new DeprecatedException('Where from 1 argument deprecated! Use "whereByConditions".');
         }
+        if(is_array($key)) {
+            throw new DeprecatedException('Where from array deprecated! Use "whereByConditions".');
+        }
+        $this->whereNew(new Where($key, $value, $operator));
         return $this;
     }
 
