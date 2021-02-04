@@ -12,7 +12,7 @@ use ZnCore\Domain\Libs\Query;
 class QueryHelper
 {
 
-    public static function forgeQueryByFilter(Query $query, object $filterModel)
+    public static function validateFilter(object $filterModel)
     {
         try {
             ValidationHelper::validateEntity($filterModel);
@@ -21,6 +21,11 @@ class QueryHelper
             $exception->setErrorCollection($e->getErrorCollection());
             throw new $exception;
         }
+    }
+
+    public static function forgeQueryByFilter(Query $query, object $filterModel)
+    {
+        self::validateFilter($filterModel);
         $params = EntityHelper::toArrayForTablize($filterModel);
         foreach ($params as $paramsName => $paramValue) {
             if ($paramValue !== null) {

@@ -137,12 +137,12 @@ class Query
         return $this;
     }
 
-    public function addWhere($key, $condition)
+    /*public function addWhere($key, $condition)
     {
         $this->query[self::WHERE][$key] = $condition;
 
         return $this;
-    }
+    }*/
 
     public function andWhere($condition)
     {
@@ -155,7 +155,7 @@ class Query
         return $this;
     }
 
-    public function orWhere($condition)
+    /*public function orWhere($condition)
     {
         if ($this->query[self::WHERE] === null) {
             $this->query[self::WHERE] = $condition;
@@ -164,9 +164,9 @@ class Query
         }
 
         return $this;
-    }
+    }*/
 
-    private function oldWhere($key, $value)
+    /*private function oldWhere($key, $value)
     {
         if ($value === null) {
             unset($this->query[self::WHERE][$key]);
@@ -174,7 +174,7 @@ class Query
             $this->query[self::WHERE][$key] = $value;
         }
         return $this;
-    }
+    }*/
 
     /*public function removeWhere($fieldName)
     {
@@ -229,14 +229,14 @@ class Query
         return $this;
     }
 
-    public function removeWith($key)
+    /*public function removeWith($key)
     {
         if (!empty($key)) {
             unset($this->query[self::WITH][$key]);
         } else {
             unset($this->query[self::WITH]);
         }
-    }
+    }*/
 
     public function page($value)
     {

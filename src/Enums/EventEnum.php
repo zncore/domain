@@ -5,6 +5,9 @@ namespace ZnCore\Domain\Enums;
 class EventEnum
 {
 
+    /** Момент формирования запроса из модели фильтра */
+    const BEFORE_FORGE_QUERY_BY_FILTER = 'query.before_forge_query_by_filter';
+
     /** Выполняется до сохранения сущности */
     const BEFORE_CREATE_ENTITY = 'entity.before_create';
 
