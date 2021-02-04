@@ -2,21 +2,11 @@
 
 namespace ZnCore\Domain\Libs;
 
-use php7extension\core\db\domain\helpers\TableHelper;
-use php7extension\yii\db\Expression;
-use php7extension\yii\db\ExpressionInterface;
 use ZnCore\Base\Exceptions\DeprecatedException;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Enums\OperatorEnum;
 
-/**
- * Class Query
- *
- * @package php7rails\domain\data
- *
- * @property Rest $rest
- */
 class Query
 {
 

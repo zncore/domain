@@ -2,7 +2,6 @@
 
 namespace ZnCore\Domain\Helpers;
 
-use php7extension\yii\db\Expression;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Exceptions\BadFilterValidateException;

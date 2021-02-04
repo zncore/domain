@@ -3,7 +3,6 @@
 namespace ZnCore\Domain\Helpers\Repository;
 
 use Illuminate\Support\Collection;
-use php7rails\domain\data\EntityCollection;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Dto\WithDto;
 use ZnCore\Domain\Entities\relation\RelationEntity;
@@ -125,7 +124,7 @@ class RelationHelper
 
     private static function loadRelationsForCollection(Collection $collection, WithDto $withDto): Collection
     {
-        /** @var EntityCollection $relCollection */
+        /** @var Collection $relCollection */
 
         $joinStrategy = new JoinStrategy();
         $joinStrategy->setStrategyName($withDto->relationConfig->type);

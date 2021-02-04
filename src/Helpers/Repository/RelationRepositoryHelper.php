@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Helpers\Repository;
 
 use Illuminate\Support\Collection;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use php7rails\domain\interfaces\services\ReadAllInterface;
+use ZnCore\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Entities\relation\BaseForeignEntity;
 //use ZnCore\Domain\Enums\RelationClassTypeEnum;
