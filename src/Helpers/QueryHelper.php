@@ -12,33 +12,6 @@ use ZnCore\Domain\Libs\Query;
 class QueryHelper
 {
 
-    public static function validateFilter(object $filterModel)
-    {
-        try {
-            ValidationHelper::validateEntity($filterModel);
-        } catch (UnprocessibleEntityException $e) {
-            $exception = new BadFilterValidateException();
-            $exception->setErrorCollection($e->getErrorCollection());
-            throw new $exception;
-        }
-    }
-
-    public static function forgeQueryByFilter(Query $query, object $filterModel)
-    {
-        self::validateFilter($filterModel);
-        $params = EntityHelper::toArrayForTablize($filterModel);
-        foreach ($params as $paramsName => $paramValue) {
-            if ($paramValue !== null) {
-                $query->whereNew(new Where($paramsName, $paramValue));
-            }
-        }
-        $sort = $query->getParam(Query::ORDER);
-        if(empty($sort) && $filterModel instanceof DefaultSortInterface) {
-            $sort = $filterModel->defaultSort();
-            $query->orderBy($sort);
-        }
-    }
-
     public static function getFilterParams(Query $query = null)
     {
         $whereParams = $query->getParam(Query::WHERE);
