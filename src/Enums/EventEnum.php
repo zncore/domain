@@ -8,6 +8,8 @@ class EventEnum
     /** Момент формирования запроса из модели фильтра */
     const BEFORE_FORGE_QUERY_BY_FILTER = 'query.before_forge_query_by_filter';
 
+    const BEFORE_FORGE_QUERY = 'query.before_forge_query';
+
     /** Выполняется до сохранения сущности */
     const BEFORE_CREATE_ENTITY = 'entity.before_create';
 

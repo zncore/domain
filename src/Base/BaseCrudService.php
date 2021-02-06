@@ -8,6 +8,7 @@ use ZnCore\Base\Libs\Event\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Entities\EventEntity;
 use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Events\EntityEvent;
+use ZnCore\Domain\Events\QueryEvent;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
@@ -40,6 +41,8 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
     protected function forgeQuery(Query $query = null)
     {
         $query = Query::forge($query);
+        $event = new QueryEvent($query);
+        $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_FORGE_QUERY);
         return $query;
     }
 
@@ -59,6 +62,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function all(Query $query = null)
     {
+
         $isAvailable = $this->beforeMethod('all');
         $query = $this->forgeQuery($query);
         $collection = $this->getRepository()->all($query);
