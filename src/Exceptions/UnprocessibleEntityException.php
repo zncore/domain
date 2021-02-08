@@ -9,11 +9,15 @@ use ZnCore\Domain\Entities\ValidateErrorEntity;
 class UnprocessibleEntityException extends Exception
 {
 
+    /**
+     * @var array | Collection | ValidateErrorEntity[]
+     */
     private $errorCollection;
 
     public function setErrorCollection(Collection $errorCollection)
     {
         $this->errorCollection = $errorCollection;
+        $this->updateMessage();
     }
 
     /**
@@ -30,5 +34,14 @@ class UnprocessibleEntityException extends Exception
             $this->errorCollection = new Collection;
         }
         $this->errorCollection[] = new ValidateErrorEntity($field, $message);
+        $this->updateMessage();
+    }
+
+    protected function updateMessage() {
+        $message = '';
+        foreach ($this->errorCollection as $errorEntity) {
+            $message .= $errorEntity->getField() . ': ' . $errorEntity->getMessage();
+        }
+        $this->message = $message;
     }
 }
