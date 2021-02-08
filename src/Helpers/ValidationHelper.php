@@ -11,6 +11,18 @@ use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 class ValidationHelper
 {
 
+    public static function throwUnprocessableItem(string $field, string $mesage)
+    {
+        $errorCollection = new Collection;
+        $validateErrorEntity = new ValidateErrorEntity;
+        $validateErrorEntity->setField($field);
+        $validateErrorEntity->setMessage($mesage);
+        $errorCollection->add($validateErrorEntity);
+        $exception = new UnprocessibleEntityException;
+        $exception->setErrorCollection($errorCollection);
+        throw $exception;
+    }
+
     public static function throwUnprocessable(array $errorArray)
     {
         $errorCollection = ValidationHelper::generateErrorCollectionFromArray($errorArray);
