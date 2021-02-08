@@ -10,11 +10,11 @@ interface ModifyInterface
 {
 
     /**
-     * @param array $data
+     * @param array $attributes
      * @return EntityIdInterface
      * @throws UnprocessibleEntityException
      */
-    public function create($data): EntityIdInterface;
+    public function create($attributes): EntityIdInterface;
 
     /**
      * @param int $id

@@ -5,8 +5,10 @@ namespace ZnCore\Domain\Libs;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
@@ -85,6 +87,21 @@ class EntityManager implements EntityManagerInterface
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
         if ($entity->getId() === null) {
+            if($entity instanceof UniqueInterface) {
+                $unique = $entity->unique();
+                foreach ($unique as $uniqueConfig) {
+                    $query = new Query();
+                    foreach ($uniqueConfig as $uniqueName) {
+                        $query->where(Inflector::underscore($uniqueName), EntityHelper::getValue($entity, $uniqueName));
+                    }
+                    $all = $repository->all($query);
+                    if($all->count() > 0) {
+                        $entity = $all->first();
+                        //EntityHelper::setAttributes($entity, EntityHelper::toArray($all->first()));
+                        return;
+                    }
+                }
+            }
             $repository->create($entity);
         } else {
             $repository->update($entity);

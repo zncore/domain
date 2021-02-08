@@ -101,13 +101,13 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         $this->getRepository()->create($entity);
     }
 
-    public function create($data): EntityIdInterface
+    public function create($attributes): EntityIdInterface
     {
         $isAvailable = $this->beforeMethod('create');
         $entityClass = $this->getEntityClass();
 
         $entity = new $entityClass;
-        EntityHelper::setAttributes($entity, $data);
+        EntityHelper::setAttributes($entity, $attributes);
 
         $event = new EntityEvent($entity);
         $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_CREATE_ENTITY);
