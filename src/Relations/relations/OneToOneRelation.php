@@ -28,10 +28,12 @@ class OneToOneRelation extends BaseRelation implements RelationInterface
         foreach ($collection as $entity) {
             $relationIndex = $propertyAccessor->getValue($entity, $this->relationAttribute);
             if(!empty($relationIndex)) {
-                $value = $foreignCollection[$relationIndex];
-                if($this->matchCondition($value)) {
-                    $propertyAccessor->setValue($entity, $this->relationEntityAttribute, $value);
-                }
+                try {
+                    $value = $foreignCollection[$relationIndex];
+                    if($this->matchCondition($value)) {
+                        $propertyAccessor->setValue($entity, $this->relationEntityAttribute, $value);
+                    }
+                } catch (\Throwable $e) {}
             }
         }
     }
