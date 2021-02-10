@@ -12,6 +12,9 @@ interface EntityManagerInterface
 
     public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface;
 
+    public function loadEntityRelations(object $entity, array $with);
+//    public function loadEntityRelations(string $entityClass, object $entity, array $with);
+
     public function all(string $entityClass, Query $query = null): Collection;
 
     public function one(string $entityClass, Query $query = null): EntityIdInterface;

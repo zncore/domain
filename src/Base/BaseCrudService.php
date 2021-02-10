@@ -133,14 +133,23 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         if (!$isAvailable) {
             return;
         }
-        //$entityClass = $this->getEntityClass();
-        //$entityInstance = new $entityClass;
-        $entityInstance = $this->oneById($id);
-        EntityHelper::setAttributes($entityInstance, $data);
-        //ValidationHelper::validateEntity($entityInstance);
-        //dd($entityInstance);
-        //$entityInstance->setId($id);
-        return $this->getRepository()->update($entityInstance);
+        $entity = $this->oneById($id);
+
+        EntityHelper::setAttributes($entity, $data);
+
+        $event = new EntityEvent($entity);
+        $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_UPDATE_ENTITY);
+        if ($event->isPropagationStopped()) {
+            //return $entity;
+        }
+
+        $this->getRepository()->update($entity);
+
+        $event = new EntityEvent($entity);
+        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_UPDATE_ENTITY);
+        if ($event->isPropagationStopped()) {
+            //return $entity;
+        }
     }
 
     public function deleteById($id)

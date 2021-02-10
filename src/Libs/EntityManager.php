@@ -63,6 +63,14 @@ class EntityManager implements EntityManagerInterface
         return $repository->all($query);
     }
 
+    public function loadEntityRelations(object $entity, array $with)
+    {
+        $entityClass = get_class($entity);
+        $collection = new Collection([$entity]);
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        $repository->loadRelations($collection, $with);
+    }
+
     public function one(string $entityClass, Query $query = null): EntityIdInterface
     {
         $repository = $this->getRepositoryByEntityClass($entityClass);
