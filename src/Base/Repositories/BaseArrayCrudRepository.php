@@ -19,7 +19,7 @@ abstract class BaseArrayCrudRepository extends BaseCrudRepository implements Rea
         if ($query) {
             $items = FilterHelper::filterItems($items, $query);
         }
-        return $this->em->createEntityCollection($this->getEntityClass(), $items);
+        return $this->getEntityManager()->createEntityCollection($this->getEntityClass(), $items);
     }
 
     public function count(Query $query = null): int
