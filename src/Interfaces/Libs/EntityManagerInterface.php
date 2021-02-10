@@ -7,7 +7,7 @@ use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Domain\Libs\Query;
 
-interface EntityManagerInterface
+interface EntityManagerInterface extends TransactionInterface
 {
 
     public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface;
@@ -31,9 +31,4 @@ interface EntityManagerInterface
 
     public function createEntityCollection(string $entityClassName, array $items): Collection;
 
-    public function beginTransaction();
-
-    public function rollbackTransaction();
-
-    public function commitTransaction();
 }

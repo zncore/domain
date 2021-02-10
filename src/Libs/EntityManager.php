@@ -4,12 +4,14 @@ namespace ZnCore\Domain\Libs;
 
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
+use ZnCore\Base\Exceptions\InvalidConfigException;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
+use ZnCore\Domain\Interfaces\Libs\OrmInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 
@@ -53,6 +55,9 @@ class EntityManager implements EntityManagerInterface
      */
     public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface
     {
+        if (!isset($this->entityToRepository[$entityClass])) {
+            throw new InvalidConfigException('Not found ');
+        }
         $class = $this->entityToRepository[$entityClass];
         return $this->getRepositoryByClass($class);
     }
@@ -94,26 +99,38 @@ class EntityManager implements EntityManagerInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
-        if ($entity->getId() === null) {
-            if($entity instanceof UniqueInterface) {
-                $unique = $entity->unique();
-                foreach ($unique as $uniqueConfig) {
-                    $query = new Query();
-                    foreach ($uniqueConfig as $uniqueName) {
-                        $query->where(Inflector::underscore($uniqueName), EntityHelper::getValue($entity, $uniqueName));
-                    }
-                    $all = $repository->all($query);
-                    if($all->count() > 0) {
-                        $entity = $all->first();
-                        //EntityHelper::setAttributes($entity, EntityHelper::toArray($all->first()));
-                        return;
-                    }
-                }
+        if ($entity instanceof UniqueInterface) {
+            $uniqueEntity = $this->oneByUnique($entity);
+            if ($uniqueEntity) {
+//                EntityHelper::setAttributes($entity, EntityHelper::toArray($uniqueEntity));
+                $entity->setId($uniqueEntity->getId());
             }
+        }
+        if ($entity->getId() === null) {
             $repository->create($entity);
         } else {
             $repository->update($entity);
         }
+    }
+
+    private function oneByUnique(UniqueInterface $entity): ?EntityIdInterface
+    {
+        $entityClass = get_class($entity);
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        $unique = $entity->unique();
+        foreach ($unique as $uniqueConfig) {
+            $query = new Query();
+            foreach ($uniqueConfig as $uniqueName) {
+                $query->where(Inflector::underscore($uniqueName), EntityHelper::getValue($entity, $uniqueName));
+            }
+            $all = $repository->all($query);
+            if ($all->count() > 0) {
+                return $all->first();
+                //EntityHelper::setAttributes($entity, EntityHelper::toArray($all->first()));
+                //return;
+            }
+        }
+        return null;
     }
 
     public function getRepositoryByClass(string $class): RepositoryInterface
@@ -142,16 +159,29 @@ class EntityManager implements EntityManagerInterface
 
     public function beginTransaction()
     {
-        // TODO: Implement beginTransaction() method.
+        foreach ($this->ormList as $orm) {
+            $orm->beginTransaction();
+        }
     }
 
     public function rollbackTransaction()
     {
-        // TODO: Implement rollbackTransaction() method.
+        foreach ($this->ormList as $orm) {
+            $orm->rollbackTransaction();
+        }
     }
 
     public function commitTransaction()
     {
-        // TODO: Implement commitTransaction() method.
+        foreach ($this->ormList as $orm) {
+            $orm->commitTransaction();
+        }
+    }
+
+    /** @var array | OrmInterface[] */
+    private $ormList = [];
+
+    public function addOrm(OrmInterface $orm) {
+        $this->ormList[] = $orm;
     }
 }

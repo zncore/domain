@@ -145,6 +145,18 @@ class EntityHelper
         return $attributes;*/
     }
 
+    public static function isWritableAttribute(object $entity, string $name): bool
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        return $propertyAccessor->isWritable($entity, $name);
+    }
+
+    public static function isReadableAttribute(object $entity, string $name): bool
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        return $propertyAccessor->isReadable($entity, $name);
+    }
+
     public static function setAttribute(object $entity, string $name, $value): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();

@@ -9,6 +9,11 @@ trait EntityManagerTrait
 
     private $entityManager;
 
+    protected function hasEntityManager(): bool
+    {
+        return isset($this->entityNamager);
+    }
+
     protected function getEntityManager(): EntityManagerInterface
     {
         return $this->entityNamager;

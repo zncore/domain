@@ -103,64 +103,102 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function create($attributes): EntityIdInterface
     {
-        $isAvailable = $this->beforeMethod('create');
-        $entityClass = $this->getEntityClass();
-
-        $entity = new $entityClass;
-        EntityHelper::setAttributes($entity, $attributes);
-
-        $event = new EntityEvent($entity);
-        $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_CREATE_ENTITY);
-        if ($event->isPropagationStopped()) {
-            return $entity;
+        if($this->hasEntityManager()) {
+            $this->getEntityManager()->beginTransaction();
         }
+        try {
+            $isAvailable = $this->beforeMethod('create');
+            $entityClass = $this->getEntityClass();
 
-        ValidationHelper::validateEntity($entity);
-        $this->getRepository()->create($entity);
-        $event = new EventEntity();
-        $event->setData($entity);
-        $this->afterMethod('create', $event);
+            $entity = new $entityClass;
+            EntityHelper::setAttributes($entity, $attributes);
 
-        $event = new EntityEvent($entity);
-        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_CREATE_ENTITY);
+            $event = new EntityEvent($entity);
+            $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_CREATE_ENTITY);
+            if ($event->isPropagationStopped()) {
+                return $entity;
+            }
 
+            ValidationHelper::validateEntity($entity);
+            $this->getRepository()->create($entity);
+            $event = new EventEntity();
+            $event->setData($entity);
+            $this->afterMethod('create', $event);
+
+            $event = new EntityEvent($entity);
+            $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_CREATE_ENTITY);
+        } catch (\Throwable $e) {
+            if($this->hasEntityManager()) {
+                $this->getEntityManager()->rollbackTransaction();
+            }
+            throw $e;
+        }
+        if($this->hasEntityManager()) {
+            $this->getEntityManager()->commitTransaction();
+        }
         return $entity;
     }
 
     public function updateById($id, $data)
     {
-        $isAvailable = $this->beforeMethod('updateById');
-        if (!$isAvailable) {
-            return;
+        if($this->hasEntityManager()) {
+            $this->getEntityManager()->beginTransaction();
         }
-        $entity = $this->oneById($id);
+        try {
+            $isAvailable = $this->beforeMethod('updateById');
+            if (!$isAvailable) {
+                return;
+            }
+            $entity = $this->oneById($id);
 
-        EntityHelper::setAttributes($entity, $data);
+            EntityHelper::setAttributes($entity, $data);
 
-        $event = new EntityEvent($entity);
-        $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_UPDATE_ENTITY);
-        if ($event->isPropagationStopped()) {
-            //return $entity;
+            $event = new EntityEvent($entity);
+            $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_UPDATE_ENTITY);
+            if ($event->isPropagationStopped()) {
+                //return $entity;
+            }
+
+            $this->getRepository()->update($entity);
+
+            $event = new EntityEvent($entity);
+            $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_UPDATE_ENTITY);
+            if ($event->isPropagationStopped()) {
+                //return $entity;
+            }
+        } catch (\Throwable $e) {
+            if($this->hasEntityManager()) {
+                $this->getEntityManager()->rollbackTransaction();
+            }
+            throw $e;
         }
-
-        $this->getRepository()->update($entity);
-
-        $event = new EntityEvent($entity);
-        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_UPDATE_ENTITY);
-        if ($event->isPropagationStopped()) {
-            //return $entity;
+        if($this->hasEntityManager()) {
+            $this->getEntityManager()->commitTransaction();
         }
     }
 
     public function deleteById($id)
     {
-        $isAvailable = $this->beforeMethod('deleteById');
-        $entity = $this->getRepository()->oneById($id);
-        $id = $this->getRepository()->deleteById($id);
+        if($this->hasEntityManager()) {
+            $this->getEntityManager()->beginTransaction();
+        }
+        try {
+            $isAvailable = $this->beforeMethod('deleteById');
+            $entity = $this->getRepository()->oneById($id);
+            $id = $this->getRepository()->deleteById($id);
 
-        $event = new EntityEvent($entity);
-        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_DELETE_ENTITY);
+            $event = new EntityEvent($entity);
+            $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_DELETE_ENTITY);
 
-        return $id;
+            return $id;
+        } catch (\Throwable $e) {
+            if($this->hasEntityManager()) {
+                $this->getEntityManager()->rollbackTransaction();
+            }
+            throw $e;
+        }
+        if($this->hasEntityManager()) {
+            $this->getEntityManager()->commitTransaction();
+        }
     }
 }
