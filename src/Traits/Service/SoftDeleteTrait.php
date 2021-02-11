@@ -11,7 +11,7 @@ trait SoftDeleteTrait
     {
         $entity = $this->oneById($id);
         $entity->delete();
-        $this->repository->update($entity);
+        $this->getRepository()->update($entity);
         return true;
     }
 }

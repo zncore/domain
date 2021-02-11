@@ -11,7 +11,7 @@ trait SoftRestoreTrait
     {
         $entity = $this->oneById($id);
         $entity->restore();
-        $this->repository->update($entity);
+        $this->getRepository()->update($entity);
         return true;
     }
 }
