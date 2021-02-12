@@ -146,7 +146,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
             if (!$isAvailable) {
                 return;
             }
-            $entity = $this->oneById($id);
+            $entity = $this->getRepository()->oneById($id);
 
             EntityHelper::setAttributes($entity, $data);
 
