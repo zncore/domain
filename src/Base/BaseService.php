@@ -25,11 +25,10 @@ abstract class BaseService implements GetEntityClassInterface, CreateEntityInter
     {
         $entityClass = $this->getEntityClass();
         if(DeprecateHelper::isStrictMode()) {
-            return $this->getEntityManager()->getRepositoryByEntityClass($this->getEntityClass());
+            return $this->getEntityManager()->createEntity($this->getEntityClass());
         } else {
             $entityInstance = EntityHelper::createEntity($entityClass, $attributes);
             return $entityInstance;
         }
     }
-
 }
