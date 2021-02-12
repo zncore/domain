@@ -124,7 +124,7 @@ class EntityHelper
         return $array;
     }
 
-    public static function getAttributeNames(object $entity): array
+    public static function getAttributeNames($entity): array
     {
         if($entity instanceof EntityAttributesInterface) {
             return $entity->attributes();

@@ -4,7 +4,6 @@ namespace ZnCore\Domain\Base;
 
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Helpers\ClassHelper;
-use ZnCore\Base\Libs\Event\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Entities\EventEntity;
 use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Events\EntityEvent;
@@ -23,8 +22,6 @@ use ZnCore\Domain\Libs\Query;
  */
 abstract class BaseCrudService extends BaseService implements CrudServiceInterface, ForgeQueryByFilterInterface
 {
-
-    use EventDispatcherTrait;
 
     public function beforeMethod(string $method)
     {
@@ -103,7 +100,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function create($attributes): EntityIdInterface
     {
-        if($this->hasEntityManager()) {
+        if ($this->hasEntityManager()) {
             $this->getEntityManager()->beginTransaction();
         }
         try {
@@ -128,12 +125,12 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
             $event = new EntityEvent($entity);
             $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_CREATE_ENTITY);
         } catch (\Throwable $e) {
-            if($this->hasEntityManager()) {
+            if ($this->hasEntityManager()) {
                 $this->getEntityManager()->rollbackTransaction();
             }
             throw $e;
         }
-        if($this->hasEntityManager()) {
+        if ($this->hasEntityManager()) {
             $this->getEntityManager()->commitTransaction();
         }
         return $entity;
@@ -141,7 +138,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function updateById($id, $data)
     {
-        if($this->hasEntityManager()) {
+        if ($this->hasEntityManager()) {
             $this->getEntityManager()->beginTransaction();
         }
         try {
@@ -167,19 +164,19 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
                 //return $entity;
             }
         } catch (\Throwable $e) {
-            if($this->hasEntityManager()) {
+            if ($this->hasEntityManager()) {
                 $this->getEntityManager()->rollbackTransaction();
             }
             throw $e;
         }
-        if($this->hasEntityManager()) {
+        if ($this->hasEntityManager()) {
             $this->getEntityManager()->commitTransaction();
         }
     }
 
     public function deleteById($id)
     {
-        if($this->hasEntityManager()) {
+        if ($this->hasEntityManager()) {
             $this->getEntityManager()->beginTransaction();
         }
         try {
@@ -192,12 +189,12 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
             return $id;
         } catch (\Throwable $e) {
-            if($this->hasEntityManager()) {
+            if ($this->hasEntityManager()) {
                 $this->getEntityManager()->rollbackTransaction();
             }
             throw $e;
         }
-        if($this->hasEntityManager()) {
+        if ($this->hasEntityManager()) {
             $this->getEntityManager()->commitTransaction();
         }
     }

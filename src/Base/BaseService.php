@@ -3,6 +3,7 @@
 namespace ZnCore\Domain\Base;
 
 use ZnCore\Base\Helpers\DeprecateHelper;
+use ZnCore\Base\Libs\Event\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Traits\CreateEntityInterface;
 use ZnCore\Domain\Interfaces\GetEntityClassInterface;
@@ -13,6 +14,7 @@ use ZnCore\Domain\Traits\RepositoryAwareTrait;
 abstract class BaseService implements GetEntityClassInterface, CreateEntityInterface
 {
 
+    use EventDispatcherTrait;
     use EntityManagerTrait;
     use RepositoryAwareTrait;
 
@@ -25,7 +27,7 @@ abstract class BaseService implements GetEntityClassInterface, CreateEntityInter
     {
         $entityClass = $this->getEntityClass();
         if(DeprecateHelper::isStrictMode()) {
-            return $this->getEntityManager()->createEntity($this->getEntityClass());
+            return $this->getEntityManager()->createEntity($this->getEntityClass(), $attributes);
         } else {
             $entityInstance = EntityHelper::createEntity($entityClass, $attributes);
             return $entityInstance;
