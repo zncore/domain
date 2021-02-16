@@ -182,12 +182,17 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         try {
             $isAvailable = $this->beforeMethod('deleteById');
             $entity = $this->getRepository()->oneById($id);
-            $id = $this->getRepository()->deleteById($id);
 
             $event = new EntityEvent($entity);
+            $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_DELETE_ENTITY);
+
+            if( ! $event->isSkipHandle()) {
+                $this->getRepository()->deleteById($id);
+            }
+
             $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_DELETE_ENTITY);
 
-            return $id;
+//            return $id;
         } catch (\Throwable $e) {
             if ($this->hasEntityManager()) {
                 $this->getEntityManager()->rollbackTransaction();

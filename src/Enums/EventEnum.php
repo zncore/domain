@@ -22,6 +22,9 @@ class EventEnum
     /** Выполняется до сохранения сущности */
     const AFTER_UPDATE_ENTITY = 'entity.after_update';
 
+    /** Выполняется до удаления сущности */
+    const BEFORE_DELETE_ENTITY = 'entity.before_delete';
+
     /** Выполняется после удаления сущности */
     const AFTER_DELETE_ENTITY = 'entity.after_delete';
 
