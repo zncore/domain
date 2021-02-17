@@ -42,7 +42,7 @@ class RelationLoader
         }
     }
 
-    public function loadRelations(/*array */&$collection, Query $query)
+    public function loadRelations(&$collection, Query $query)
     {
         $relations = $this->relations();
         $relations = $this->prepareRelations($relations);
@@ -50,8 +50,8 @@ class RelationLoader
 
         if ($query->hasParam('with')) {
             $with = $query->getParam(Query::WITH);
-            foreach ($with as $attribute) {
-                $relParts = explode('.', $attribute);
+            foreach ($with as $withItem) {
+                $relParts = explode('.', $withItem);
                 $attribute = $relParts[0];
                 unset($relParts[0]);
                 $relParts = array_values($relParts);
