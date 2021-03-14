@@ -11,7 +11,8 @@
   "minimum-stability": "dev",
   "require": {
     "zncore/base": "dev-master|v0.0.*",
-    "symfony/validator": "^4.4|^5.0"
+    "symfony/validator": "^4.4|^5.0",
+    "symfony/event-dispatcher": "^4.4|^5.0"
   },
   "autoload": {
     "psr-4": {
