@@ -2,7 +2,6 @@
 
 namespace ZnCore\Domain\Base\Repositories;
 
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\FilterHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
@@ -14,6 +13,7 @@ abstract class BaseArrayCrudRepository extends BaseCrudRepository implements Rea
 {
 
     abstract protected function getItems(): array;
+
     abstract protected function setItems(array $items);
 
     public function all(Query $query = null)
@@ -40,36 +40,52 @@ abstract class BaseArrayCrudRepository extends BaseCrudRepository implements Rea
     public function create(EntityIdInterface $entity)
     {
         $items = $this->getItems();
-
-        $item = EntityHelper::toArray($entity);
-        $items[] = $item;
-
+        $items[] = EntityHelper::toArray($entity);
         $this->setItems($items);
     }
 
     public function update(EntityIdInterface $entity)
     {
         $items = $this->getItems();
-        /*$item = EntityHelper::toArray($entity);
-        $key = array_search($item, $items);
-        if ($key !== FALSE) {
-            $array[$key] = ;
-            unset();
-        }*/
+        foreach ($items as &$item) {
+            if ($entity->getId() == $item['id']) {
+                $item = EntityHelper::toArray($entity);
+            }
+        }
         $this->setItems($items);
     }
 
     public function deleteById($id)
     {
-        $items = $this->getItems();
-
-        $this->setItems($items);
+        $this->deleteByCondition(['id' => $id]);
+        /*$items = $this->getItems();
+        foreach ($items as &$item) {
+            if($entity->getId() == $item['id']) {
+                unset($item);
+            }
+        }
+        $this->setItems($items);*/
     }
 
     public function deleteByCondition(array $condition)
     {
         $items = $this->getItems();
-
+        foreach ($items as &$item) {
+            $isMatch = $this->isMatch($item, $condition);
+            if ($isMatch) {
+                unset($item);
+            }
+        }
         $this->setItems($items);
+    }
+
+    private function isMatch(array $item, array $condition): bool
+    {
+        foreach ($condition as $conditionAttribute => $conditionValue) {
+            if ($item[$conditionAttribute] != $conditionValue) {
+                return false;
+            }
+        }
+        return true;
     }
 }
