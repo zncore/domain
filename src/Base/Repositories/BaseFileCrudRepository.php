@@ -14,4 +14,10 @@ abstract class BaseFileCrudRepository extends BaseArrayCrudRepository
         $store = new StoreFile($this->fileName());
         return $store->load();
     }
+
+    protected function setItems(array $items)
+    {
+        $store = new StoreFile($this->fileName());
+        return $store->save($items);
+    }
 }

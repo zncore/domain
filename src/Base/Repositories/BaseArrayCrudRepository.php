@@ -2,6 +2,8 @@
 
 namespace ZnCore\Domain\Base\Repositories;
 
+use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\FilterHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
@@ -12,6 +14,7 @@ abstract class BaseArrayCrudRepository extends BaseCrudRepository implements Rea
 {
 
     abstract protected function getItems(): array;
+    abstract protected function setItems(array $items);
 
     public function all(Query $query = null)
     {
@@ -32,5 +35,41 @@ abstract class BaseArrayCrudRepository extends BaseCrudRepository implements Rea
     {
         $collection = $this->all($query);
         return $collection->first();
+    }
+
+    public function create(EntityIdInterface $entity)
+    {
+        $items = $this->getItems();
+
+        $item = EntityHelper::toArray($entity);
+        $items[] = $item;
+
+        $this->setItems($items);
+    }
+
+    public function update(EntityIdInterface $entity)
+    {
+        $items = $this->getItems();
+        /*$item = EntityHelper::toArray($entity);
+        $key = array_search($item, $items);
+        if ($key !== FALSE) {
+            $array[$key] = ;
+            unset();
+        }*/
+        $this->setItems($items);
+    }
+
+    public function deleteById($id)
+    {
+        $items = $this->getItems();
+
+        $this->setItems($items);
+    }
+
+    public function deleteByCondition(array $condition)
+    {
+        $items = $this->getItems();
+
+        $this->setItems($items);
     }
 }
