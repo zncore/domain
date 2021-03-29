@@ -11,16 +11,16 @@ trait EntityManagerTrait
 
     protected function hasEntityManager(): bool
     {
-        return isset($this->entityNamager);
+        return isset($this->entityManager);
     }
 
     protected function getEntityManager(): EntityManagerInterface
     {
-        return $this->entityNamager;
+        return $this->entityManager;
     }
 
     protected function setEntityManager(EntityManagerInterface $entityManager): void
     {
-        $this->entityNamager = $entityManager;
+        $this->entityManager = $entityManager;
     }
 }
