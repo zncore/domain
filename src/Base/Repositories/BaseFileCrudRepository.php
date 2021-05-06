@@ -12,7 +12,7 @@ abstract class BaseFileCrudRepository extends BaseArrayCrudRepository
     protected function getItems(): array
     {
         $store = new StoreFile($this->fileName());
-        return $store->load();
+        return $store->load() ?: [];
     }
 
     protected function setItems(array $items)
