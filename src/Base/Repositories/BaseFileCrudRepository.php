@@ -15,12 +15,23 @@ abstract class BaseFileCrudRepository extends BaseArrayCrudRepository
         throw new NotImplementedMethodException('Not Implemented Method "tableName"');
     }
 
+    public function directory(): string
+    {
+        return DotEnv::get('FILE_DB_DIRECTORY');
+    }
+
+    public function fileExt(): string
+    {
+        return 'php';
+    }
+
     public function fileName(): string
     {
         $tableName = $this->tableName();
         $root = FileHelper::rootPath();
-        $directory = DotEnv::get('FILE_DB_DIRECTORY');
-        return "$root/$directory/$tableName.php";
+        $directory = $this->directory();
+        $ext = $this->fileExt();
+        return "$root/$directory/$tableName.$ext";
     }
 
     protected function getItems(): array
