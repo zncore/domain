@@ -7,8 +7,7 @@ use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 trait RepositoryAwareTrait
 {
 
-    //todo: private
-    protected $repository;
+    private $repository;
 
     /**
      * @return GetEntityClassInterface
