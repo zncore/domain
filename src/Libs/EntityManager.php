@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Base\Exceptions\InvalidConfigException;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
+use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
@@ -92,7 +93,15 @@ class EntityManager implements EntityManagerInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
-        $repository->deleteById($entity->getId());
+        if($entity->getId()) {
+            $repository->deleteById($entity->getId());
+        } else {
+            $uniqueEntity = $this->oneByUnique($entity);
+            if(empty($uniqueEntity)) {
+                throw new NotFoundException('Unique entity not found!');
+            }
+            $repository->deleteById($uniqueEntity->getId());
+        }
     }
 
     public function persist(EntityIdInterface $entity): void

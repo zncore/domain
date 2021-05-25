@@ -21,9 +21,9 @@ class UnprocessibleEntityException extends Exception
     }
 
     /**
-     * @return array | Collection | ValidateErrorEntity[]
+     * @return array | Collection | ValidateErrorEntity[] | null
      */
-    public function getErrorCollection(): Collection
+    public function getErrorCollection(): ?Collection
     {
         return $this->errorCollection;
     }
