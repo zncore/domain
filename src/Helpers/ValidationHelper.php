@@ -3,6 +3,8 @@
 namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ConstraintViolationList;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
@@ -94,4 +96,26 @@ class ValidationHelper
         }
     }
 
+    public static function validate2222(ValidateEntityInterface $data): ConstraintViolationList
+    {
+        $rules = $data->validationRules();
+        $validator = SymfonyValidationHelper::createValidator();
+        $constraints = new Assert\Collection($rules);
+        $violations = $validator->validate(EntityHelper::toArray($data), $constraints);
+        return $violations;
+    }
+
+    public static function createErrorCollectionFromViolationList(ConstraintViolationList $violations): Collection
+    {
+        $collection = new Collection;
+        foreach ($violations as $violation) {
+            $name = trim($violation->getPropertyPath(), '[]');
+            $entity = new ValidateErrorEntity;
+            $entity->setField($name);
+            $entity->setMessage($violation->getMessage());
+            $entity->setViolation($violation);
+            $collection->add($entity);
+        }
+        return $collection;
+    }
 }
