@@ -2,6 +2,9 @@
 
 namespace ZnCore\Domain\Interfaces\Entity;
 
+/**
+ * @deprecated
+ */
 interface ScenarioInterface
 {
 

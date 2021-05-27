@@ -2,18 +2,10 @@
 
 namespace ZnCore\Domain\Interfaces\Entity;
 
-interface EntityIdInterface
+/**
+ * @deprecated
+ */
+interface EntityIdInterface extends \ZnCore\Contract\Domain\Interfaces\EntityIdInterface
 {
-
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function setId($id);
-
-    /**
-     * @return int
-     */
-    public function getId();
 
 }
