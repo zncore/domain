@@ -32,7 +32,7 @@ class SoftDeleteBehavior implements EventSubscriberInterface
         if(method_exists($entity, 'delete')) {
             $entity->delete();
         } else {
-            $entity->setStatus(StatusEnum::DELETED);
+            $entity->setStatusId(StatusEnum::DELETED);
         }
         $this->getEntityManager()->persist($entity);
         $event->skipHandle();
