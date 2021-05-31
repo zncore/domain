@@ -4,6 +4,9 @@ namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
@@ -94,6 +97,16 @@ class ValidationHelper
         } else {
             return SymfonyValidationHelper::validate($data);
         }
+    }
+
+    /**
+     * @return array | Collection | ValidateErrorEntity[]
+     */
+    public static function validateValue($value, array $rules): ConstraintViolationList
+    {
+        $validator = SymfonyValidationHelper::createValidator();
+        $violations = $validator->validate($value, $rules);
+        return $violations;
     }
 
     public static function validate2222(ValidateEntityInterface $data): ConstraintViolationList
