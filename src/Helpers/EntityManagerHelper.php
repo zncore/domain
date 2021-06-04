@@ -3,7 +3,10 @@
 namespace ZnCore\Domain\Helpers;
 
 use Psr\Container\ContainerInterface;
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
+
+DeprecateHelper::softThrow();
 
 class EntityManagerHelper
 {
@@ -12,10 +15,11 @@ class EntityManagerHelper
     {
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
-        if (!empty($entitiesConfig)) {
-            foreach ($entitiesConfig as $entityClass => $repositoryInterface) {
+        if (!empty($entitiesConfig['entities'])) {
+            foreach ($entitiesConfig['entities'] as $entityClass => $repositoryInterface) {
                 $em->bindEntity($entityClass, $repositoryInterface);
             }
         }
+        $em->setConfig($entitiesConfig);
     }
 }

@@ -53,14 +53,33 @@ class EntityManager implements EntityManagerInterface
     /**
      * @param string $entityClass
      * @return RepositoryInterface | CrudRepositoryInterface
+     * @throws InvalidConfigException
      */
     public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface
     {
         if (!isset($this->entityToRepository[$entityClass])) {
-            throw new InvalidConfigException('Not found ');
+            $abstract = $this->findInDefinitions($entityClass);
+            if ($abstract) {
+                $entityClass = $abstract;
+            } else {
+                throw new InvalidConfigException('Not found ');
+            }
         }
         $class = $this->entityToRepository[$entityClass];
         return $this->getRepositoryByClass($class);
+    }
+
+    private function findInDefinitions(string $entityClass)
+    {
+        if (empty($this->config['definitions'])) {
+            return null;
+        }
+        foreach ($this->config['definitions'] as $abstract => $concrete) {
+            if ($concrete == $entityClass) {
+                return $abstract;
+            }
+        }
+        return null;
     }
 
     public function all(string $entityClass, Query $query = null): Collection
@@ -93,11 +112,11 @@ class EntityManager implements EntityManagerInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
-        if($entity->getId()) {
+        if ($entity->getId()) {
             $repository->deleteById($entity->getId());
         } else {
             $uniqueEntity = $this->oneByUnique($entity);
-            if(empty($uniqueEntity)) {
+            if (empty($uniqueEntity)) {
                 throw new NotFoundException('Unique entity not found!');
             }
             $repository->deleteById($uniqueEntity->getId());
@@ -190,7 +209,8 @@ class EntityManager implements EntityManagerInterface
     /** @var array | OrmInterface[] */
     private $ormList = [];
 
-    public function addOrm(OrmInterface $orm) {
+    public function addOrm(OrmInterface $orm)
+    {
         $this->ormList[] = $orm;
     }
 }
