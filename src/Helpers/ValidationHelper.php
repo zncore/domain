@@ -4,10 +4,9 @@ namespace ZnCore\Domain\Helpers;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
@@ -109,17 +108,57 @@ class ValidationHelper
         return $violations;
     }
 
+    public static function validateDynamicEntity(ValidateEntityInterface $entity): ConstraintViolationList
+    {
+        DeprecateHelper::softThrow();
+        $rules = $entity->validationRules();
+        $validator = SymfonyValidationHelper::createValidator();
+        $constraints = new Assert\Collection($rules);
+        $violations = $validator->validate(EntityHelper::toArray($entity), $constraints);
+        $newViolationArray = [];
+        foreach ($violations as $violation) {
+            /** @var $violation ConstraintViolation */
+            $name = trim($violation->getPropertyPath(), '[]');
+            $newViolationArray[] = new ConstraintViolation($violation->getMessage(), $violation->getMessageTemplate(), $violation->getParameters(), $violation->getRoot(), $name, $violation->getInvalidValue(), $violation->getPlural(), $violation->getCode(), $violation->getConstraint(), $violation->getCause());
+        }
+        return new ConstraintViolationList($newViolationArray);
+    }
+
     public static function validate2222(ValidateEntityInterface $data): ConstraintViolationList
     {
+        DeprecateHelper::softThrow();
         $rules = $data->validationRules();
         $validator = SymfonyValidationHelper::createValidator();
         $constraints = new Assert\Collection($rules);
+
+        /*$constraint = new Assert\All([
+            'constraints' => [
+                $constraints
+            ],
+            'payload' => EntityHelper::toArray($data),
+        ]);
+
+        $violations = $validator->validate($constraint);*/
+
+        /*ValidateObjectEntity::configValidatorMetadata($rules);
+
+        $entity = new ValidateObjectEntity();
+        $attrs = array_merge(array_keys($rules), array_keys(EntityHelper::toArray($data)));
+        $attrs = array_unique($attrs);
+        $entity->configAttributes($attrs);
+
+        EntityHelper::setAttributes($entity, EntityHelper::toArray($data));
+
+        $violations = $validator->validate($entity);
+        return $violations;*/
+
         $violations = $validator->validate(EntityHelper::toArray($data), $constraints);
         return $violations;
     }
 
     public static function createErrorCollectionFromViolationList(ConstraintViolationList $violations): Collection
     {
+        DeprecateHelper::softThrow();
         $collection = new Collection;
         foreach ($violations as $violation) {
             $name = trim($violation->getPropertyPath(), '[]');
