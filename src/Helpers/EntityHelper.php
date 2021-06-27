@@ -182,7 +182,8 @@ class EntityHelper
         foreach ($data as $name => $value) {
             $name = Inflector::variablize($name);
             $isAllow = empty($filedsOnly) || in_array($name, $filedsOnly);
-            if ($isAllow) {
+            $isWritable = $propertyAccessor->isWritable($entity, $name);
+            if ($isAllow && $isWritable) {
                 $propertyAccessor->setValue($entity, $name, $value);
             }
         }
