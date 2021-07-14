@@ -4,6 +4,7 @@ namespace ZnCore\Domain\Libs;
 
 use ZnCore\Base\Exceptions\DeprecatedException;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Entities\Query\Join;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Enums\OperatorEnum;
 
@@ -61,10 +62,17 @@ class Query
         return new Query();
     }
 
+    public function joinNew(Join $join)
+    {
+        //$table = TableHelpeR::getGlobalName($table);
+        $this->query['join_new'][] = $join;
+        return $this;
+    }
+    
     public function join($type, $table, $on = '', $params = [])
     {
-        $table = TableHelper::getGlobalName($table);
-        $this->query[self::JOIN] = [
+        //$table = TableHelpeR::getGlobalName($table);
+        $this->query[self::JOIN][] = [
             'type' => $type,
             'table' => $table,
             'on' => $on,
