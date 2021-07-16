@@ -67,11 +67,13 @@ class RelationLoader
 
             if (!empty($relParts)) {
                 foreach ($relParts as $relPart) {
-                    if(strpos($relPart, '.')) {
+                    $relationTree[$attribute][] = $relPart;
+                    /*if(strpos($relPart, '.')) {
+                        //dd($this->getRelationTree([$relPart]));
                         $relationTree[$attribute] = $this->getRelationTree([$relPart]);
                     } else {
                         $relationTree[$attribute][] = $relPart;
-                    }
+                    }*/
                 }
                 //$relationTree[$attribute] = array_merge($relationTree[$attribute] ?? [], $relParts);
             } else {
@@ -93,7 +95,7 @@ class RelationLoader
 
             $relationTree = $this->getRelationTree($with);
 
-            //dump([$relationTree, get_class($this->repository)]);
+            dump([$relationTree, get_class($this->repository)]);
 
             //dd($relationTree);
 
