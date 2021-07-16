@@ -2,13 +2,13 @@
 
 namespace ZnCore\Domain\Base\Repositories;
 
-use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
+//use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
 
-abstract class BaseCrudRepository extends BaseRepository implements RelationConfigInterface
+abstract class BaseCrudRepository extends BaseRepository //implements RelationConfigInterface
 {
 
-    public function relations()
+    /*public function _relations()
     {
         return [];
-    }
+    }*/
 }

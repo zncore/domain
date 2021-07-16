@@ -29,10 +29,10 @@ abstract class BaseFileCrudRepository extends BaseFileRepository implements Crud
         return 'php';
     }
 
-    public function relations()
+    /*public function _relations()
     {
         return [];
-    }
+    }*/
 
     public function fileName(): string
     {
