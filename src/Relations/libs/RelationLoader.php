@@ -4,14 +4,14 @@ namespace ZnCore\Domain\Relations\libs;
 
 use Illuminate\Support\Collection;
 use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Relations\relations\RelationInterface;
 use ZnCore\Domain\Relations\repositories\BaseCommonRepository;
 use InvalidArgumentException;
-use Yii;
-use yii\db\ActiveQuery;
 
 class RelationLoader
 {
@@ -40,7 +40,8 @@ class RelationLoader
         if ($this->relations) {
             return $this->relations;
         }
-        if ($this->repository) {
+        if ($this->repository && $this->repository instanceof RelationConfigInterface) {
+            DeprecateHelper::softThrow('RelationConfigInterface is deprecated, use relations2 for definition!');
             return $this->repository->relations();
         }
     }
@@ -60,20 +61,20 @@ class RelationLoader
             $with = $query->getParam(Query::WITH);
             //dump([$with, get_class($this->repository)]);
 
-            $asd = [];
+            $relationTree = [];
 
             foreach ($with as $withItem) {
                 $relParts = explode('.', $withItem);
                 $attribute = $relParts[0];
                 unset($relParts[0]);
                 $relParts = array_values($relParts);
-                $asd[$attribute] = array_merge($asd[$attribute] ?? [], $relParts);
+                $relationTree[$attribute] = array_merge($relationTree[$attribute] ?? [], $relParts);
             }
 
             //dd($asd);
 
             //foreach ($with as $withItem) {
-            foreach ($asd as $attribute => $relParts) {
+            foreach ($relationTree as $attribute => $relParts) {
                 /*$relParts = explode('.', $withItem);
                 $attribute = $relParts[0];
                 unset($relParts[0]);
@@ -89,6 +90,7 @@ class RelationLoader
 
                 if (is_object($relation)) {
                     if ($relParts) {
+                        //dump([$attribute, $relParts, get_class($this->repository)]);
                         //$nestedWith = implode('.', $relParts);
                         $relation->query = $relation->query ?: new Query;
                         $relation->query->with($relParts);
