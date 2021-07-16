@@ -79,7 +79,7 @@ class RelationLoader
                 unset($relParts[0]);
                 $relParts = array_values($relParts);*/
 
-                dump([$attribute, $relParts, get_class($this->repository)]);
+                //dump([$attribute, $relParts, get_class($this->repository)]);
                 if (empty($relations[$attribute])) {
                     throw new InvalidArgumentException('Relation "' . $attribute . '" not defined in repository "' . get_class($this->repository) . '"!');
                 }
