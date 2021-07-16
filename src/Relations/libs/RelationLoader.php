@@ -61,6 +61,11 @@ class RelationLoader
                 }
             } elseif (is_array($withItem)) {
                 $relParts = $withItem;
+                /*if(ArrayHelper::isIndexed($withItem)) {
+                    
+                } else {
+
+                }*/
             } elseif (is_object($withItem) && $withItem instanceof Query) {
                 $relParts = $withItem->getParam(Query::WITH);
             }
@@ -101,8 +106,15 @@ class RelationLoader
 
             foreach ($relationTree as $attribute => $relParts) {
 
+                /*if(is_integer($attribute)) {
+                    $attribute = $relParts[0];
+                    $relParts = [];
+                }*/
+
                 //dump([$attribute, $relParts, get_class($this->repository)]);
                 if (empty($relations[$attribute])) {
+                    //dd([$relationTree, $attribute, $relParts, get_class($this->repository)]);
+                    //dd($attribute , $relParts);
                     throw new InvalidArgumentException('Relation "' . $attribute . '" not defined in repository "' . get_class($this->repository) . '"!');
                 }
                 /** @var RelationInterface $relation */
