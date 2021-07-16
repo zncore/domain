@@ -2,8 +2,10 @@
 
 namespace ZnCore\Domain\Relations\libs;
 
+use Illuminate\Support\Collection;
 use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Relations\relations\RelationInterface;
 use ZnCore\Domain\Relations\repositories\BaseCommonRepository;
@@ -13,16 +15,17 @@ use yii\db\ActiveQuery;
 
 class RelationLoader
 {
-    /** @var BaseCommonRepository */
+
+    /** @var RepositoryInterface */
     private $repository;
     private $relations;
 
-    public function getRepository()/*: BaseCommonRepository*/
+    public function getRepository(): RepositoryInterface
     {
         return $this->repository;
     }
 
-    public function setRepository(/*BaseCommonRepository*/ $repository): void
+    public function setRepository(RepositoryInterface $repository): void
     {
         $this->repository = $repository;
     }
@@ -42,19 +45,41 @@ class RelationLoader
         }
     }
 
-    public function loadRelations(&$collection, Query $query)
+    public function loadRelations(Collection $collection, Query $query)
     {
         $relations = $this->relations();
         $relations = $this->prepareRelations($relations);
         $relations = ArrayHelper::index($relations, 'name');
 
+        /*$with = $query->getParam(Query::WITH);
+        if($with) {
+            dd($with);
+        }*/
+
         if ($query->hasParam('with')) {
             $with = $query->getParam(Query::WITH);
+            //dump([$with, get_class($this->repository)]);
+
+            $asd = [];
+
             foreach ($with as $withItem) {
                 $relParts = explode('.', $withItem);
                 $attribute = $relParts[0];
                 unset($relParts[0]);
                 $relParts = array_values($relParts);
+                $asd[$attribute] = array_merge($asd[$attribute] ?? [], $relParts);
+            }
+
+            //dd($asd);
+
+            //foreach ($with as $withItem) {
+            foreach ($asd as $attribute => $relParts) {
+                /*$relParts = explode('.', $withItem);
+                $attribute = $relParts[0];
+                unset($relParts[0]);
+                $relParts = array_values($relParts);*/
+
+                dump([$attribute, $relParts, get_class($this->repository)]);
                 if (empty($relations[$attribute])) {
                     throw new InvalidArgumentException('Relation "' . $attribute . '" not defined in repository "' . get_class($this->repository) . '"!');
                 }
@@ -64,14 +89,18 @@ class RelationLoader
 
                 if (is_object($relation)) {
                     if ($relParts) {
-                        $nestedWith = implode('.', $relParts);
+                        //$nestedWith = implode('.', $relParts);
                         $relation->query = $relation->query ?: new Query;
-                        $relation->query->with([$nestedWith]);
+                        $relation->query->with($relParts);
                         //dd($relation->query);
                     }
+                    $relation->run($collection);
                 }
-                $this->runRelation($relation, $collection);
+                //$this->runRelation($relation, $collection);
+                //$relation->run($collection);
+                //dump($collection[0]->getBook());
             }
+            //dd(222);
         }
     }
 
@@ -85,12 +114,12 @@ class RelationLoader
         return $relations;
     }
 
-    private function runRelation($relation, /*array*/ &$collection)
+    private function runRelation(RelationInterface $relation, Collection $collection)
     {
         $relation->run($collection);
     }
 
-    private function ensureRelation($relation)
+    private function ensureRelation($relation): RelationInterface
     {
         if ($relation instanceof RelationInterface) {
 

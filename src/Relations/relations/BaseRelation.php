@@ -44,7 +44,7 @@ abstract class BaseRelation implements RelationInterface
         $this->container = $container;
     }
 
-    public function run(&$collection)
+    public function run(Collection $collection)
     {
         $this->loadRelation($collection);
         $collection = $this->prepareCollection($collection);
