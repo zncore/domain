@@ -57,14 +57,14 @@ class EntityHelper
     }
 
 
-    public static function collectionToArrayForTablize(object $entity, array $columnList = []): array
+    /*public static function collectionToArrayForTablize(object $entity, array $columnList = []): array
     {
         foreach ($result['items'] as $entity) {
 //            ValidationHelper::validateEntity($entity);
 //            $columnList = $this->getColumnsForModify();
             $array[] = EntityHelper::toArrayForTablize($entity);
         }
-    }
+    }*/
 
     public static function toArrayForTablize(object $entity, array $columnList = []): array
     {
