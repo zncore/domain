@@ -115,7 +115,7 @@ class EntityManager implements EntityManagerInterface
         if ($entity->getId()) {
             $repository->deleteById($entity->getId());
         } else {
-            $uniqueEntity = $this->oneByUnique($entity);
+            $uniqueEntity = $repository->oneByUnique($entity);
             if (empty($uniqueEntity)) {
                 throw new NotFoundException('Unique entity not found!');
             }
@@ -128,7 +128,7 @@ class EntityManager implements EntityManagerInterface
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
         if ($entity instanceof UniqueInterface) {
-            $uniqueEntity = $this->oneByUnique($entity);
+            $uniqueEntity = $repository->oneByUnique($entity);
             if ($uniqueEntity) {
 //                EntityHelper::setAttributes($entity, EntityHelper::toArray($uniqueEntity));
                 $entity->setId($uniqueEntity->getId());
@@ -141,7 +141,7 @@ class EntityManager implements EntityManagerInterface
         }
     }
 
-    private function oneByUnique(UniqueInterface $entity): ?EntityIdInterface
+    /*private function oneByUnique(UniqueInterface $entity): ?EntityIdInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
@@ -159,7 +159,7 @@ class EntityManager implements EntityManagerInterface
             }
         }
         return null;
-    }
+    }*/
 
     public function getRepositoryByClass(string $class): RepositoryInterface
     {
