@@ -144,7 +144,7 @@ class EntityManager implements EntityManagerInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
-        return $repository->oneByUniqueAttributes($entity);
+        return $repository->oneByUnique($entity);
 
         /*$unique = $entity->unique();
         foreach ($unique as $uniqueConfig) {
