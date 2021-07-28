@@ -4,6 +4,7 @@ namespace ZnCore\Domain\Interfaces\Libs;
 
 use Illuminate\Support\Collection;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Domain\Libs\Query;
 
@@ -20,6 +21,8 @@ interface EntityManagerInterface extends TransactionInterface
     public function one(string $entityClass, Query $query = null): EntityIdInterface;
 
     public function oneById(string $entityClass, $id, Query $query = null): EntityIdInterface;
+
+    public function oneByUnique(UniqueInterface $entity): ?EntityIdInterface;
 
     public function remove(EntityIdInterface $entity);
 

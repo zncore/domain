@@ -116,9 +116,9 @@ class EntityManager implements EntityManagerInterface
             $repository->deleteById($entity->getId());
         } else {
             $uniqueEntity = $repository->oneByUnique($entity);
-            if (empty($uniqueEntity)) {
+            /*if (empty($uniqueEntity)) {
                 throw new NotFoundException('Unique entity not found!');
-            }
+            }*/
             $repository->deleteById($uniqueEntity->getId());
         }
     }
@@ -128,11 +128,10 @@ class EntityManager implements EntityManagerInterface
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
         if ($entity instanceof UniqueInterface) {
-            $uniqueEntity = $repository->oneByUnique($entity);
-            if ($uniqueEntity) {
-//                EntityHelper::setAttributes($entity, EntityHelper::toArray($uniqueEntity));
+            try {
+                $uniqueEntity = $repository->oneByUnique($entity);
                 $entity->setId($uniqueEntity->getId());
-            }
+            } catch (NotFoundException $e) {}
         }
         if ($entity->getId() === null) {
             $repository->create($entity);
@@ -141,11 +140,13 @@ class EntityManager implements EntityManagerInterface
         }
     }
 
-    /*private function oneByUnique(UniqueInterface $entity): ?EntityIdInterface
+    public function oneByUnique(UniqueInterface $entity): ?EntityIdInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
-        $unique = $entity->unique();
+        return $repository->oneByUnique($entity);
+
+        /*$unique = $entity->unique();
         foreach ($unique as $uniqueConfig) {
             $query = new Query();
             foreach ($uniqueConfig as $uniqueName) {
@@ -158,8 +159,8 @@ class EntityManager implements EntityManagerInterface
                 //return;
             }
         }
-        return null;
-    }*/
+        return null;*/
+    }
 
     public function getRepositoryByClass(string $class): RepositoryInterface
     {
