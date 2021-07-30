@@ -173,6 +173,13 @@ class EntityHelper
         $propertyAccessor->setValue($entity, $name, $value);
     }
 
+    public static function setAttributesFromObject(object $entity, object $object): void
+    {
+        $entityAttributes = EntityHelper::toArray($entity);
+        $entityAttributes = ArrayHelper::extractByKeys($entityAttributes, EntityHelper::getAttributeNames($object));
+        EntityHelper::setAttributes($entity, $entityAttributes);
+    }
+
     public static function setAttributes(object $entity, $data, array $filedsOnly = []): void
     {
         if (empty($data)) {
@@ -182,9 +189,11 @@ class EntityHelper
         foreach ($data as $name => $value) {
             $name = Inflector::variablize($name);
             $isAllow = empty($filedsOnly) || in_array($name, $filedsOnly);
-            $isWritable = $propertyAccessor->isWritable($entity, $name);
-            if ($isAllow && $isWritable) {
-                $propertyAccessor->setValue($entity, $name, $value);
+            if ($isAllow) {
+                $isWritable = $propertyAccessor->isWritable($entity, $name);
+                if($isWritable) {
+                    $propertyAccessor->setValue($entity, $name, $value);
+                }
             }
         }
     }
