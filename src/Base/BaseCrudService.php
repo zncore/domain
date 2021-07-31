@@ -98,7 +98,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         $this->getRepository()->create($entity);
     }
 
-    public function create($attributes): EntityIdInterface
+    public function create($data): EntityIdInterface
     {
         if ($this->hasEntityManager()) {
             $this->getEntityManager()->beginTransaction();
@@ -108,7 +108,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
             $entityClass = $this->getEntityClass();
 
 //            $entity = new $entityClass;
-            $entity = $this->getEntityManager()->createEntity($this->getEntityClass(), $attributes);
+            $entity = $this->getEntityManager()->createEntity($this->getEntityClass(), $data);
 //            EntityHelper::setAttributes($entity, $attributes);
 
             $event = new EntityEvent($entity);

@@ -6,6 +6,10 @@ use Illuminate\Support\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
+use ZnBundle\Eav\Domain\Entities\DynamicEntity;
+use ZnBundle\Eav\Domain\Entities\EntityEntity;
+use ZnBundle\Eav\Domain\Libs\TypeNormalizer;
+use ZnBundle\Eav\Domain\Libs\Validator;
 use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
@@ -106,6 +110,16 @@ class ValidationHelper
         $validator = SymfonyValidationHelper::createValidator();
         $violations = $validator->validate($value, $rules);
         return $violations;
+    }
+
+    public static function validateDynamicEntity2(object $dynamicEntity, EntityEntity $entityEntity, array $data): void
+    {
+        $normalizer = new TypeNormalizer();
+        $data = $normalizer->normalizeData($data, $entityEntity);
+        EntityHelper::setAttributes($dynamicEntity, $data);
+        $validator = new Validator();
+        $validator->validate($data, $dynamicEntity->validationRules());
+        //return $dynamicEntity;
     }
 
     public static function validateDynamicEntity(ValidateEntityInterface $entity): ConstraintViolationList

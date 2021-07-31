@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 
-DeprecateHelper::softThrow('ValidateEntityInterface');
+//DeprecateHelper::softThrow('ValidateEntityInterface');
 
 class ArrayValidationHelper
 {

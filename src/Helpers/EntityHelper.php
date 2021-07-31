@@ -131,6 +131,12 @@ class EntityHelper
                 }
             }
         }
+        foreach ($array as $key => $value) {
+            $isPrivate = mb_strpos($key, "\x00*\x00") !== false;
+            if($isPrivate) {
+                unset($array[$key]);
+            }
+        }
         return $array;
     }
 
