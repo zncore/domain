@@ -7,6 +7,7 @@ use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Exceptions\BadFilterValidateException;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Filter\DefaultSortInterface;
+use ZnCore\Domain\Interfaces\Filter\IgnoreAttributesInterface;
 use ZnCore\Domain\Libs\Query;
 
 class FilterModelHelper
@@ -23,8 +24,18 @@ class FilterModelHelper
         }
     }
 
-    public static function forgeCondition(Query $query, object $filterModel) {
+    public static function forgeCondition(Query $query, object $filterModel, array $attributesOnly) {
         $params = EntityHelper::toArrayForTablize($filterModel);
+        if ($filterModel instanceof IgnoreAttributesInterface) {
+            $filterParams = $filterModel->ignoreAttributesFromCondition();
+            foreach ($params as $key => $value) {
+                if (in_array($key, $filterParams)) {
+                    unset($params[$key]);
+                }
+            }
+        } else {
+            $params = ArrayHelper::extractByKeys($params, $attributesOnly);
+        }
         foreach ($params as $paramsName => $paramValue) {
             if ($paramValue !== null) {
                 $query->whereNew(new Where($paramsName, $paramValue));
@@ -40,10 +51,10 @@ class FilterModelHelper
         }
     }
 
-    public static function forgeQueryByFilter(Query $query, object $filterModel)
+    /*public static function forgeQueryByFilter(Query $query, object $filterModel)
     {
         self::validate($filterModel);
         self::forgeCondition($query, $filterModel);
         self::forgeOrder($query, $filterModel);
-    }
+    }*/
 }
