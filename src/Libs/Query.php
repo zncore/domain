@@ -24,11 +24,141 @@ class Query
     const GROUP = 'group';
     const JOIN = 'join';
 
+    private $where;
+    private $whereNew;
+    private $select;
+    private $with;
+    private $page;
+    private $perPage;
+    private $limit;
+    private $offset;
+    private $order;
+    private $group;
+    private $join;
+
     protected $query = [
         self::WHERE => [],
         self::WHERE_NEW => [],
         'nestedQuery' => [],
     ];
+
+    public function getWhere()
+    {
+        return $this->getParam(Query::WHERE);
+    }
+
+    public function setWhere($where): void
+    {
+
+        $this->where = $where;
+    }
+
+    public function getSelect()
+    {
+        return $this->getParam(Query::SELECT);
+        return $this->select;
+    }
+
+    public function setSelect($select): void
+    {
+        $this->select = $select;
+    }
+
+    public function getWith()
+    {
+        return $this->getParam(Query::WITH);
+        return $this->with;
+    }
+
+    public function setWith($with): void
+    {
+        $this->with = $with;
+    }
+
+    public function getPage()
+    {
+        return $this->getParam(Query::PAGE);
+        return $this->page;
+    }
+
+    public function setPage($page): void
+    {
+        $this->page($page);
+//        $this->page = $page;
+    }
+
+    public function getPerPage()
+    {
+        return $this->getParam(Query::PER_PAGE);
+        return $this->perPage;
+    }
+
+    public function setPerPage($perPage): void
+    {
+
+        $this->perPage($perPage);
+    }
+
+    public function getLimit()
+    {
+        return $this->getParam(Query::LIMIT);
+        return $this->limit;
+    }
+
+    public function setLimit($limit): void
+    {
+        $this->limit($limit);
+    }
+
+    public function getOffset()
+    {
+        return $this->getParam(Query::OFFSET);
+        return $this->offset;
+    }
+
+    public function setOffset($offset): void
+    {
+        $this->offset($offset);
+    }
+
+    public function getOrder()
+    {
+        return $this->getParam(Query::ORDER);
+//        return $this->order;
+    }
+
+    public function setOrder($order): void
+    {
+        $this->orderBy($order);
+        //$this->order = $order;
+    }
+
+    public function getGroup()
+    {
+        return $this->getParam(Query::GROUP);
+//        return $this->group;
+    }
+
+    public function setGroup($group): void
+    {
+        $this->query[self::GROUP] = $group;
+//        $this->group = $group;
+    }
+
+    public function getJoin()
+    {
+        return $this->getParam(Query::JOIN);
+        return $this->join;
+    }
+
+    public function setJoin($join): void
+    {
+        $this->query[self::JOIN] = $join;
+//        $this->join = $join;
+    }
+
+
+
 
     /*public function getHash()
     {
@@ -68,7 +198,7 @@ class Query
         $this->query['join_new'][] = $join;
         return $this;
     }
-    
+
     public function join($type, $table, $on = '', $params = [])
     {
         //$table = TableHelpeR::getGlobalName($table);
@@ -138,7 +268,7 @@ class Query
         if (func_num_args() == 1) {
             throw new DeprecatedException('Where from 1 argument deprecated! Use "whereByConditions".');
         }
-        if(is_array($key)) {
+        if (is_array($key)) {
             throw new DeprecatedException('Where from array deprecated! Use "whereByConditions".');
         }
         $this->whereNew(new Where($key, $value, $operator));
