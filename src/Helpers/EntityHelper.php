@@ -8,6 +8,7 @@ use ReflectionClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Domain\Interfaces\Entity\EntityAttributesInterface;
@@ -22,7 +23,7 @@ class EntityHelper
 
     public static function createEntity(string $entityClass, $attributes = [])
     {
-        $entityInstance = new $entityClass;
+        $entityInstance = ClassHelper::createObject($entityClass);
         if ($attributes) {
             self::setAttributes($entityInstance, $attributes);
         }
