@@ -98,6 +98,7 @@ class DataProvider
 
     public function setFilterModel(object $filterModel): void
     {
+        //$this->getQuery()->setFilterModel($filterModel);
         $this->filterModel = $filterModel;
     }
 

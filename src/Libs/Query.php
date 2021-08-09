@@ -35,6 +35,7 @@ class Query
     private $order;
     private $group;
     private $join;
+    protected $filterModel = null;
 
     protected $query = [
         self::WHERE => [],
@@ -157,6 +158,15 @@ class Query
 //        $this->join = $join;
     }
 
+    public function getFilterModel(): ?object
+    {
+        return $this->filterModel;
+    }
+
+    public function setFilterModel(object $filterModel): void
+    {
+        $this->filterModel = $filterModel;
+    }
 
 
 
