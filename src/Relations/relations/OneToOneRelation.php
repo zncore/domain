@@ -2,9 +2,9 @@
 
 namespace ZnCore\Domain\Relations\relations;
 
+use Illuminate\Support\Collection;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Libs\ArrayTools\Helpers\Collection;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
