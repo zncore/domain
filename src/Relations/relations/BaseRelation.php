@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
+use ZnCore\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
 
@@ -37,7 +38,7 @@ abstract class BaseRelation implements RelationInterface
     protected $container;
     //private $cache = [];
 
-    abstract protected function loadRelation(&$collection);
+    abstract protected function loadRelation(Collection $collection);
 
     public function __construct(ContainerInterface $container)
     {
@@ -50,11 +51,10 @@ abstract class BaseRelation implements RelationInterface
         $collection = $this->prepareCollection($collection);
     }
 
-    protected function prepareCollection(Collection $collection): Collection {
+    protected function prepareCollection(Collection $collection) {
         if($this->prepareCollection) {
-            $collection = call_user_func($this->prepareCollection, $collection);
+            call_user_func($this->prepareCollection, $collection);
         }
-        return $collection;
     }
 
     protected function loadRelationByIds(array $ids) {
@@ -66,21 +66,14 @@ abstract class BaseRelation implements RelationInterface
         return $this->loadCollection($foreignRepositoryInstance, $ids, $query);
     }
 
-    protected function loadCollection(/*CrudRepositoryInterface*/ $foreignRepositoryInstance, array $ids, Query $query): Collection {
+    protected function loadCollection(ReadAllInterface $foreignRepositoryInstance, array $ids, Query $query): Collection {
         // todo: костыль, надо проверить наверняка
-        if (get_called_class() != OneToManyRelation::class) {
+        /*if (get_called_class() != OneToManyRelation::class) {
             $query->limit(count($ids));
-        }
-
+        }*/
+        $query->limit(count($ids));
         $collection = $foreignRepositoryInstance->all($query);
         return $collection;
-
-        /*$cacheKey = serialize([$query, $foreignRepositoryInstance]);
-        $callback = function () use ($query, $foreignRepositoryInstance) {
-
-        };
-        return $callback();*/
-        //return \Yii::$app->cache->getOrSet($cacheKey, $callback);
     }
 
     protected function getQuery(): Query {

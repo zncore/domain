@@ -3,6 +3,7 @@
 namespace ZnCore\Domain\Relations\relations;
 
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
 
 class OneToManyByAttributesRelation extends OneToManyRelation
@@ -55,7 +56,7 @@ class OneToManyByAttributesRelation extends OneToManyRelation
         return $this->loadCollection($foreignRepositoryInstance, $ids, $query);
     }
 
-    protected function loadCollection(CrudRepositoryInterface $foreignRepositoryInstance, array $ids, \yii\db\Query $query): array
+    protected function loadCollection(CrudRepositoryInterface $foreignRepositoryInstance, array $ids, Query $query): array
     {
         return $foreignRepositoryInstance->all($query);
     }
