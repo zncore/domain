@@ -4,27 +4,28 @@ namespace ZnCore\Domain\Libs;
 
 use Illuminate\Support\Collection;
 use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Contract\Domain\Interfaces\DataProviderInterface;
 use ZnCore\Domain\Entities\DataProviderEntity;
 use ZnCore\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 
-class DataProvider
+class DataProvider implements DataProviderInterface
 {
 
     /** @var ReadAllInterface */
-    private $service;
+    protected $service;
 
     /** @var Query */
-    private $query;
+    protected $query;
 
     /** @var DataProviderEntity */
-    private $entity;
+    protected $entity;
 
-    private $filterModel;
+    protected $filterModel;
 
-    private $page;
+    protected $page;
 
-    private $pageSize;
+    protected $pageSize;
 
     public function __construct(object $service, Query $query = null, int $page = 1, int $pageSize = 10)
     {
@@ -109,7 +110,7 @@ class DataProvider
         return $this->entity;
     }
 
-    private function forgeQuery(): Query
+    protected function forgeQuery(): Query
     {
         $query = clone $this->query;
         if ($this->filterModel) {

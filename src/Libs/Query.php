@@ -85,7 +85,7 @@ class Query
     public function setPage($page): void
     {
         $this->page($page);
-//        $this->page = $page;
+        $this->page = $page;
     }
 
     public function getPerPage()
@@ -96,8 +96,9 @@ class Query
 
     public function setPerPage($perPage): void
     {
-
         $this->perPage($perPage);
+        $this->perPage = $perPage;
+        $this->limit = $perPage;
     }
 
     public function getLimit()
@@ -109,6 +110,8 @@ class Query
     public function setLimit($limit): void
     {
         $this->limit($limit);
+        $this->perPage = $perPage;
+        $this->limit = $perPage;
     }
 
     public function getOffset()
@@ -120,6 +123,7 @@ class Query
     public function setOffset($offset): void
     {
         $this->offset($offset);
+        $this->offset = $offset;
     }
 
     public function getOrder()
