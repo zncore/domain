@@ -3,6 +3,7 @@
 namespace ZnCore\Domain\Libs;
 
 use ZnCore\Base\Exceptions\DeprecatedException;
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Join;
 use ZnCore\Domain\Entities\Query\Where;
@@ -45,122 +46,125 @@ class Query
 
     public function getWhere()
     {
-        return $this->getParam(Query::WHERE);
+//        return $this->getParam(Query::WHERE);
+        return $this->where;
     }
 
-    public function setWhere($where): void
+    /*public function setWhere($where): void
     {
 
         $this->where = $where;
-    }
+    }*/
 
     public function getSelect()
     {
-        return $this->getParam(Query::SELECT);
+//        return $this->getParam(Query::SELECT);
         return $this->select;
     }
 
-    public function setSelect($select): void
+    /*public function setSelect($select): void
     {
         $this->select = $select;
-    }
+    }*/
 
     public function getWith()
     {
-        return $this->getParam(Query::WITH);
+//        return $this->getParam(Query::WITH);
         return $this->with;
     }
 
-    public function setWith($with): void
+    /*public function setWith($with): void
     {
         $this->with = $with;
-    }
+    }*/
 
     public function getPage()
     {
-        return $this->getParam(Query::PAGE);
+//        return $this->getParam(Query::PAGE);
         return $this->page;
     }
 
-    public function setPage($page): void
+    /*public function setPage($page): void
     {
         $this->page($page);
-        $this->page = $page;
-    }
+        //$this->page = $page;
+    }*/
 
     public function getPerPage()
     {
-        return $this->getParam(Query::PER_PAGE);
+//        return $this->getParam(Query::PER_PAGE);
         return $this->perPage;
     }
 
-    public function setPerPage($perPage): void
+    /*public function setPerPage($perPage): void
     {
         $this->perPage($perPage);
-        $this->perPage = $perPage;
-        $this->limit = $perPage;
-    }
+//        $this->perPage = $perPage;
+//        $this->limit = $perPage;
+    }*/
 
     public function getLimit()
     {
-        return $this->getParam(Query::LIMIT);
+//        return $this->getParam(Query::LIMIT);
         return $this->limit;
     }
 
-    public function setLimit($limit): void
+    /*public function setLimit($limit): void
     {
         $this->limit($limit);
-        $this->perPage = $perPage;
-        $this->limit = $perPage;
-    }
+//        $this->perPage = $limit;
+//        $this->limit = $limit;
+    }*/
 
     public function getOffset()
     {
-        return $this->getParam(Query::OFFSET);
+//        return $this->getParam(Query::OFFSET);
         return $this->offset;
     }
 
-    public function setOffset($offset): void
+    /*public function setOffset($offset): void
     {
         $this->offset($offset);
-        $this->offset = $offset;
-    }
+//        $this->offset = $offset;
+    }*/
 
     public function getOrder()
     {
-        return $this->getParam(Query::ORDER);
-//        return $this->order;
+        //return $this->getParam(Query::ORDER);
+        return $this->order;
     }
 
-    public function setOrder($order): void
+    /*public function setOrder($order): void
     {
-        $this->orderBy($order);
-        //$this->order = $order;
-    }
+        //$this->orderBy($order);
+        $this->order = $order;
+    }*/
 
     public function getGroup()
     {
-        return $this->getParam(Query::GROUP);
-//        return $this->group;
+        //return $this->getParam(Query::GROUP);
+        return $this->group;
     }
 
-    public function setGroup($group): void
+    /*public function setGroup($group): void
     {
-        $this->query[self::GROUP] = $group;
+        $this->groupBy($group);
+        //$this->query[self::GROUP] = $group;
 //        $this->group = $group;
-    }
+    }*/
 
     public function getJoin()
     {
-        return $this->getParam(Query::JOIN);
+        //return $this->getParam(Query::JOIN);
         return $this->join;
     }
 
-    public function setJoin($join): void
+    /*public function setJoin($join): void
     {
-        $this->query[self::JOIN] = $join;
+        $this->joinNew($join);
+//        $this->query[self::JOIN] = $join;
 //        $this->join = $join;
-    }
+    }*/
 
     public function getFilterModel(): ?object
     {
@@ -210,23 +214,27 @@ class Query
     {
         //$table = TableHelpeR::getGlobalName($table);
         $this->query['join_new'][] = $join;
+        $this->join[] = $join;
         return $this;
     }
 
     public function join($type, $table, $on = '', $params = [])
     {
+        DeprecateHelper::softThrow('join');
         //$table = TableHelpeR::getGlobalName($table);
-        $this->query[self::JOIN][] = [
+        $item = [
             'type' => $type,
             'table' => $table,
             'on' => $on,
             'params' => $params,
         ];
+        $this->query[self::JOIN][] = $item;
         return $this;
     }
 
     public function setNestedQuery($key, Query $query)
     {
+        DeprecateHelper::softThrow('setNestedQuery');
         $this->query['nestedQuery'][$key] = $query;
         return $this;
     }
@@ -263,6 +271,7 @@ class Query
     public function whereNew(Where $where)
     {
         $this->query[self::WHERE_NEW][] = $where;
+        $this->where[] = $where;
     }
 
     public function getWhereNew()
@@ -300,8 +309,10 @@ class Query
     {
         if ($this->query[self::WHERE] === null) {
             $this->query[self::WHERE] = $condition;
+            $this->where = $condition;
         } else {
             $this->query[self::WHERE] = ['and', $this->query[self::WHERE], $condition];
+            $this->where = ['and', $this->query[self::WHERE], $condition];
         }
 
         return $this;
@@ -369,15 +380,18 @@ class Query
     {
         if ($fields === null) {
             unset($this->query[self::SELECT]);
+            $this->select = null;
             return $this;
         }
         $this->setParam($fields, self::SELECT);
+        $this->select = $fields;
         return $this;
     }
 
     public function with($names)
     {
         $this->setParam($names, self::WITH);
+        $this->with = $names;
         return $this;
     }
 
@@ -394,9 +408,11 @@ class Query
     {
         if ($value === null) {
             unset($this->query[self::PAGE]);
+            $this->page = null;
             return $this;
         }
         $this->query[self::PAGE] = intval($value);
+        $this->page = intval($value);
         return $this;
     }
 
@@ -404,10 +420,16 @@ class Query
     {
         if ($value === null) {
             unset($this->query['per-page']);
+            $this->perPage = null;
+            $this->limit = null;
             return $this;
         }
         $this->query['per-page'] = intval($value);
         $this->query[self::LIMIT] = intval($value);
+
+        $this->perPage = intval($value);
+        $this->limit = intval($value);
+
         return $this;
     }
 
@@ -415,10 +437,14 @@ class Query
     {
         if ($value === null) {
             unset($this->query[self::LIMIT]);
+            $this->perPage = null;
+            $this->limit = null;
             return $this;
         }
         $this->query[self::LIMIT] = intval($value);
         $this->query['per-page'] = intval($value);
+        $this->perPage = intval($value);
+        $this->limit = intval($value);
         return $this;
     }
 
@@ -426,9 +452,11 @@ class Query
     {
         if ($value === null) {
             unset($this->query[self::OFFSET]);
+            $this->offset = null;
             return $this;
         }
         $this->query[self::OFFSET] = intval($value);
+        $this->offset = intval($value);
         return $this;
     }
 
@@ -451,13 +479,15 @@ class Query
      */
     public function orderBy($columns)
     {
-        $this->query[self::ORDER] = $this->normalizeOrderBy($columns);
+        $this->order = $this->normalizeOrderBy($columns);
+        $this->query[self::ORDER] = $this->order;
         return $this;
     }
 
     public function groupBy($columns)
     {
-        $this->query[self::GROUP] = $this->normalizeGroupBy($columns);
+        $this->group = $this->normalizeGroupBy($columns);
+        $this->query[self::GROUP] = $this->group;
         return $this;
     }
 
@@ -483,8 +513,12 @@ class Query
         $columns = $this->normalizeOrderBy($columns);
         if (ArrayHelper::getValue($this->query, self::ORDER) === null) {
             $this->query[self::ORDER] = $columns;
+
+            $this->order = $columns;
         } else {
             $this->query[self::ORDER] = array_merge($this->query[self::ORDER], $columns);
+
+            $this->order = array_merge($this->order, $columns);
         }
         return $this;
     }
