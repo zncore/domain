@@ -159,6 +159,16 @@ class Query
         return $this->join;
     }
 
+    public function getQuery(): array
+    {
+        return $this->query;
+    }
+
+    public function setQuery(array $query): void
+    {
+        $this->query = $query;
+    }
+
     /*public function setJoin($join): void
     {
         $this->joinNew($join);

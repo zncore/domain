@@ -12,6 +12,11 @@ use ZnCore\Domain\Libs\Query;
 class QueryHelper
 {
 
+    public static function serialize(Query $query = null)
+    {
+
+    }
+
     public static function getFilterParams(Query $query = null)
     {
         $whereParams = $query->getParam(Query::WHERE);
