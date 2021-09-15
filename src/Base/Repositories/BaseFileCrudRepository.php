@@ -7,6 +7,7 @@ use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
 use ZnCore\Base\Libs\DotEnv\DotEnv;
 use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
+use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Traits\Repository\ArrayCrudRepositoryTrait;
 
 abstract class BaseFileCrudRepository extends BaseFileRepository implements CrudRepositoryInterface
@@ -33,6 +34,12 @@ abstract class BaseFileCrudRepository extends BaseFileRepository implements Crud
     {
         return [];
     }*/
+
+    protected function forgeQuery(Query $query = null)
+    {
+        $query = Query::forge($query);
+        return $query;
+    }
 
     public function fileName(): string
     {

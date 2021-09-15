@@ -2,6 +2,8 @@
 
 namespace ZnCore\Domain\Traits\Repository;
 
+use Illuminate\Support\Collection;
+use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\FilterHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
@@ -32,7 +34,20 @@ trait ArrayCrudRepositoryTrait
 
     public function oneById($id, Query $query = null): EntityIdInterface
     {
+        $query = $this->forgeQuery($query);
+        $query->where('id', $id);
+        return $collection->one($query);
+    }
+
+    public function one(Query $query = null): EntityIdInterface
+    {
+        $query = $this->forgeQuery($query);
+        $query->limit(1);
+        /** @var Collection $collection */
         $collection = $this->all($query);
+        if($collection->count() == 0) {
+            throw new NotFoundException();
+        }
         return $collection->first();
     }
 
