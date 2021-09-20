@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Base;
 
+use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Domain\Entities\EventEntity;
@@ -81,6 +82,10 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
      */
     public function oneById($id, Query $query = null)
     {
+        if(empty($id)) {
+            throw (new InvalidMethodParameterException('Empty ID'))
+                ->setParameterName('id');
+        }
         $query = $this->forgeQuery($query);
         $isAvailable = $this->beforeMethod('oneById');
         $entity = $this->getRepository()->oneById($id, $query);

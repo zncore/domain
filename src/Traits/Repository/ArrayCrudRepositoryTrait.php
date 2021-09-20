@@ -3,6 +3,7 @@
 namespace ZnCore\Domain\Traits\Repository;
 
 use Illuminate\Support\Collection;
+use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\FilterHelper;
@@ -34,6 +35,10 @@ trait ArrayCrudRepositoryTrait
 
     public function oneById($id, Query $query = null): EntityIdInterface
     {
+        if(empty($id)) {
+            throw (new InvalidMethodParameterException('Empty ID'))
+                ->setParameterName('id');
+        }
         $query = $this->forgeQuery($query);
         $query->where('id', $id);
         return $collection->one($query);
