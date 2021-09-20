@@ -39,10 +39,10 @@ class AuthorSubscriber implements EventSubscriberInterface
     {
         /** @var CommentEntity $entity */
         $entity = $event->getEntity();
-
+        $identityId = $this->authService->getIdentity()->getId();
+        EntityHelper::setAttribute($entity, $this->attribute, $identityId);
         try {
-            $identityId = $this->authService->getIdentity()->getId();
-            EntityHelper::setAttribute($entity, $this->attribute, $identityId);
+
         } catch (UnauthorizedException $e) {
         }
     }
