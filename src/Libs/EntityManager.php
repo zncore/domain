@@ -2,12 +2,12 @@
 
 namespace ZnCore\Domain\Libs;
 
+use App\Organization\Domain\Entities\LanguageEntity;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Base\Exceptions\InvalidConfigException;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Base\Exceptions\NotFoundException;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
@@ -62,7 +62,7 @@ class EntityManager implements EntityManagerInterface
             if ($abstract) {
                 $entityClass = $abstract;
             } else {
-                throw new InvalidConfigException('Not found ');
+                throw new InvalidConfigException("Not found \"{$entityClass}\" in entity manager.");
             }
         }
         $class = $this->entityToRepository[$entityClass];
@@ -132,7 +132,8 @@ class EntityManager implements EntityManagerInterface
             try {
                 $uniqueEntity = $repository->oneByUnique($entity);
                 $entity->setId($uniqueEntity->getId());
-            } catch (NotFoundException $e) {}
+            } catch (NotFoundException $e) {
+            }
         }
         if ($entity->getId() === null) {
             $repository->create($entity);
