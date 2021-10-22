@@ -15,6 +15,7 @@ class OperatorEnum
     const GREATER = '>';
     const GREATER_OR_EQUAL = '>=';
     const LIKE = 'like';
+    const ILIKE = 'ilike';
 
     /*'=', '<', '>', '<=', '>=', '<>', '!=',
     'like', 'not like', 'between', 'ilike', 'not ilike',
