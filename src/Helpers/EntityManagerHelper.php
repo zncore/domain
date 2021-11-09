@@ -6,7 +6,7 @@ use Psr\Container\ContainerInterface;
 use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 
-//DeprecateHelper::softThrow();
+DeprecateHelper::softThrow();
 
 class EntityManagerHelper
 {
