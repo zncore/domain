@@ -12,7 +12,7 @@ class PersonNameValidator extends BaseValidator
     public function validate($value, Constraint $constraint)
     {
         $this->checkConstraintType($constraint);
-        if ($this->isEmpty($value)) {
+        if ($this->isEmptyStringOrNull($value)) {
             return;
         }
 

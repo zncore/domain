@@ -7,18 +7,25 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use ZnCore\Base\Helpers\EnumHelper;
 
-class EnumValidator extends ConstraintValidator
+class EnumValidator extends BaseValidator
 {
+
+    protected $constraintClass = Enum::class;
 
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof Enum) {
+        /*if (!$constraint instanceof Enum) {
             throw new UnexpectedTypeException($constraint, Enum::class);
         }
 
         // custom constraints should ignore null and empty values to allow
         // other constraints (NotBlank, NotNull, etc.) to take care of that
         if (null === $value || '' === $value) {
+            return;
+        }*/
+
+        $this->checkConstraintType($constraint);
+        if ($this->isEmptyStringOrNull($value)) {
             return;
         }
 

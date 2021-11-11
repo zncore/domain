@@ -6,6 +6,7 @@ use Exception;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use ZnBundle\Reference\Domain\Entities\ItemEntity;
 use ZnBundle\Reference\Domain\Interfaces\Repositories\ItemRepositoryInterface;
 use ZnCore\Base\Exceptions\NotFoundException;
@@ -14,17 +15,24 @@ use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Libs\Query;
 
-class RelationValidator extends ConstraintValidator
+class RelationValidator extends BaseValidator
 {
+
+    protected $constraintClass = Relation::class;
 
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof Relation) {
+        /*if (!$constraint instanceof Relation) {
             throw new UnexpectedTypeException($constraint, Relation::class);
         }
 
         // custom constraints should ignore null and empty values to allow
         // other constraints (NotBlank, NotNull, etc.) to take care of that
+        if (empty($value)) {
+            return;
+        }*/
+
+        $this->checkConstraintType($constraint);
         if (empty($value)) {
             return;
         }

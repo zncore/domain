@@ -24,13 +24,13 @@ abstract class BaseValidator extends ConstraintValidator
         }
     }
 
-    protected function isEmpty($value): bool {
+    protected function isEmptyStringOrNull($value): bool {
         // custom constraints should ignore null and empty values to allow
         // other constraints (NotBlank, NotNull, etc.) to take care of that
         return null === $value || '' === $value;
     }
 
-    public function validate($value, Constraint $constraint)
+    /*public function validate($value, Constraint $constraint)
     {
         $this->checkConstraintType($constraint);
         if ($this->isEmpty($value)) {
@@ -44,5 +44,5 @@ abstract class BaseValidator extends ConstraintValidator
             // separate multiple types using pipes
             // throw new UnexpectedValueException($value, 'string|int');
         }
-    }
+    }*/
 }
