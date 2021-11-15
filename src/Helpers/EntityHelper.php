@@ -184,7 +184,7 @@ class EntityHelper
     {
         $entityAttributes = EntityHelper::toArray($entity);
         $entityAttributes = ArrayHelper::extractByKeys($entityAttributes, EntityHelper::getAttributeNames($object));
-        EntityHelper::setAttributes($entity, $entityAttributes);
+        EntityHelper::setAttributes($object, $entityAttributes);
     }
 
     public static function setAttributes(object $entity, $data, array $filedsOnly = []): void
