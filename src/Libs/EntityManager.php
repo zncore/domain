@@ -128,18 +128,34 @@ class EntityManager implements EntityManagerInterface
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
 
-        if ($entity instanceof UniqueInterface) {
+        $isUniqueDefined = $entity instanceof UniqueInterface && $entity->unique();
+
+        if ($isUniqueDefined) {
             try {
                 $uniqueEntity = $repository->oneByUnique($entity);
                 $entity->setId($uniqueEntity->getId());
             } catch (NotFoundException $e) {
             }
         }
-        if ($entity->getId() === null) {
+        if ($entity->getId() == null) {
             $repository->create($entity);
         } else {
             $repository->update($entity);
         }
+    }
+
+    public function insert(EntityIdInterface $entity): void
+    {
+        $entityClass = get_class($entity);
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        $repository->create($entity);
+    }
+
+    public function update(EntityIdInterface $entity): void
+    {
+        $entityClass = get_class($entity);
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        $repository->update($entity);
     }
 
     public function oneByUnique(UniqueInterface $entity): ?EntityIdInterface

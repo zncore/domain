@@ -28,6 +28,10 @@ interface EntityManagerInterface extends TransactionInterface
 
     public function persist(EntityIdInterface $entity): void;
 
+    public function insert(EntityIdInterface $entity): void;
+
+    public function update(EntityIdInterface $entity): void;
+
     public function getRepositoryByClass(string $class): RepositoryInterface;
 
     public function createEntity(string $entityClassName, $attributes = []): object;
