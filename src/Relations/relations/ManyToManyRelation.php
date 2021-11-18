@@ -116,7 +116,9 @@ class ManyToManyRelation extends BaseRelation implements RelationInterface
         foreach ($collection as $entity) {
             $sourceIndex = $propertyAccessor->getValue($entity, 'id');
             if (isset($result[$sourceIndex])) {
-                $propertyAccessor->setValue($entity, $this->relationEntityAttribute, new Collection($result[$sourceIndex]));
+                $value = $result[$sourceIndex];
+                $value = $this->getValueFromPath($value);
+                $propertyAccessor->setValue($entity, $this->relationEntityAttribute, new Collection($value));
             }
         }
     }

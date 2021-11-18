@@ -32,6 +32,7 @@ class OneToOneRelation extends BaseRelation implements RelationInterface
                 try {
                     $value = $foreignCollection[$relationIndex];
                     if($this->matchCondition($value)) {
+                        $value = $this->getValueFromPath($value);
                         $propertyAccessor->setValue($entity, $this->relationEntityAttribute, $value);
                     }
                 } catch (\Throwable $e) {}

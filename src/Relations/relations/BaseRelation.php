@@ -4,6 +4,7 @@ namespace ZnCore\Domain\Relations\relations;
 
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
@@ -38,6 +39,8 @@ abstract class BaseRelation implements RelationInterface
     protected $container;
     //private $cache = [];
 
+    public $fromPath = null;
+
     abstract protected function loadRelation(Collection $collection);
 
     public function __construct(ContainerInterface $container)
@@ -49,6 +52,14 @@ abstract class BaseRelation implements RelationInterface
     {
         $this->loadRelation($collection);
         $collection = $this->prepareCollection($collection);
+    }
+
+    protected function getValueFromPath($value) {
+        if($this->fromPath) {
+            $propertyAccessor = PropertyAccess::createPropertyAccessor();
+            $value = $propertyAccessor->getValue($value, $this->fromPath);
+        }
+        return $value;
     }
 
     protected function prepareCollection(Collection $collection) {

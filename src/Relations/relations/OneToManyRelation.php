@@ -36,7 +36,9 @@ class OneToManyRelation extends BaseRelation implements RelationInterface
                         $relCollection[] = $foreignEntity;
                     }
                 }
-                $propertyAccessor->setValue($entity, $this->relationEntityAttribute, new Collection($relCollection));
+                $value = $relCollection;
+                $value = $this->getValueFromPath($value);
+                $propertyAccessor->setValue($entity, $this->relationEntityAttribute, new Collection($value));
             }
         }
     }
