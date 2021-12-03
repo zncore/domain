@@ -13,12 +13,12 @@ class EntityEvent extends Event
 
     private $entity;
 
-    public function __construct(EntityIdInterface $entity)
+    public function __construct(object $entity)
     {
         $this->entity = $entity;
     }
 
-    public function getEntity(): EntityIdInterface
+    public function getEntity(): object
     {
         return $this->entity;
     }
