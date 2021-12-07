@@ -95,6 +95,9 @@ class DataProvider implements DataProviderInterface
 
     public function getFilterModel(): ?object
     {
+        if($this->getQuery() && $this->getQuery()->getFilterModel()) {
+            return $this->getQuery()->getFilterModel();
+        }
         return $this->filterModel;
     }
 
