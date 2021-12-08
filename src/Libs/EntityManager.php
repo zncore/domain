@@ -149,6 +149,9 @@ class EntityManager implements EntityManagerInterface
     }
 
     protected function checkUniqueExist(EntityIdInterface $entity) {
+        if(!$entity instanceof UniqueInterface) {
+            return;
+        }
         try {
             $uniqueEntity = $this->oneByUnique($entity);
             foreach ($entity->unique() as $group) {
