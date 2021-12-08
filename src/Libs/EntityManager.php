@@ -5,10 +5,14 @@ namespace ZnCore\Domain\Libs;
 use App\Organization\Domain\Entities\LanguageEntity;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
+use ZnCore\Base\Exceptions\AlreadyExistsException;
 use ZnCore\Base\Exceptions\InvalidConfigException;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Base\Exceptions\NotFoundException;
+use ZnCore\Base\Libs\I18Next\Facades\I18Next;
+use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Helpers\EntityHelper;
+use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
@@ -144,8 +148,43 @@ class EntityManager implements EntityManagerInterface
         }
     }
 
+    protected function checkUniqueExist(EntityIdInterface $entity) {
+        try {
+            $uniqueEntity = $this->oneByUnique($entity);
+            foreach ($entity->unique() as $group) {
+                $isMach = true;
+                $fields = [];
+                foreach ($group as $fieldName) {
+                    if(EntityHelper::getValue($uniqueEntity, $fieldName) != EntityHelper::getValue($entity, $fieldName)) {
+                        $isMach = false;
+                        break;
+                    } else {
+                        $fields[] = $fieldName;
+                    }
+                }
+                if($isMach) {
+                    $message = I18Next::t('core', 'domain.message.entity_already_exist');
+                    $alreadyExistsException = new AlreadyExistsException($message);
+                    $alreadyExistsException->setEntity($uniqueEntity);
+                    $alreadyExistsException->setFields($fields);
+                    throw $alreadyExistsException;
+                }
+            }
+        } catch (NotFoundException $e) {}
+    }
+
     public function insert(EntityIdInterface $entity): void
     {
+        try {
+            $this->checkUniqueExist($entity);
+        } catch (AlreadyExistsException $alreadyExistsException) {
+            $e = new UnprocessibleEntityException();
+            foreach ($alreadyExistsException->getFields() as $fieldName) {
+                $e->add($fieldName, $alreadyExistsException->getMessage());
+            }
+            throw $e;
+        }
+
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
         $repository->create($entity);
