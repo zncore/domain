@@ -158,7 +158,7 @@ class EntityManager implements EntityManagerInterface
                 $isMach = true;
                 $fields = [];
                 foreach ($group as $fieldName) {
-                    if(EntityHelper::getValue($uniqueEntity, $fieldName) != EntityHelper::getValue($entity, $fieldName)) {
+                    if(EntityHelper::getValue($entity, $fieldName) === null || EntityHelper::getValue($uniqueEntity, $fieldName) != EntityHelper::getValue($entity, $fieldName)) {
                         $isMach = false;
                         break;
                     } else {
