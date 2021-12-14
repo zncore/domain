@@ -131,7 +131,11 @@ class EntityManager implements EntityManagerInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
+        $this->persistViaRepository($entity, $repository);
+    }
 
+    public function persistViaRepository(EntityIdInterface $entity, object $repository): void
+    {
         $isUniqueDefined = $entity instanceof UniqueInterface && $entity->unique();
 
         if ($isUniqueDefined) {
@@ -200,26 +204,12 @@ class EntityManager implements EntityManagerInterface
         $repository->update($entity);
     }
 
-    public function oneByUnique(UniqueInterface $entity): ?EntityIdInterface
+//    public function oneByUnique(UniqueInterface $entity): ?EntityIdInterface
+    public function oneByUnique(UniqueInterface $entity): EntityIdInterface
     {
         $entityClass = get_class($entity);
         $repository = $this->getRepositoryByEntityClass($entityClass);
         return $repository->oneByUnique($entity);
-
-        /*$unique = $entity->unique();
-        foreach ($unique as $uniqueConfig) {
-            $query = new Query();
-            foreach ($uniqueConfig as $uniqueName) {
-                $query->where(Inflector::underscore($uniqueName), EntityHelper::getValue($entity, $uniqueName));
-            }
-            $all = $repository->all($query);
-            if ($all->count() > 0) {
-                return $all->first();
-                //EntityHelper::setAttributes($entity, EntityHelper::toArray($all->first()));
-                //return;
-            }
-        }
-        return null;*/
     }
 
     public function getRepositoryByClass(string $class): RepositoryInterface
