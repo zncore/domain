@@ -180,11 +180,11 @@ class EntityHelper
         $propertyAccessor->setValue($entity, $name, $value);
     }
 
-    public static function setAttributesFromObject(object $entity, object $object): void
+    public static function setAttributesFromObject(object $fromObject, object $toObject): void
     {
-        $entityAttributes = EntityHelper::toArray($entity);
-        $entityAttributes = ArrayHelper::extractByKeys($entityAttributes, EntityHelper::getAttributeNames($object));
-        EntityHelper::setAttributes($object, $entityAttributes);
+        $entityAttributes = EntityHelper::toArray($fromObject);
+        $entityAttributes = ArrayHelper::extractByKeys($entityAttributes, EntityHelper::getAttributeNames($toObject));
+        EntityHelper::setAttributes($toObject, $entityAttributes);
     }
 
     public static function setAttributes(object $entity, $data, array $filedsOnly = []): void
