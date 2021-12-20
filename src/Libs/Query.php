@@ -44,6 +44,9 @@ class Query
         'nestedQuery' => [],
     ];
 
+    /**
+     * @return Where[]
+     */
     public function getWhere()
     {
 //        return $this->getParam(Query::WHERE);
