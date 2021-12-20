@@ -19,6 +19,8 @@ interface EntityManagerInterface extends TransactionInterface, ReadOneUniqueInte
 
     public function all(string $entityClass, Query $query = null): Collection;
 
+    public function count(string $entityClass, Query $query = null): int;
+
     public function one(string $entityClass, Query $query = null): EntityIdInterface;
 
     public function oneById(string $entityClass, $id, Query $query = null): EntityIdInterface;

@@ -92,6 +92,11 @@ class EntityManager implements EntityManagerInterface
         return $repository->all($query);
     }
 
+    public function count(string $entityClass, Query $query = null): int {
+        $repository = $this->getRepositoryByEntityClass($entityClass);
+        return $repository->count($query);
+    }
+
     public function loadEntityRelations(object $entity, array $with)
     {
         $entityClass = get_class($entity);
