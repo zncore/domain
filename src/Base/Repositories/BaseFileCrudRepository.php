@@ -60,6 +60,6 @@ abstract class BaseFileCrudRepository extends BaseFileRepository implements Crud
     protected function setItems(array $items)
     {
         $store = new StoreFile($this->fileName());
-        return $store->save($items);
+        $store->save($items);
     }
 }
