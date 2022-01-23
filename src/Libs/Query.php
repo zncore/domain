@@ -287,6 +287,9 @@ class Query
         $this->where[] = $where;
     }
 
+    /**
+     * @return array|mixed|Where[]
+     */
     public function getWhereNew()
     {
         return $this->query[self::WHERE_NEW] ?? [];
