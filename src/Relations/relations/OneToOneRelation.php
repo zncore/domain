@@ -30,10 +30,12 @@ class OneToOneRelation extends BaseRelation implements RelationInterface
             $relationIndex = $propertyAccessor->getValue($entity, $this->relationAttribute);
             if(!empty($relationIndex)) {
                 try {
-                    $value = $foreignCollection[$relationIndex];
-                    if($this->matchCondition($value)) {
-                        $value = $this->getValueFromPath($value);
-                        $propertyAccessor->setValue($entity, $this->relationEntityAttribute, $value);
+                    if(isset($foreignCollection[$relationIndex])) {
+                        $value = $foreignCollection[$relationIndex];
+                        if($this->matchCondition($value)) {
+                            $value = $this->getValueFromPath($value);
+                            $propertyAccessor->setValue($entity, $this->relationEntityAttribute, $value);
+                        }
                     }
                 } catch (\Throwable $e) {}
             }
