@@ -53,6 +53,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
     public function forgeQueryByFilter(object $filterModel, Query $query)
     {
 //        $query = Query::forge($query);
+//        $query = $this->forgeQuery($query);
         $repository = $this->getRepository();
         ClassHelper::isInstanceOf($repository, ForgeQueryByFilterInterface::class);
 
