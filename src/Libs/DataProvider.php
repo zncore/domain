@@ -122,7 +122,7 @@ class DataProvider implements DataProviderInterface
             if($filterModel instanceof ForgeQueryByFilterInterface) {
                 $filterModel->forgeQueryByFilter($filterModel, $query);
             } else {
-                ClassHelper::isInstanceOf($this->service, ForgeQueryByFilterInterface::class);
+                ClassHelper::checkInstanceOf($this->service, ForgeQueryByFilterInterface::class);
                 $this->service->forgeQueryByFilter($this->filterModel, $query);
             }
         }
