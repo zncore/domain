@@ -10,7 +10,7 @@ use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Traits\EntityManagerTrait;
-use ZnLib\Db\Traits\MapperTrait;
+use ZnDatabase\Base\Domain\Traits\MapperTrait;
 
 abstract class BaseCsvCrudRepository
 {
