@@ -122,6 +122,10 @@ class Query
     public function getOffset()
     {
 //        return $this->getParam(Query::OFFSET);
+        if($this->offset === null && $this->perPage !== null) {
+            $limit = $this->getLimit() ?: $this->getPerPage();
+            return ($this->getPage() - 1) * $limit;
+        }
         return $this->offset;
     }
 
@@ -440,7 +444,7 @@ class Query
             $this->limit = null;
             return $this;
         }
-        $this->query['per-page'] = intval($value);
+        $this->query[self::PER_PAGE] = intval($value);
         $this->query[self::LIMIT] = intval($value);
 
         $this->perPage = intval($value);
@@ -458,7 +462,7 @@ class Query
             return $this;
         }
         $this->query[self::LIMIT] = intval($value);
-        $this->query['per-page'] = intval($value);
+        $this->query[self::PER_PAGE] = intval($value);
         $this->perPage = intval($value);
         $this->limit = intval($value);
         return $this;
