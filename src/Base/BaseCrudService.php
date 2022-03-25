@@ -12,6 +12,7 @@ use ZnCore\Domain\Events\QueryEvent;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
 use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnCore\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
@@ -107,6 +108,11 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 //        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_READ_ENTITY);
 
         return $entity;
+    }
+
+    public function oneByUnique(UniqueInterface $entity): EntityIdInterface
+    {
+        return $this->getRepository()->oneByUnique($entity);
     }
 
     public function persist(object $entity)
