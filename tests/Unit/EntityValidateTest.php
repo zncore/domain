@@ -55,7 +55,7 @@ final class EntityValidateTest extends BaseTest
         $expected = [
             [
                 "field" => "projectId",
-                "message" => "Значение должно быть положительным.",
+//                "message" => "Значение должно быть положительным.",
             ],
         ];
         try {
@@ -74,7 +74,7 @@ final class EntityValidateTest extends BaseTest
         $expected = [
             [
                 'field' => 'projectId',
-                'message' => 'Значение должно быть положительным.',
+//                'message' => 'Значение должно быть положительным.',
             ],
         ];
         try {
