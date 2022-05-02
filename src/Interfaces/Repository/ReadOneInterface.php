@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Interfaces\Repository;
 
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
-use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Base\Exceptions\NotFoundException;
 

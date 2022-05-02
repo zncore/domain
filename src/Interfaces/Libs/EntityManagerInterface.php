@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Interfaces\Libs;
 
 use Illuminate\Support\Collection;
-use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnCore\Domain\Interfaces\Repository\ReadOneUniqueInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;

@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Interfaces\Repository;
 
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
-use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Base\Exceptions\NotFoundException;
 
 interface ModifyInterface

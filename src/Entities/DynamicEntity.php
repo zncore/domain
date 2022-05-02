@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Entities;
 
 use Exception;
 use ZnCore\Domain\Interfaces\Entity\EntityAttributesInterface;
-use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 use ZnLib\Telegram\Domain\Facades\Bot;
 

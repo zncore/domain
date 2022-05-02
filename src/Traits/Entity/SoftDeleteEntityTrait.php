@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Traits\Entity;
 
-use ZnBundle\User\Domain\Exceptions\UnauthorizedException;
+use ZnCore\Contract\User\Exceptions\UnauthorizedException;
 use ZnCore\Base\Enums\StatusEnum;
 
 trait SoftDeleteEntityTrait
