@@ -7,7 +7,7 @@ use ZnCore\Domain\Libs\Query;
 class RelationWithHelper
 {
 
-    public static function cleanWith(array $relations, Query $query): array
+    /*public static function cleanWith(array $relations, Query $query): array
     {
         if ( ! $relations) {
             return [];
@@ -26,18 +26,11 @@ class RelationWithHelper
             }
         }
         return $with ? $with : [];
-    }
+    }*/
 
-    public static function fetch($query, array &$withTrimmedArray = []): array
+    public static function fetch(Query $query, array &$withTrimmedArray = []): array
     {
-        if ($query instanceof Query) {
-            $withArray = $query->getParam('with');
-        } elseif (is_array($query)) {
-            /** @deprecated */
-            $withArray = $query;
-        } else {
-            return [];
-        }
+        $withArray = $query->getWith();
         if (empty($withArray)) {
             return [];
         }
@@ -84,5 +77,4 @@ class RelationWithHelper
         }
         return $w1;
     }
-
 }
