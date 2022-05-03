@@ -2,28 +2,11 @@
 
 namespace ZnCore\Domain\Helpers;
 
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
-use ZnCore\Domain\Exceptions\BadFilterValidateException;
-use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
-use ZnCore\Domain\Interfaces\Filter\DefaultSortInterface;
 use ZnCore\Domain\Libs\Query;
 
 class QueryHelper
 {
-
-    public static function serialize(Query $query = null)
-    {
-
-    }
-
-    public static function getFilterParams(Query $query = null)
-    {
-        $whereParams = $query->getParam(Query::WHERE);
-        $filterAttributes = ArrayHelper::getValue($whereParams, 'filter');
-        $query->removeParam(Query::WHERE);
-        return $filterAttributes;
-    }
 
     public static function getAllParams($params = [], Query $query = null)
     {

@@ -63,5 +63,4 @@ class ArrayValidationHelper
         }
         return $collection;
     }
-
 }

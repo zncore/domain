@@ -35,22 +35,6 @@ class SymfonyValidationHelper
         $validatorBuilder = self::createValidatorBuilder();
         $validator = $validatorBuilder->getValidator();
         return $validator;
-//        $container = ContainerHelper::getContainer();
-//
-//        if ($container instanceof ContainerInterface && $container->has(TranslatorInterface::class)) {
-//            /*$validatorBuilder = $container->get(ValidatorBuilder::class);
-//            $translator = $container->get(TranslatorInterface::class);
-//            $validatorBuilder->setTranslator($translator);
-//            $validator = $validatorBuilder->getValidator();*/
-//            $validatorBuilder = self::createValidatorBuilder();
-//
-//        } else {
-//            //$validator = Validation::createValidator();
-//            $validator = ContainerHelper::getContainer()->get(ValidatorBuilder::class)
-//                //$validator = Validation::createValidatorBuilder()
-//                ->addMethodMapping('loadValidatorMetadata')
-//                ->getValidator();
-//        }
     }
 
     private static function createValidatorBuilder(): ValidatorBuilder
@@ -66,12 +50,6 @@ class SymfonyValidationHelper
         $validatorBuilder->setTranslator($translator);
         return $validatorBuilder;
     }
-
-    /*private static function validateByMetadata(object $entity) {
-//        $validatorBuilder = self::createValidatorBuilder();
-//        $validator = $validatorBuilder->getValidator();
-
-    }*/
 
     private static function prepareUnprocessible2(ConstraintViolationList $violationList): Collection
     {

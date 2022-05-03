@@ -3,15 +3,14 @@
 namespace ZnCore\Domain\Helpers\Repository;
 
 use Illuminate\Support\Collection;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Exceptions\InvalidConfigException;
+use ZnCore\Base\Helpers\Helper;
+use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Dto\WithDto;
 use ZnCore\Domain\Entities\relation\RelationEntity;
 use ZnCore\Domain\Helpers\EntityHelper;
-use ZnCore\Base\Helpers\Helper;
 use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
-use ZnCore\Domain\Strategies\join\JoinStrategy;
-use ZnCore\Base\Exceptions\InvalidConfigException;
-use ZnCore\Base\Exceptions\NotFoundException;
+use ZnCore\Domain\Libs\Query;
 
 class RelationHelper
 {
@@ -19,7 +18,7 @@ class RelationHelper
     public static function load(RelationConfigInterface $repository, Query $query, $data, WithDto $withDto = null)
     {
         $relations = $repository->relations();
-        $relations = Helper::forgeEntity($relations, RelationEntity::class, true, true);
+        $relations = self::forgeEntity($relations, RelationEntity::class, true, true);
 
         /*if($relations) {
             dd($relations);
@@ -76,6 +75,42 @@ class RelationHelper
 		return $data;
 	}*/
 
+    private static function forgeEntity($value, string $className, bool $isCollection = null, $isSaveKey = false)
+    {
+
+        //throw new \ZnCore\Base\Exceptions\DeprecatedException;
+
+        if (empty($value)) {
+            return null;
+        }
+        if ($value instanceof $className) {
+            return $value;
+        }
+        if (!is_array($value)) {
+            return null;
+        }
+        if (ArrayHelper::isIndexed($value) || $isCollection) {
+            $result = [];
+            foreach ($value as $key => &$item) {
+                if ($isSaveKey) {
+                    $result[$key] = self::forgeEntity($item, $className);
+                } else {
+                    $result[] = self::forgeEntity($item, $className);
+                }
+            }
+        } else {
+            $result = new $className();
+            EntityHelper::setAttributes($result, $value);
+            //$result->load($value);
+        }
+        /*if($isCollection !== null) {
+            if() {
+
+            }
+        }*/
+        return $result;
+    }
+
     private static function hh($withDto, WithDto $newWithDto): void
     {
         if ($withDto instanceof WithDto) {
@@ -87,7 +122,7 @@ class RelationHelper
 
     private static function forgeNewWithDto(string $relationName, array $relations): WithDto
     {
-        if ( ! array_key_exists($relationName, $relations)) {
+        if (!array_key_exists($relationName, $relations)) {
             throw new InvalidConfigException('relation not defined ' . $relationName);
         }
         $w = new WithDto;
@@ -129,10 +164,10 @@ class RelationHelper
         $joinStrategy = new JoinStrategy();
         $joinStrategy->setStrategyName($withDto->relationConfig->type);
         $relCollection = $joinStrategy->join($collection, $withDto->relationConfig);
-        if ( ! empty($relCollection)) {
+        if (!empty($relCollection)) {
             foreach ($collection as &$entity) {
                 $relationEntity = $joinStrategy->load($entity, $withDto, $relCollection);
-                if ( ! empty($withDto->remain[$withDto->relationName])) {
+                if (!empty($withDto->remain[$withDto->relationName])) {
                     self::load($relationEntity->foreign->model, $withDto->query, $entity->{$withDto->relationName}, $withDto);
                 }
             }

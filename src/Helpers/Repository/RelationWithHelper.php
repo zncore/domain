@@ -7,27 +7,6 @@ use ZnCore\Domain\Libs\Query;
 class RelationWithHelper
 {
 
-    /*public static function cleanWith(array $relations, Query $query): array
-    {
-        if ( ! $relations) {
-            return [];
-        }
-        $relationNames = array_keys($relations);
-        $query = Query::forge($query);
-        $with = $query->getParam('with');
-        // todo: @deprecated удалить этот костыль при полном переходе на связи в репозитории
-        $query->removeParam('with');
-        if ($relations && ! empty($with)) {
-            foreach ($with as $w) {
-                $w1 = self::extractName($w);
-                if ( ! in_array($w1, $relationNames)) {
-                    $query->with($w1);
-                }
-            }
-        }
-        return $with ? $with : [];
-    }*/
-
     public static function fetch(Query $query, array &$withTrimmedArray = []): array
     {
         $withArray = $query->getWith();

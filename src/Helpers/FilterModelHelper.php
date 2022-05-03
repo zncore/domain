@@ -50,11 +50,4 @@ class FilterModelHelper
             $query->orderBy($sort);
         }
     }
-
-    /*public static function forgeQueryByFilter(Query $query, object $filterModel)
-    {
-        self::validate($filterModel);
-        self::forgeCondition($query, $filterModel);
-        self::forgeOrder($query, $filterModel);
-    }*/
 }

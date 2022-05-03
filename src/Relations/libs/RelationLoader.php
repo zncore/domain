@@ -11,7 +11,6 @@ use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Relations\relations\RelationInterface;
-use ZnCore\Domain\Relations\repositories\BaseCommonRepository;
 
 class RelationLoader
 {

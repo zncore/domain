@@ -9,6 +9,8 @@ use ZnCore\Domain\Entities\Query\Join;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Enums\OperatorEnum;
 
+// todo: refactor
+
 class Query
 {
 
