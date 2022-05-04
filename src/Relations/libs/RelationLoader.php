@@ -34,17 +34,6 @@ class RelationLoader
         $this->relations = $relations;
     }
 
-    public function relations()
-    {
-        if ($this->relations) {
-            return $this->relations;
-        }
-        if ($this->repository && $this->repository instanceof RelationConfigInterface) {
-            DeprecateHelper::softThrow('RelationConfigInterface is deprecated, use relations2 for definition!');
-            return $this->repository->relations();
-        }
-    }
-
     private function getRelationTree($with): array
     {
         $relationTree = [];
@@ -90,7 +79,7 @@ class RelationLoader
 
     public function loadRelations(Collection $collection, Query $query)
     {
-        $relations = $this->relations();
+        $relations = $this->relations;
         $relations = $this->prepareRelations($relations);
         $relations = ArrayHelper::index($relations, 'name');
 
@@ -142,11 +131,6 @@ class RelationLoader
         }
         return $relations;
     }
-
-    /*private function runRelation(RelationInterface $relation, Collection $collection)
-    {
-        $relation->run($collection);
-    }*/
 
     private function ensureRelation($relation): RelationInterface
     {

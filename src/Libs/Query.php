@@ -237,55 +237,10 @@ class Query
         return $this;
     }
 
-    public function join($type, $table, $on = '', $params = [])
-    {
-        DeprecateHelper::softThrow('join');
-        //$table = TableHelpeR::getGlobalName($table);
-        $item = [
-            'type' => $type,
-            'table' => $table,
-            'on' => $on,
-            'params' => $params,
-        ];
-        $this->query[self::JOIN][] = $item;
-        return $this;
-    }
-
-    public function setNestedQuery($key, Query $query)
-    {
-        DeprecateHelper::softThrow('setNestedQuery');
-        $this->query['nestedQuery'][$key] = $query;
-        return $this;
-    }
-
     public function getNestedQuery($key)
     {
         return ArrayHelper::getValue($this->query, "nestedQuery.$key");
     }
-
-    /*public function getWhere($key)
-    {
-        $where = $this->query[self::WHERE];
-        return $this->findWhereInArray($key, $where);
-    }*/
-
-    /*private function findWhereInArray($fieldName, $array)
-    {
-        if (!is_array($array) || empty($array)) {
-            return null;
-        }
-        foreach ($array as $key => &$value) {
-            if ($key === $fieldName) {
-                return $value;
-            } elseif (is_array($value)) {
-                $value = $this->findWhereInArray($fieldName, $value);
-                if (!empty($value)) {
-                    return $value;
-                }
-            }
-        }
-        return null;
-    }*/
 
     public function whereNew(Where $where)
     {
