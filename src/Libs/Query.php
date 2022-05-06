@@ -2,8 +2,6 @@
 
 namespace ZnCore\Domain\Libs;
 
-use ZnCore\Base\Exceptions\DeprecatedException;
-use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Join;
 use ZnCore\Domain\Entities\Query\Where;
@@ -263,15 +261,9 @@ class Query
         }
     }
 
-    public function where($key, $value, string $operator = OperatorEnum::EQUAL)
+    public function where(string $column, $value, string $operator = OperatorEnum::EQUAL)
     {
-        if (func_num_args() == 1) {
-            throw new DeprecatedException('Where from 1 argument deprecated! Use "whereByConditions".');
-        }
-        if (is_array($key)) {
-            throw new DeprecatedException('Where from array deprecated! Use "whereByConditions".');
-        }
-        $this->whereNew(new Where($key, $value, $operator));
+        $this->whereNew(new Where($column, $value, $operator));
         return $this;
     }
 
