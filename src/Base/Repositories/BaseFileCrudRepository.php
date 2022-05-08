@@ -5,6 +5,7 @@ namespace ZnCore\Domain\Base\Repositories;
 use ZnCore\Base\Exceptions\NotImplementedMethodException;
 use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
 use ZnCore\Base\Libs\DotEnv\DotEnv;
+use ZnCore\Base\Libs\FileSystem\Helpers\FilePathHelper;
 use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Libs\Query;
@@ -44,7 +45,7 @@ abstract class BaseFileCrudRepository extends BaseFileRepository implements Crud
     public function fileName(): string
     {
         $tableName = $this->tableName();
-        $root = FileHelper::rootPath();
+        $root = FilePathHelper::rootPath();
         $directory = $this->directory();
         $ext = $this->fileExt();
         $path = "$root/$directory/$tableName.$ext";
