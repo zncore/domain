@@ -122,7 +122,7 @@ class Query
     public function getOffset()
     {
 //        return $this->getParam(Query::OFFSET);
-        if($this->offset === null && $this->perPage !== null) {
+        if ($this->offset === null && $this->perPage !== null) {
             $limit = $this->getLimit() ?: $this->getPerPage();
             return ($this->getPage() - 1) * $limit;
         }
