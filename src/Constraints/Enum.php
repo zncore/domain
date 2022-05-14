@@ -4,6 +4,11 @@ namespace ZnCore\Domain\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Class Enum
+ * @package ZnCore\Domain\Constraints
+ * @see EnumValidator
+ */
 class Enum extends Constraint
 {
 

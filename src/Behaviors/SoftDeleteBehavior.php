@@ -4,6 +4,7 @@ namespace ZnCore\Domain\Behaviors;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use ZnCore\Base\Enums\StatusEnum;
+use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Enums\OperatorEnum;
 use ZnCore\Domain\Events\EntityEvent;
@@ -46,6 +47,15 @@ class SoftDeleteBehavior implements EventSubscriberInterface
 
     public function onForgeQuery(QueryEvent $event)
     {
+
+        if($event->getQuery()->getWhere()) {
+            foreach ($event->getQuery()->getWhere() as $where) {
+                /** @var Where $where */
+                if($where->column == 'status_id') {
+                    return;
+                }
+            }
+        }
         $event->getQuery()->where('status_id', $this->disableStatusId, OperatorEnum::NOT_EQUAL);
     }
 }
