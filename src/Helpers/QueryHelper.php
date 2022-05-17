@@ -2,11 +2,28 @@
 
 namespace ZnCore\Domain\Helpers;
 
+use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Libs\Query;
 
 class QueryHelper
 {
+
+    public static function extractOneConditionFromQuery(Query $query, string $name, $default = null) {
+        $all = self::extractAllConditionsFromQuery($query);
+        return ArrayHelper::getValue($all, $name, $default);
+    }
+
+    public static function extractAllConditionsFromQuery(Query $query): ?array {
+        if (!$query->getWhere()) {
+            return null;
+        }
+        $conditions = [];
+        foreach ($query->getWhere() as $where) {
+            $conditions[$where->column] = $where->value;
+        }
+        return $conditions;
+    }
 
     public static function getAllParams($params = [], Query $query = null)
     {
