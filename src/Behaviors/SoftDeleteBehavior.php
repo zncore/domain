@@ -47,7 +47,6 @@ class SoftDeleteBehavior implements EventSubscriberInterface
 
     public function onForgeQuery(QueryEvent $event)
     {
-
         if($event->getQuery()->getWhere()) {
             foreach ($event->getQuery()->getWhere() as $where) {
                 /** @var Where $where */
