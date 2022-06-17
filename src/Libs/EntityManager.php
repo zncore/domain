@@ -66,6 +66,7 @@ class EntityManager implements EntityManagerInterface
             if ($abstract) {
                 $entityClass = $abstract;
             } else {
+//                dump($entityClass, $this->entityToRepository);
                 throw new InvalidConfigException("Not found \"{$entityClass}\" in entity manager.");
             }
         }
