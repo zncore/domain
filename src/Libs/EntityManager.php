@@ -2,19 +2,19 @@
 
 namespace ZnCore\Domain\Libs;
 
-use App\Organization\Domain\Entities\LanguageEntity;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Base\Exceptions\AlreadyExistsException;
 use ZnCore\Base\Exceptions\InvalidConfigException;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Base\Exceptions\NotFoundException;
+use ZnCore\Base\Libs\Container\Interfaces\ContainerConfiguratorInterface;
 use ZnCore\Base\Libs\I18Next\Facades\I18Next;
+use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Helpers\EntityHelper;
-use ZnCore\Domain\Helpers\ValidationHelper;
-use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
+use ZnCore\Domain\Interfaces\Libs\EntityManagerConfiguratorInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Libs\OrmInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
@@ -24,13 +24,21 @@ class EntityManager implements EntityManagerInterface
 {
 
     private $container;
-    private $config;
-    private $entityToRepository;
+//    private $config;
+//    private $entityToRepository;
+    private $entityManagerConfigurator;
+    private $containerConfigurator;
     private static $instance;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(
+        ContainerInterface $container,
+        EntityManagerConfiguratorInterface $entityManagerConfigurator,
+        ContainerConfiguratorInterface $containerConfigurator
+    )
     {
         $this->container = $container;
+        $this->entityManagerConfigurator = $entityManagerConfigurator;
+        $this->containerConfigurator = $containerConfigurator;
     }
 
     public static function getInstance(ContainerInterface $container = null): self
@@ -39,20 +47,21 @@ class EntityManager implements EntityManagerInterface
             if ($container == null) {
                 throw new InvalidMethodParameterException('Need Container for create EntityManager');
             }
-            self::$instance = new self($container);
+            self::$instance = $container->get(self::class);
+//            self::$instance = new self($container);
         }
         return self::$instance;
     }
 
-    public function setConfig(array $config): void
+    /*public function setConfig(array $config): void
     {
         $this->config = $config;
     }
 
     public function bindEntity(string $entityClass, string $repositoryInterface): void
     {
-        $this->entityToRepository[$entityClass] = $repositoryInterface;
-    }
+        //$this->entityToRepository[$entityClass] = $repositoryInterface;
+    }*/
 
     /**
      * @param string $entityClass
@@ -61,25 +70,28 @@ class EntityManager implements EntityManagerInterface
      */
     public function getRepositoryByEntityClass(string $entityClass): RepositoryInterface
     {
-        if (!isset($this->entityToRepository[$entityClass])) {
+        $repositoryDefition = $this->entityManagerConfigurator->entityToRepository($entityClass);
+
+        if (!$repositoryDefition) {
             $abstract = $this->findInDefinitions($entityClass);
             if ($abstract) {
                 $entityClass = $abstract;
             } else {
-//                dump($entityClass, $this->entityToRepository);
                 throw new InvalidConfigException("Not found \"{$entityClass}\" in entity manager.");
             }
         }
-        $class = $this->entityToRepository[$entityClass];
+        $class = $this->entityManagerConfigurator->entityToRepository($entityClass);
+//        $class = $this->entityToRepository[$entityClass];
         return $this->getRepositoryByClass($class);
     }
 
     private function findInDefinitions(string $entityClass)
     {
-        if (empty($this->config['definitions'])) {
+        $containerConfig = $this->containerConfigurator->getConfig();
+        if (empty($containerConfig['definitions'])) {
             return null;
         }
-        foreach ($this->config['definitions'] as $abstract => $concrete) {
+        foreach ($containerConfig['definitions'] as $abstract => $concrete) {
             if ($concrete == $entityClass) {
                 return $abstract;
             }
@@ -93,7 +105,8 @@ class EntityManager implements EntityManagerInterface
         return $repository->all($query);
     }
 
-    public function count(string $entityClass, Query $query = null): int {
+    public function count(string $entityClass, Query $query = null): int
+    {
         $repository = $this->getRepositoryByEntityClass($entityClass);
         return $repository->count($query);
     }
@@ -158,8 +171,9 @@ class EntityManager implements EntityManagerInterface
         }
     }
 
-    protected function checkUniqueExist(EntityIdInterface $entity) {
-        if(!$entity instanceof UniqueInterface) {
+    protected function checkUniqueExist(EntityIdInterface $entity)
+    {
+        if (!$entity instanceof UniqueInterface) {
             return;
         }
         try {
@@ -168,14 +182,14 @@ class EntityManager implements EntityManagerInterface
                 $isMach = true;
                 $fields = [];
                 foreach ($group as $fieldName) {
-                    if(EntityHelper::getValue($entity, $fieldName) === null || EntityHelper::getValue($uniqueEntity, $fieldName) != EntityHelper::getValue($entity, $fieldName)) {
+                    if (EntityHelper::getValue($entity, $fieldName) === null || EntityHelper::getValue($uniqueEntity, $fieldName) != EntityHelper::getValue($entity, $fieldName)) {
                         $isMach = false;
                         break;
                     } else {
                         $fields[] = $fieldName;
                     }
                 }
-                if($isMach) {
+                if ($isMach) {
                     $message = I18Next::t('core', 'domain.message.entity_already_exist');
                     $alreadyExistsException = new AlreadyExistsException($message);
                     $alreadyExistsException->setEntity($uniqueEntity);
@@ -183,7 +197,8 @@ class EntityManager implements EntityManagerInterface
                     throw $alreadyExistsException;
                 }
             }
-        } catch (NotFoundException $e) {}
+        } catch (NotFoundException $e) {
+        }
     }
 
     public function insert(EntityIdInterface $entity): void
