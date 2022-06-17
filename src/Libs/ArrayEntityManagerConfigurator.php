@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Libs;
 
 use ZnCore\Domain\Interfaces\Libs\EntityManagerConfiguratorInterface;
 
-class ArrayEntityManager implements EntityManagerConfiguratorInterface
+class ArrayEntityManagerConfigurator implements EntityManagerConfiguratorInterface
 {
 
     private $entities = [];
