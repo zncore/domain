@@ -10,7 +10,7 @@ use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Dto\WithDto;
 use ZnCore\Domain\Entities\relation\RelationEntity;
 use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
-use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
+use ZnCore\Base\Libs\Repository\Interfaces\RelationConfigInterface;
 use ZnCore\Base\Libs\Query\Entities\Query;
 
 DeprecateHelper::hardThrow();
