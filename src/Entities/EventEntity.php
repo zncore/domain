@@ -2,6 +2,10 @@
 
 namespace ZnCore\Domain\Entities;
 
+use ZnCore\Base\Helpers\DeprecateHelper;
+
+DeprecateHelper::hardThrow();
+
 class EventEntity
 {
 

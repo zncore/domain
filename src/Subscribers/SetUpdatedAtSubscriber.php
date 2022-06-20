@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Events\EntityEvent;
 
-class UpdatedAtSubscriber implements EventSubscriberInterface
+class SetUpdatedAtSubscriber implements EventSubscriberInterface
 {
 
     public static function getSubscribedEvents()
@@ -21,7 +21,6 @@ class UpdatedAtSubscriber implements EventSubscriberInterface
     public function onBeforePersist(EntityEvent $event)
     {
         $entity = $event->getEntity();
-//        dd($entity);
         $entity->setUpdatedAt(new \DateTime());
     }
 }

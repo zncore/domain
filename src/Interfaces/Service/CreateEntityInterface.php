@@ -1,6 +1,6 @@
 <?php
 
-namespace ZnCore\Domain\Interfaces\Traits;
+namespace ZnCore\Domain\Interfaces\Service;
 
 interface CreateEntityInterface
 {

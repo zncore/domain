@@ -14,6 +14,7 @@ use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
+use ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface;
 use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
 
 class ValidationHelper
@@ -55,7 +56,6 @@ class ValidationHelper
     public static function generateErrorCollectionFromArray(array $errorArray): Collection
     {
         $errorCollection = new Collection;
-
         foreach ($errorArray as $field => $message) {
             if (is_array($message)) {
                 if (ArrayHelper::isAssociative($message)) {
@@ -75,7 +75,6 @@ class ValidationHelper
                 $validateErrorEntity->setMessage($message);
             }
         }
-
         $errorCollection->add($validateErrorEntity);
         return $errorCollection;
     }
@@ -83,7 +82,7 @@ class ValidationHelper
     public static function validateEntity(object $entity): void
     {
         $errorCollection = self::validate($entity);
-        if ($errorCollection->count() > 0) {
+        if ($errorCollection && $errorCollection->count() > 0) {
             $exception = new UnprocessibleEntityException;
             $exception->setErrorCollection($errorCollection);
             throw $exception;
@@ -93,12 +92,14 @@ class ValidationHelper
     /**
      * @return array | Collection | ValidateErrorEntity[]
      */
-    public static function validate($data): Collection
+    public static function validate($data): ?Collection
     {
         if ($data instanceof ValidateEntityInterface) {
             return ArrayValidationHelper::validate($data);
-        } else {
+        } elseif($data instanceof ValidateEntityByMetadataInterface) {
             return SymfonyValidationHelper::validate($data);
+        } else {
+            return null;
         }
     }
 

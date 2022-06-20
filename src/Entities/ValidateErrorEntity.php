@@ -17,38 +17,25 @@ class ValidateErrorEntity
         $this->message = $message;
     }
 
-    /**
-     * @return mixed
-     */
     public function getField()
     {
         return $this->field;
     }
 
-    /**
-     * @param mixed $field
-     */
     public function setField($field): void
     {
         $this->field = $field;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMessage()
     {
         return $this->message;
     }
 
-    /**
-     * @param mixed $message
-     */
     public function setMessage($message): void
     {
         $this->message = $message;
     }
-
 
     public function setViolation(ConstraintViolationInterface $violation)
     {
@@ -59,5 +46,4 @@ class ValidateErrorEntity
     {
         return $this->violation;
     }
-
 }

@@ -10,7 +10,7 @@ use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Events\EntityEvent;
 use ZnCore\Domain\Helpers\EntityHelper;
 
-class AuthorSubscriber implements EventSubscriberInterface
+class SetAuthorIdSubscriber implements EventSubscriberInterface
 {
 
     private $authService;

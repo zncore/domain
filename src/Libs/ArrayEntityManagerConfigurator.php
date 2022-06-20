@@ -2,7 +2,10 @@
 
 namespace ZnCore\Domain\Libs;
 
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerConfiguratorInterface;
+
+DeprecateHelper::hardThrow();
 
 class ArrayEntityManagerConfigurator implements EntityManagerConfiguratorInterface
 {

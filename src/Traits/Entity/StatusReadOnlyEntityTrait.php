@@ -3,7 +3,17 @@
 namespace ZnCore\Domain\Traits\Entity;
 
 use ZnCore\Base\Exceptions\ReadOnlyException;
+use ZnCore\Base\Helpers\DeprecateHelper;
+use ZnCore\Base\Helpers\Helper;
 
+DeprecateHelper::softThrow();
+
+/**
+ * Trait StatusReadOnlyEntityTrait
+ * @package ZnCore\Domain\Traits\Entity
+ * @deprecated
+ * @see Helper::checkReadOnly()
+ */
 trait StatusReadOnlyEntityTrait
 {
 

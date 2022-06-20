@@ -24,12 +24,12 @@ abstract class BaseForeignEntity
     public $model;
     public $classType = RelationClassTypeEnum::REPOSITORY;
 
-    public function rules()
+   /* public function rules()
     {
         return [
             [['classType'], 'in', 'range' => RelationClassTypeEnum::values()],
         ];
-    }
+    }*/
 
     public function setId($id)
     {
@@ -40,5 +40,4 @@ abstract class BaseForeignEntity
     {
 
     }
-
 }

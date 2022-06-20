@@ -2,12 +2,11 @@
 
 namespace ZnCore\Domain\Base\Repositories;
 
-use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Domain\Traits\EntityManagerTrait;
 
-abstract class BaseRepository implements RepositoryInterface/*, GetEntityClassInterface*/
+abstract class BaseRepository implements RepositoryInterface
 {
 
     use EntityManagerTrait;
@@ -16,6 +15,4 @@ abstract class BaseRepository implements RepositoryInterface/*, GetEntityClassIn
     {
         $this->setEntityManager($em);
     }
-
-    //abstract public function getEntityClass(): string;
 }

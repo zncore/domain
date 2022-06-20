@@ -24,7 +24,7 @@ class RelationEntity
     public $via;
     public $callback;
 
-    public function fieldType()
+    /*public function fieldType()
     {
         return [
             'foreign' => ForeignEntity::class,
@@ -38,6 +38,6 @@ class RelationEntity
             [['type'], 'required'],
             [['type'], 'in', 'range' => RelationEnum::values()],
         ];
-    }
+    }*/
 
 }

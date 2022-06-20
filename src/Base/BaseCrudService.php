@@ -5,15 +5,14 @@ namespace ZnCore\Domain\Base;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Helpers\ClassHelper;
-use ZnCore\Domain\Entities\EventEntity;
+use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
+use ZnCore\Contract\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Events\EntityEvent;
 use ZnCore\Domain\Events\QueryEvent;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
-use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
-use ZnCore\Contract\Domain\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnCore\Domain\Libs\DataProvider;
@@ -30,12 +29,12 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         return true;
     }
 
-    public function afterMethod(string $method, EventEntity $event)
+    /*public function afterMethod(string $method, EventEntity $event)
     {
         $event->setMethod($method);
         $event->setTarget($this);
         $event->setType('after');
-    }
+    }*/
 
     protected function dispatchQueryEvent(Query $query, string $eventName): QueryEvent
     {
@@ -53,15 +52,11 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function forgeQueryByFilter(object $filterModel, Query $query)
     {
-//        $query = Query::forge($query);
-//        $query = $this->forgeQuery($query);
         $repository = $this->getRepository();
         ClassHelper::checkInstanceOf($repository, ForgeQueryByFilterInterface::class);
-
         $event = new QueryEvent($query);
         $event->setFilterModel($filterModel);
         $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_FORGE_QUERY_BY_FILTER);
-
         $repository->forgeQueryByFilter($filterModel, $query);
     }
 
@@ -73,7 +68,6 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function all(Query $query = null)
     {
-
         $isAvailable = $this->beforeMethod('all');
         $query = $this->forgeQuery($query);
         $collection = $this->getRepository()->all($query);
@@ -102,11 +96,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         $query = $this->forgeQuery($query);
         $isAvailable = $this->beforeMethod('oneById');
         $entity = $this->getRepository()->oneById($id, $query);
-
         $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_READ_ENTITY);
-//        $event = new EntityEvent($entity);
-//        $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_READ_ENTITY);
-
         return $entity;
     }
 
@@ -136,29 +126,20 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         try {
             $isAvailable = $this->beforeMethod('create');
             $entityClass = $this->getEntityClass();
-
-//            $entity = new $entityClass;
             $entity = $this->getEntityManager()->createEntity($this->getEntityClass(), $data);
-//            EntityHelper::setAttributes($entity, $attributes);
-
             $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_CREATE_ENTITY);
-//            $event = new EntityEvent($entity);
-//            $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_CREATE_ENTITY);
             if ($event->isPropagationStopped()) {
                 return $entity;
             }
-
             ValidationHelper::validateEntity($entity);
             $this->getRepository()->create($entity);
 
             // todo: убрать
-            $event = new EventEntity();
+            /*$event = new EventEntity();
             $event->setData($entity);
-            $this->afterMethod('create', $event);
+            $this->afterMethod('create', $event);*/
 
             $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_CREATE_ENTITY);
-//            $event = new EntityEvent($entity);
-//            $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_CREATE_ENTITY);
         } catch (\Throwable $e) {
             if ($this->hasEntityManager()) {
                 $this->getEntityManager()->rollbackTransaction();
@@ -186,8 +167,6 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
             EntityHelper::setAttributes($entity, $data);
 
             $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_UPDATE_ENTITY);
-//            $event = new EntityEvent($entity);
-//            $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_UPDATE_ENTITY);
             if ($event->isPropagationStopped()) {
                 //return $entity;
             }
@@ -195,8 +174,6 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
             $this->getRepository()->update($entity);
 
             $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_UPDATE_ENTITY);
-//            $event = new EntityEvent($entity);
-//            $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_UPDATE_ENTITY);
             if ($event->isPropagationStopped()) {
                 //return $entity;
             }
@@ -219,19 +196,11 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         try {
             $isAvailable = $this->beforeMethod('deleteById');
             $entity = $this->getRepository()->oneById($id);
-
             $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_DELETE_ENTITY);
-//            $event = new EntityEvent($entity);
-//            $this->getEventDispatcher()->dispatch($event, EventEnum::BEFORE_DELETE_ENTITY);
-
             if (!$event->isSkipHandle()) {
                 $this->getRepository()->deleteById($id);
             }
-
             $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_DELETE_ENTITY);
-//            $this->getEventDispatcher()->dispatch($event, EventEnum::AFTER_DELETE_ENTITY);
-
-//            return $id;
         } catch (\Throwable $e) {
             if ($this->hasEntityManager()) {
                 $this->getEntityManager()->rollbackTransaction();

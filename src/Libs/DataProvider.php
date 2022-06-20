@@ -5,9 +5,8 @@ namespace ZnCore\Domain\Libs;
 use Illuminate\Support\Collection;
 use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Contract\Domain\Interfaces\DataProviderInterface;
-use ZnCore\Domain\Entities\DataProviderEntity;
-use ZnCore\Domain\Helpers\FilterModelHelper;
 use ZnCore\Contract\Domain\Interfaces\ForgeQueryByFilterInterface;
+use ZnCore\Domain\Entities\DataProviderEntity;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 
 class DataProvider implements DataProviderInterface
@@ -95,7 +94,7 @@ class DataProvider implements DataProviderInterface
 
     public function getFilterModel(): ?object
     {
-        if($this->getQuery() && $this->getQuery()->getFilterModel()) {
+        if ($this->getQuery() && $this->getQuery()->getFilterModel()) {
             return $this->getQuery()->getFilterModel();
         }
         return $this->filterModel;
@@ -119,7 +118,7 @@ class DataProvider implements DataProviderInterface
         $filterModel = $this->filterModel;
         $query = clone $this->query;
         if ($this->filterModel) {
-            if($filterModel instanceof ForgeQueryByFilterInterface) {
+            if ($filterModel instanceof ForgeQueryByFilterInterface) {
                 $filterModel->forgeQueryByFilter($filterModel, $query);
             } else {
                 ClassHelper::checkInstanceOf($this->service, ForgeQueryByFilterInterface::class);

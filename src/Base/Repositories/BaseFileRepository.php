@@ -3,16 +3,14 @@
 namespace ZnCore\Domain\Base\Repositories;
 
 use ZnCore\Base\Exceptions\NotImplementedMethodException;
-use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
 use ZnCore\Base\Libs\DotEnv\DotEnv;
 use ZnCore\Base\Libs\FileSystem\Helpers\FilePathHelper;
 use ZnCore\Base\Libs\Store\StoreFile;
-use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Domain\Traits\EntityManagerTrait;
 
-abstract class BaseFileRepository implements RepositoryInterface/*, GetEntityClassInterface*/
+abstract class BaseFileRepository implements RepositoryInterface
 {
 
     use EntityManagerTrait;
@@ -21,8 +19,6 @@ abstract class BaseFileRepository implements RepositoryInterface/*, GetEntityCla
     {
         $this->setEntityManager($em);
     }
-
-    //abstract public function getEntityClass(): string;
 
     public function tableName(): string
     {
