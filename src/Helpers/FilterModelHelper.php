@@ -5,12 +5,12 @@ namespace ZnCore\Domain\Helpers;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
 use ZnCore\Base\Libs\Validation\Helpers\ValidationHelper;
-use ZnCore\Domain\Entities\Query\Where;
+use ZnCore\Base\Libs\Query\Entities\Where;
 use ZnCore\Domain\Exceptions\BadFilterValidateException;
 use ZnCore\Base\Libs\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Filter\DefaultSortInterface;
 use ZnCore\Domain\Interfaces\Filter\IgnoreAttributesInterface;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\Query\Entities\Query;
 
 class FilterModelHelper
 {

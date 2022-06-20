@@ -15,8 +15,8 @@ use ZnCore\Base\Libs\Validation\Helpers\ValidationHelper;
 use ZnCore\Base\Libs\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
-use ZnCore\Domain\Libs\DataProvider;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\DataProvider\Libs\DataProvider;
+use ZnCore\Base\Libs\Query\Entities\Query;
 
 /**
  * @method CrudRepositoryInterface getRepository()

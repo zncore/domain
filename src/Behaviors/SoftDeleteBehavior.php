@@ -4,9 +4,9 @@ namespace ZnCore\Domain\Behaviors;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use ZnCore\Base\Enums\StatusEnum;
-use ZnCore\Domain\Entities\Query\Where;
+use ZnCore\Base\Libs\Query\Entities\Where;
 use ZnCore\Domain\Enums\EventEnum;
-use ZnCore\Domain\Enums\OperatorEnum;
+use ZnCore\Base\Libs\Query\Enums\OperatorEnum;
 use ZnCore\Domain\Events\EntityEvent;
 use ZnCore\Domain\Events\QueryEvent;
 use ZnCore\Base\Libs\EntityManager\Interfaces\EntityManagerInterface;

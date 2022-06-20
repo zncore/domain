@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Interfaces\Service;
 
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\Query\Entities\Query;
 use ZnCore\Base\Exceptions\NotFoundException;
 
 interface ReadOneInterface

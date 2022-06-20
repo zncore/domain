@@ -9,7 +9,7 @@ use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\FilterHelper;
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Base\Libs\EntityManager\Interfaces\EntityManagerInterface;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\Query\Entities\Query;
 
 trait ArrayCrudRepositoryTrait
 {

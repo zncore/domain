@@ -13,7 +13,7 @@ use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Libs\Container\Helpers\ContainerHelper;
 use ZnCore\Base\Libs\EntityManager\Interfaces\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\Query\Entities\Query;
 
 class RelationValidator extends BaseValidator
 {

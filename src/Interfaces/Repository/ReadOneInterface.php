@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Interfaces\Repository;
 
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\Query\Entities\Query;
 use ZnCore\Base\Exceptions\NotFoundException;
 
 interface ReadOneInterface

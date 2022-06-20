@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Interfaces;
 
 use Illuminate\Support\Collection;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\Query\Entities\Query;
 
 interface ReadAllInterface
 {

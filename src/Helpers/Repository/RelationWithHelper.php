@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Helpers\Repository;
 
 use ZnCore\Base\Helpers\DeprecateHelper;
-use ZnCore\Domain\Libs\Query;
+use ZnCore\Base\Libs\Query\Entities\Query;
 
 DeprecateHelper::hardThrow();
 
