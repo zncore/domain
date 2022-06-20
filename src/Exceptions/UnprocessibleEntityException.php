@@ -6,8 +6,15 @@ use Exception;
 use Illuminate\Support\Collection;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 
-class UnprocessibleEntityException extends Exception
+class UnprocessibleEntityException extends \Error //implements \Throwable
 {
+
+    public function __construct(Collection $errorCollection = null)
+    {
+        if($errorCollection) {
+            $this->setErrorCollection($errorCollection);
+        }
+    }
 
     /**
      * @var array | Collection | ValidateErrorEntity[]
