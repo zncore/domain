@@ -2,8 +2,11 @@
 
 namespace ZnCore\Domain\Dto;
 
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Domain\Libs\Query;
 use ZnCore\Domain\Entities\relation\RelationEntity;
+
+DeprecateHelper::hardThrow();
 
 class WithDto
 {

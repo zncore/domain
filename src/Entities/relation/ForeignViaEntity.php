@@ -2,6 +2,10 @@
 
 namespace ZnCore\Domain\Entities\relation;
 
+use ZnCore\Base\Helpers\DeprecateHelper;
+
+DeprecateHelper::hardThrow();
+
 /**
  * Class ForeignViaEntity
  *

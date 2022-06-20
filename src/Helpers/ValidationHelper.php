@@ -12,6 +12,7 @@ use ZnBundle\Eav\Domain\Libs\TypeNormalizer;
 use ZnBundle\Eav\Domain\Libs\Validator;
 use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\DynamicEntity\Helpers\DynamicEntityValidationHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Base\Libs\Entity\Interfaces\ValidateEntityByMetadataInterface;
@@ -92,10 +93,10 @@ class ValidationHelper
     /**
      * @return array | Collection | ValidateErrorEntity[]
      */
-    public static function validate($data): ?Collection
+    public static function validate(object $data): ?Collection
     {
         if ($data instanceof ValidateDynamicEntityInterface) {
-            return ArrayValidationHelper::validate($data);
+            return DynamicEntityValidationHelper::validate($data);
         } elseif($data instanceof ValidateEntityByMetadataInterface) {
             return SymfonyValidationHelper::validate($data);
         } else {

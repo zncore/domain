@@ -2,7 +2,10 @@
 
 namespace ZnCore\Domain\Entities\relation;
 
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Domain\Enums\RelationEnum;
+
+DeprecateHelper::hardThrow();
 
 /**
  * Class RelationEntity

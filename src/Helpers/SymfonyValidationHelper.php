@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ValidatorBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use ZnCore\Base\Libs\Container\Helpers\ContainerHelper;
+use ZnCore\Base\Libs\Entity\Interfaces\ValidateEntityByMetadataInterface;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 
 class SymfonyValidationHelper
@@ -18,7 +19,7 @@ class SymfonyValidationHelper
     /**
      * @return array | Collection | ValidateErrorEntity[]
      */
-    public static function validate($entity): Collection
+    public static function validate(ValidateEntityByMetadataInterface $entity): Collection
     {
         $validator = self::createValidator();
         /** @var ConstraintViolationList $violationsList */

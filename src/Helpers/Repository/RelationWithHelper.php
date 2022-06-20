@@ -2,7 +2,10 @@
 
 namespace ZnCore\Domain\Helpers\Repository;
 
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Domain\Libs\Query;
+
+DeprecateHelper::hardThrow();
 
 class RelationWithHelper
 {
