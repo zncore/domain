@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Events;
 
 use Symfony\Contracts\EventDispatcher\Event;
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
-use ZnCore\Domain\Traits\Event\EventSkipHandleTrait;
+use ZnCore\Base\Libs\Event\Traits\EventSkipHandleTrait;
 
 class EntityEvent extends Event
 {

@@ -12,7 +12,7 @@ use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Libs\Query;
-use ZnCore\Domain\Helpers\EntityHelper;
+use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
 use yii\di\Container;
 

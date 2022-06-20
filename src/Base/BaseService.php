@@ -5,14 +5,14 @@ namespace ZnCore\Domain\Base;
 use ZnCore\Base\Libs\Event\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Domain\Interfaces\Service\CreateEntityInterface;
-use ZnCore\Domain\Traits\EntityManagerTrait;
+use ZnCore\Base\Libs\EntityManager\Traits\EntityManagerAwareTrait;
 use ZnCore\Domain\Traits\RepositoryAwareTrait;
 
 abstract class BaseService implements GetEntityClassInterface, CreateEntityInterface
 {
 
     use EventDispatcherTrait;
-    use EntityManagerTrait;
+    use EntityManagerAwareTrait;
     use RepositoryAwareTrait;
 
     public function getEntityClass(): string

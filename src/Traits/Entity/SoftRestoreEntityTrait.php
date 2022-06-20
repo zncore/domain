@@ -4,6 +4,9 @@ namespace ZnCore\Domain\Traits\Entity;
 
 use ZnCore\Base\Enums\StatusEnum;
 
+/**
+ * @todo: перенести в отдельный пакет
+ */
 trait SoftRestoreEntityTrait
 {
 

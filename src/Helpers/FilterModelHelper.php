@@ -3,9 +3,11 @@
 namespace ZnCore\Domain\Helpers;
 
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
+use ZnCore\Base\Libs\Validation\Helpers\ValidationHelper;
 use ZnCore\Domain\Entities\Query\Where;
 use ZnCore\Domain\Exceptions\BadFilterValidateException;
-use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
+use ZnCore\Base\Libs\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Interfaces\Filter\DefaultSortInterface;
 use ZnCore\Domain\Interfaces\Filter\IgnoreAttributesInterface;
 use ZnCore\Domain\Libs\Query;
@@ -24,7 +26,8 @@ class FilterModelHelper
         }
     }
 
-    public static function forgeCondition(Query $query, object $filterModel, array $attributesOnly) {
+    public static function forgeCondition(Query $query, object $filterModel, array $attributesOnly)
+    {
         $params = EntityHelper::toArrayForTablize($filterModel);
         if ($filterModel instanceof IgnoreAttributesInterface) {
             $filterParams = $filterModel->ignoreAttributesFromCondition();
@@ -43,9 +46,10 @@ class FilterModelHelper
         }
     }
 
-    public static function forgeOrder(Query $query, object $filterModel) {
+    public static function forgeOrder(Query $query, object $filterModel)
+    {
         $sort = $query->getParam(Query::ORDER);
-        if(empty($sort) && $filterModel instanceof DefaultSortInterface) {
+        if (empty($sort) && $filterModel instanceof DefaultSortInterface) {
             $sort = $filterModel->defaultSort();
             $query->orderBy($sort);
         }

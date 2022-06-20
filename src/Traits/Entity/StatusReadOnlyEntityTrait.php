@@ -11,6 +11,7 @@ use ZnCore\Base\Helpers\Helper;
 /**
  * Trait StatusReadOnlyEntityTrait
  * @package ZnCore\Domain\Traits\Entity
+ *
  * @deprecated
  * @see Helper::checkReadOnly()
  */

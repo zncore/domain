@@ -8,8 +8,11 @@ use ZnCore\Contract\User\Exceptions\UnauthorizedException;
 use ZnBundle\User\Domain\Interfaces\Services\AuthServiceInterface;
 use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Domain\Events\EntityEvent;
-use ZnCore\Domain\Helpers\EntityHelper;
+use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
 
+/**
+ * @todo: перенести в отдельный пакет
+ */
 class SetAuthorIdSubscriber implements EventSubscriberInterface
 {
 

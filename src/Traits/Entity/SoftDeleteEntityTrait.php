@@ -5,6 +5,9 @@ namespace ZnCore\Domain\Traits\Entity;
 use ZnCore\Contract\User\Exceptions\UnauthorizedException;
 use ZnCore\Base\Enums\StatusEnum;
 
+/**
+ * @todo: перенести в отдельный пакет
+ */
 trait SoftDeleteEntityTrait
 {
 
