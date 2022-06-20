@@ -3,12 +3,12 @@
 namespace ZnCore\Domain\Entities;
 
 use Exception;
-use ZnCore\Domain\Interfaces\Entity\EntityAttributesInterface;
+use ZnCore\Base\Libs\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
+use ZnCore\Base\Libs\DynamicEntity\Interfaces\ValidateDynamicEntityInterface;
 use ZnLib\Telegram\Domain\Facades\Bot;
 
-class DynamicEntity implements ValidateEntityInterface, EntityIdInterface, EntityAttributesInterface
+class DynamicEntity implements ValidateDynamicEntityInterface, EntityIdInterface, DynamicEntityAttributesInterface
 {
     
     protected $_attributes = [];

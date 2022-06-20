@@ -13,7 +13,7 @@ use ZnCore\Base\Libs\I18Next\Facades\I18Next;
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Helpers\EntityHelper;
-use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
+use ZnCore\Base\Libs\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerConfiguratorInterface;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Libs\OrmInterface;

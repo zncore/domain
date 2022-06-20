@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Tests\Libs;
 
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface;
+use ZnCore\Base\Libs\Entity\Interfaces\ValidateEntityByMetadataInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class AccessEntity implements EntityIdInterface, ValidateEntityByMetadataInterface

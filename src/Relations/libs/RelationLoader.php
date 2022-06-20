@@ -5,7 +5,6 @@ namespace ZnCore\Domain\Relations\libs;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use ZnCore\Base\Helpers\ClassHelper;
-use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
@@ -49,11 +48,6 @@ class RelationLoader
                 }
             } elseif (is_array($withItem)) {
                 $relParts = $withItem;
-                /*if(ArrayHelper::isIndexed($withItem)) {
-                    
-                } else {
-
-                }*/
             } elseif (is_object($withItem) && $withItem instanceof Query) {
                 $relParts = $withItem->getParam(Query::WITH);
             }
@@ -61,18 +55,10 @@ class RelationLoader
             if (!empty($relParts)) {
                 foreach ($relParts as $relPart) {
                     $relationTree[$attribute][] = $relPart;
-                    /*if(strpos($relPart, '.')) {
-                        //dd($this->getRelationTree([$relPart]));
-                        $relationTree[$attribute] = $this->getRelationTree([$relPart]);
-                    } else {
-                        $relationTree[$attribute][] = $relPart;
-                    }*/
                 }
-                //$relationTree[$attribute] = array_merge($relationTree[$attribute] ?? [], $relParts);
             } else {
                 $relationTree[$attribute] = [];
             }
-
         }
         return $relationTree;
     }
@@ -85,24 +71,9 @@ class RelationLoader
 
         if ($query->hasParam('with')) {
             $with = $query->getParam(Query::WITH);
-
             $relationTree = $this->getRelationTree($with);
-
-            //dump([$relationTree, get_class($this->repository)]);
-
-            //dd($relationTree);
-
             foreach ($relationTree as $attribute => $relParts) {
-
-                /*if(is_integer($attribute)) {
-                    $attribute = $relParts[0];
-                    $relParts = [];
-                }*/
-
-                //dump([$attribute, $relParts, get_class($this->repository)]);
                 if (empty($relations[$attribute])) {
-                    //dd([$relationTree, $attribute, $relParts, get_class($this->repository)]);
-                    //dd($attribute , $relParts);
                     throw new InvalidArgumentException('Relation "' . $attribute . '" not defined in repository "' . get_class($this->repository) . '"!');
                 }
                 /** @var RelationInterface $relation */
@@ -111,10 +82,8 @@ class RelationLoader
 
                 if (is_object($relation)) {
                     if ($relParts) {
-                        //dump([$attribute, $relParts, get_class($this->repository)]);
                         $relation->query = $relation->query ?: new Query;
                         $relation->query->with($relParts);
-                        //dd($relation);
                     }
                     $relation->run($collection);
                 }
@@ -143,5 +112,4 @@ class RelationLoader
         }
         return $relation;
     }
-
 }

@@ -4,6 +4,7 @@ namespace ZnCore\Domain\Helpers\Repository;
 
 use Illuminate\Support\Collection;
 use ZnCore\Base\Exceptions\InvalidConfigException;
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Helpers\Helper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Dto\WithDto;
@@ -11,6 +12,8 @@ use ZnCore\Domain\Entities\relation\RelationEntity;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Interfaces\Repository\RelationConfigInterface;
 use ZnCore\Domain\Libs\Query;
+
+DeprecateHelper::hardThrow();
 
 class RelationHelper
 {

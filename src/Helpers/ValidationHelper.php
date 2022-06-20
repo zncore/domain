@@ -14,8 +14,8 @@ use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entities\ValidateErrorEntity;
 use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface;
+use ZnCore\Base\Libs\Entity\Interfaces\ValidateEntityByMetadataInterface;
+use ZnCore\Base\Libs\DynamicEntity\Interfaces\ValidateDynamicEntityInterface;
 
 class ValidationHelper
 {
@@ -94,7 +94,7 @@ class ValidationHelper
      */
     public static function validate($data): ?Collection
     {
-        if ($data instanceof ValidateEntityInterface) {
+        if ($data instanceof ValidateDynamicEntityInterface) {
             return ArrayValidationHelper::validate($data);
         } elseif($data instanceof ValidateEntityByMetadataInterface) {
             return SymfonyValidationHelper::validate($data);
@@ -113,13 +113,12 @@ class ValidationHelper
         return $violations;
     }
 
-    public static function validateDynamicEntity2(object $dynamicEntity, EntityEntity $entityEntity, array $data): void
+    public static function validateDynamicEntity2(ValidateDynamicEntityInterface $dynamicEntity, EntityEntity $entityEntity, array $data): void
     {
         $normalizer = new TypeNormalizer();
         $data = $normalizer->normalizeData($data, $entityEntity);
         EntityHelper::setAttributes($dynamicEntity, $data);
         $validator = new Validator();
         $validator->validate($data, $dynamicEntity->validationRules());
-        //return $dynamicEntity;
     }
 }

@@ -12,7 +12,7 @@ use ZnCore\Domain\Events\EntityEvent;
 use ZnCore\Domain\Events\QueryEvent;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCore\Domain\Helpers\ValidationHelper;
-use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
+use ZnCore\Base\Libs\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnCore\Domain\Libs\DataProvider;

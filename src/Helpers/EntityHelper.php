@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Serializer;
 use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnCore\Domain\Interfaces\Entity\EntityAttributesInterface;
+use ZnCore\Base\Libs\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
 
 class EntityHelper
 {
@@ -118,7 +118,7 @@ class EntityHelper
 
     public static function getAttributeNames($entity): array
     {
-        if ($entity instanceof EntityAttributesInterface) {
+        if ($entity instanceof DynamicEntityAttributesInterface) {
             return $entity->attributes();
         }
         $reflClass = new ReflectionClass($entity);

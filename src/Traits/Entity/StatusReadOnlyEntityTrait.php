@@ -6,7 +6,7 @@ use ZnCore\Base\Exceptions\ReadOnlyException;
 use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Helpers\Helper;
 
-DeprecateHelper::softThrow();
+//DeprecateHelper::softThrow();
 
 /**
  * Trait StatusReadOnlyEntityTrait
