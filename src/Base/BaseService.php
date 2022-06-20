@@ -6,7 +6,7 @@ use ZnCore\Base\Libs\Event\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Domain\Interfaces\Service\CreateEntityInterface;
 use ZnCore\Base\Libs\EntityManager\Traits\EntityManagerAwareTrait;
-use ZnCore\Domain\Traits\RepositoryAwareTrait;
+use ZnCore\Base\Libs\Repository\Traits\RepositoryAwareTrait;
 
 abstract class BaseService implements GetEntityClassInterface, CreateEntityInterface
 {

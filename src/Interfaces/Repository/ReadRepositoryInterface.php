@@ -2,10 +2,12 @@
 
 namespace ZnCore\Domain\Interfaces\Repository;
 
+use ZnCore\Base\Libs\Repository\Interfaces\RepositoryInterface;
 use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Domain\Interfaces\ReadAllInterface;
 
-interface ReadRepositoryInterface extends RepositoryInterface, GetEntityClassInterface, ReadAllInterface, ReadOneInterface//, RelationConfigInterface
+interface ReadRepositoryInterface extends
+    RepositoryInterface, GetEntityClassInterface, ReadAllInterface, ReadOneInterface//, RelationConfigInterface
 {
 
 

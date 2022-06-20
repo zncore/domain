@@ -9,7 +9,7 @@ use ZnCore\Base\Libs\FileSystem\Helpers\FilePathHelper;
 use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Base\Libs\Query\Entities\Query;
-use ZnCore\Domain\Traits\Repository\ArrayCrudRepositoryTrait;
+use ZnCore\Base\Libs\Arr\Traits\ArrayCrudRepositoryTrait;
 
 abstract class BaseFileCrudRepository extends BaseFileRepository implements CrudRepositoryInterface
 {
