@@ -18,23 +18,30 @@ use ZnCore\Domain\Exceptions\UnprocessibleEntityException;
 use ZnCore\Base\Libs\Entity\Interfaces\ValidateEntityByMetadataInterface;
 use ZnCore\Base\Libs\DynamicEntity\Interfaces\ValidateDynamicEntityInterface;
 
-class ValidationHelper
+class UnprocessableHelper
 {
 
-    public static function collectionToArray(Collection $errorCollection): array
+    public static function throwUnprocessableItem(string $field, string $mesage)
     {
-        $array = [];
-        /** @var ValidateErrorEntity $validateErrorEntity */
-        foreach ($errorCollection as $validateErrorEntity) {
-            $array[] = [
-                'field' => $validateErrorEntity->getField(),
-                'message' => $validateErrorEntity->getMessage(),
-            ];
-        }
-        return $array;
+        $errorCollection = new Collection;
+        $validateErrorEntity = new ValidateErrorEntity;
+        $validateErrorEntity->setField($field);
+        $validateErrorEntity->setMessage($mesage);
+        $errorCollection->add($validateErrorEntity);
+        $exception = new UnprocessibleEntityException;
+        $exception->setErrorCollection($errorCollection);
+        throw $exception;
     }
 
-    /*public static function generateErrorCollectionFromArray(array $errorArray): Collection
+    public static function throwUnprocessable(array $errorArray)
+    {
+        $errorCollection = self::generateErrorCollectionFromArray($errorArray);
+        $exception = new UnprocessibleEntityException;
+        $exception->setErrorCollection($errorCollection);
+        throw $exception;
+    }
+
+    public static function generateErrorCollectionFromArray(array $errorArray): Collection
     {
         $errorCollection = new Collection;
         foreach ($errorArray as $field => $message) {
@@ -58,40 +65,5 @@ class ValidationHelper
         }
         $errorCollection->add($validateErrorEntity);
         return $errorCollection;
-    }*/
-
-    public static function validateEntity(object $entity): void
-    {
-        $errorCollection = self::validate($entity);
-        if ($errorCollection && $errorCollection->count() > 0) {
-            $exception = new UnprocessibleEntityException;
-            $exception->setErrorCollection($errorCollection);
-            throw $exception;
-        }
-    }
-
-    /**
-     * @return array | Collection | ValidateErrorEntity[]
-     */
-    private static function validate(object $data): ?Collection
-    {
-        if ($data instanceof ValidateDynamicEntityInterface) {
-//            dump($data);
-            return DynamicEntityValidationHelper::validate($data);
-        } elseif($data instanceof ValidateEntityByMetadataInterface) {
-            return SymfonyValidationHelper::validate($data);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * @return array | Collection | ValidateErrorEntity[]
-     */
-    public static function validateValue($value, array $rules): ConstraintViolationList
-    {
-        $validator = SymfonyValidationHelper::createValidator();
-        $violations = $validator->validate($value, $rules);
-        return $violations;
     }
 }
