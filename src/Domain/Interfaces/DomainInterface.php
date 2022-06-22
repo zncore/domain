@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Domain\Interfaces;
 
-use ZnCore\Base\Interfaces\GetNameInterface;
+use ZnCore\Contract\Common\Interfaces\GetNameInterface;
 
 interface DomainInterface extends GetNameInterface
 {
