@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Tests\Unit;
 
 use ZnCore\Base\Libs\Validation\Exceptions\UnprocessibleEntityException;
-use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
+use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Base\Libs\Validation\Helpers\ValidationHelper;
 use ZnCore\Domain\Tests\Libs\AccessEntity;
 use ZnTool\Test\Base\BaseTest;
