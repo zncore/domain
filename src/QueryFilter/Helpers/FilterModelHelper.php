@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\QueryFilter\Helpers;
 
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Query\Entities\Where;

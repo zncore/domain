@@ -3,10 +3,10 @@
 namespace ZnCore\Domain\Repository\Traits;
 
 use Illuminate\Support\Collection;
-use ZnCore\Base\Encoders\ChainEncoder;
+use ZnCore\Base\Libs\Format\Encoders\ChainEncoder;
 use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 

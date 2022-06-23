@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Relation\Libs\Types;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Query\Entities\Query;

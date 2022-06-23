@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Mappers;
 
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnCore\Domain\Repository\Interfaces\MapperInterface;
 
 class TimeMapper implements MapperInterface

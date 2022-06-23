@@ -9,8 +9,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnCore\Base\Libs\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
 
 class CollectionHelper

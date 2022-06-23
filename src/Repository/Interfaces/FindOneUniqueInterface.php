@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Interfaces;
 
-use ZnCore\Base\Exceptions\InvalidMethodParameterException;
+use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Entity\Interfaces\UniqueInterface;

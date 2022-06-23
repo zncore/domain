@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Service\Base;
 
 use Illuminate\Support\Enumerable;
-use ZnCore\Base\Exceptions\InvalidMethodParameterException;
+use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;

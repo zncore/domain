@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Query\Entities;
 
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Query\Entities\Join;
 use ZnCore\Domain\Query\Entities\Where;
 use ZnCore\Domain\Query\Enums\OperatorEnum;
