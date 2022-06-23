@@ -4,8 +4,8 @@ namespace ZnCore\Domain\Service\Base;
 
 use Illuminate\Support\Enumerable;
 use ZnCore\Base\Exceptions\InvalidMethodParameterException;
-use ZnCore\Base\Exceptions\NotFoundException;
-use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Domain\Entity\Exceptions\NotFoundException;
+use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\QueryFilter\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Domain\Enums\EventEnum;

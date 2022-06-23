@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Repository\Interfaces;
 
 use ZnCore\Base\Libs\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Base\Exceptions\NotFoundException;
+use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 
 interface ModifyInterface
 {

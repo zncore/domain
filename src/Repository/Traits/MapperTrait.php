@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Repository\Traits;
 
 use Illuminate\Support\Collection;
 use ZnCore\Base\Encoders\ChainEncoder;
-use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;

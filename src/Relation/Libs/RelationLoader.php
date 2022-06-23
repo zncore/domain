@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Relation\Libs;
 
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
-use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Repository\Interfaces\RelationConfigInterface;
