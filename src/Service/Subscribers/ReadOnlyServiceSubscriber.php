@@ -1,6 +1,6 @@
 <?php
 
-namespace ZnCore\Domain\Service\Subscribes;
+namespace ZnCore\Domain\Service\Subscribers;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use ZnCore\Base\Exceptions\ReadOnlyException;
