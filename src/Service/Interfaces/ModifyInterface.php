@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Service\Interfaces;
 
-use ZnCore\Base\Libs\Validation\Exceptions\UnprocessibleEntityException;
+use ZnCore\Base\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 

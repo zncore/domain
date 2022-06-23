@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Mappers;
 
-use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Repository\Interfaces\MapperInterface;
 
 class PathMapper implements MapperInterface

@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\DataProvider\Libs;
 
 use Illuminate\Support\Enumerable;
-use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
+use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Domain\DataProvider\Entities\DataProviderEntity;
 use ZnCore\Domain\DataProvider\Interfaces\DataProviderInterface;
 use ZnCore\Domain\Domain\Interfaces\ReadAllInterface;
