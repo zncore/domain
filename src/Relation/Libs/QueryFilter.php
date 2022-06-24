@@ -4,11 +4,12 @@ namespace ZnCore\Domain\Relation\Libs;
 
 use Illuminate\Support\Collection;
 use ZnBundle\Eav\Domain\Repositories\Eloquent\FieldRepository;
+use ZnCore\Base\Develop\Helpers\DeprecateHelper;
 use ZnCore\Domain\Helpers\Repository\RelationHelper;
 use ZnCore\Domain\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Query\Entities\Query;
 
-
+DeprecateHelper::hardThrow();
 
 class QueryFilter
 {
