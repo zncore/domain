@@ -4,6 +4,7 @@ namespace ZnCore\Domain\Service\Base;
 
 use Illuminate\Support\Enumerable;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
+use ZnCore\Domain\Domain\Traits\DispatchEventTrait;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
@@ -15,6 +16,7 @@ use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Base\Validation\Helpers\ValidationHelper;
 use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
+use ZnCore\Domain\Domain\Traits\ForgeQueryTrait;
 use ZnCore\Domain\Service\Interfaces\CrudServiceInterface;
 use ZnCore\Domain\DataProvider\Libs\DataProvider;
 use ZnCore\Domain\Query\Entities\Query;
@@ -25,9 +27,14 @@ use ZnCore\Domain\Query\Entities\Query;
 abstract class BaseCrudService extends BaseService implements CrudServiceInterface, ForgeQueryByFilterInterface
 {
 
-    public function beforeMethod(string $method)
+    use DispatchEventTrait;
+    use ForgeQueryTrait;
+
+    /*protected function dispatchEntityEvent(object $entity, string $eventName): EntityEvent
     {
-        return true;
+        $event = new EntityEvent($entity);
+        $this->getEventDispatcher()->dispatch($event, $eventName);
+        return $event;
     }
 
     protected function dispatchQueryEvent(Query $query, string $eventName): QueryEvent
@@ -42,7 +49,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         $query = Query::forge($query);
         $this->dispatchQueryEvent($query, EventEnum::BEFORE_FORGE_QUERY);
         return $query;
-    }
+    }*/
 
     public function forgeQueryByFilter(object $filterModel, Query $query)
     {
@@ -62,7 +69,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function all(Query $query = null): Enumerable
     {
-        $isAvailable = $this->beforeMethod('all');
+//        $isAvailable = $this->beforeMethod('all');
         $query = $this->forgeQuery($query);
         $collection = $this->getRepository()->all($query);
         return $collection;
@@ -70,7 +77,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function count(Query $query = null): int
     {
-        $isAvailable = $this->beforeMethod('count');
+//        $isAvailable = $this->beforeMethod('count');
         $query = $this->forgeQuery($query);
         return $this->getRepository()->count($query);
     }
@@ -88,7 +95,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
                 ->setParameterName('id');
         }
         $query = $this->forgeQuery($query);
-        $isAvailable = $this->beforeMethod('oneById');
+//        $isAvailable = $this->beforeMethod('oneById');
         $entity = $this->getRepository()->oneById($id, $query);
         $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_READ_ENTITY);
         return $entity;
@@ -105,20 +112,13 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         $this->getEntityManager()->persist($entity);
     }
 
-    protected function dispatchEntityEvent(object $entity, string $eventName): EntityEvent
-    {
-        $event = new EntityEvent($entity);
-        $this->getEventDispatcher()->dispatch($event, $eventName);
-        return $event;
-    }
-
     public function create($data): EntityIdInterface
     {
         if ($this->hasEntityManager()) {
             $this->getEntityManager()->beginTransaction();
         }
         try {
-            $isAvailable = $this->beforeMethod('create');
+//            $isAvailable = $this->beforeMethod('create');
             $entityClass = $this->getEntityClass();
             $entity = $this->getEntityManager()->createEntity($this->getEntityClass(), $data);
             $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_CREATE_ENTITY);
@@ -152,10 +152,10 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
             $this->getEntityManager()->beginTransaction();
         }
         try {
-            $isAvailable = $this->beforeMethod('updateById');
-            if (!$isAvailable) {
+//            $isAvailable = $this->beforeMethod('updateById');
+            /*if (!$isAvailable) {
                 return;
-            }
+            }*/
             $entity = $this->getRepository()->oneById($id);
 
             EntityHelper::setAttributes($entity, $data);
@@ -188,7 +188,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
             $this->getEntityManager()->beginTransaction();
         }
         try {
-            $isAvailable = $this->beforeMethod('deleteById');
+//            $isAvailable = $this->beforeMethod('deleteById');
             $entity = $this->getRepository()->oneById($id);
             $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_DELETE_ENTITY);
             if (!$event->isSkipHandle()) {

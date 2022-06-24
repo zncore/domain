@@ -1,6 +1,6 @@
 <?php
 
-namespace ZnCore\Domain\Repository\Traits;
+namespace ZnCore\Domain\Domain\Traits;
 
 use ZnCore\Base\EventDispatcher\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Domain\Events\EntityEvent;
@@ -8,7 +8,7 @@ use ZnCore\Domain\Domain\Events\QueryEvent;
 use ZnCore\Domain\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Domain\Query\Entities\Query;
 
-trait RepositoryDispatchEventTrait
+trait DispatchEventTrait
 {
 
     use EventDispatcherTrait;
