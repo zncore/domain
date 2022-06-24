@@ -23,9 +23,9 @@ class QueryFilter
 
     public function loadRelations(Collection $collection)
     {
-        if (method_exists($this->repository, 'relations2')) {
+        if (method_exists($this->repository, 'relations')) {
             $relationLoader = new RelationLoader;
-            $relationLoader->setRelations($this->repository->relations2());
+            $relationLoader->setRelations($this->repository->relations());
             $relationLoader->setRepository($this->repository);
             $relationLoader->loadRelations($collection, $this->query);
             return $collection;
@@ -34,10 +34,6 @@ class QueryFilter
         if (empty($this->with)) {
             return $collection;
         }
-        /*if($this->repository instanceof FieldRepository) {
-            prr($with);
-        }*/
-//        $collection = RelationHelper::load($this->repository, $this->query, $collection);
         return $collection;
     }
 }
