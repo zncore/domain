@@ -4,9 +4,9 @@ namespace ZnCore\Domain\Service\Base;
 
 use ZnCore\Base\EventDispatcher\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Domain\Interfaces\GetEntityClassInterface;
-use ZnCore\Domain\Service\Interfaces\CreateEntityInterface;
 use ZnCore\Domain\EntityManager\Traits\EntityManagerAwareTrait;
 use ZnCore\Domain\Repository\Traits\RepositoryAwareTrait;
+use ZnCore\Domain\Service\Interfaces\CreateEntityInterface;
 
 abstract class BaseService implements GetEntityClassInterface, CreateEntityInterface
 {
@@ -26,14 +26,5 @@ abstract class BaseService implements GetEntityClassInterface, CreateEntityInter
         return $this
             ->getEntityManager()
             ->createEntity($entityClass, $attributes);
-
-        /*if (DeprecateHelper::isStrictMode()) {
-            return $this
-                ->getEntityManager()
-                ->createEntity($entityClass, $attributes);
-        } else {
-            $entityInstance = EntityHelper::createEntity($entityClass, $attributes);
-            return $entityInstance;
-        }*/
     }
 }
