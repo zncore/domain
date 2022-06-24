@@ -57,7 +57,6 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
      * @return object|EntityIdInterface
      * @throws NotFoundException
      */
-
     public function persist(object $entity)
     {
         ValidationHelper::validateEntity($entity);

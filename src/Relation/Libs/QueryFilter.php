@@ -13,7 +13,6 @@ class QueryFilter
 
     private $repository;
     private $query;
-    private $with;
 
     public function __construct(ReadAllInterface $repository, Query $query)
     {
@@ -28,12 +27,6 @@ class QueryFilter
             $relationLoader->setRelations($this->repository->relations());
             $relationLoader->setRepository($this->repository);
             $relationLoader->loadRelations($collection, $this->query);
-            return $collection;
         }
-
-        if (empty($this->with)) {
-            return $collection;
-        }
-        return $collection;
     }
 }
