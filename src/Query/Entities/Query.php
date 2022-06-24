@@ -73,7 +73,11 @@ class Query
     public function getWith()
     {
 //        return $this->getParam(Query::WITH);
-        return $this->with;
+        if(empty($this->with)) {
+            return [];
+        }
+
+        return ArrayHelper::toArray($this->with);
     }
 
     /*public function setWith($with): void
