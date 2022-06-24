@@ -12,9 +12,7 @@ trait RepositoryFindAllTrait
     {
         $query = $this->forgeQuery($query);
         $collection = $this->findBy($query);
-        $this->loadRelations($collection, $query->getWith() ?: []);
-//        $queryFilter = $this->queryFilterInstance($query);
-//        $queryFilter->loadRelations($collection);
+        $this->loadRelationsByQuery($collection, $query);
         return $collection;
     }
 }
