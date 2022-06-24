@@ -10,7 +10,7 @@ use ZnCore\Base\Text\Helpers\Inflector;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 
-trait MapperTrait
+trait RepositoryMapperTrait
 {
 
     public function mappers(): array

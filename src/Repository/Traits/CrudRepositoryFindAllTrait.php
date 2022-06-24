@@ -5,7 +5,7 @@ namespace ZnCore\Domain\Repository\Traits;
 use Illuminate\Support\Enumerable;
 use ZnCore\Domain\Query\Entities\Query;
 
-trait RepositoryFindAllTrait
+trait CrudRepositoryFindAllTrait
 {
 
     public function all(Query $query = null): Enumerable

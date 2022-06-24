@@ -6,7 +6,7 @@ use ZnCore\Base\Validation\Helpers\ValidationHelper;
 use ZnCore\Domain\Domain\Enums\EventEnum;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 
-trait RepositoryUpdateTrait
+trait CrudRepositoryUpdateTrait
 {
 
     abstract protected function updateQuery($id, array $data): void;

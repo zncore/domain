@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Repository\Traits;
 
 use ZnCore\Domain\Domain\Enums\EventEnum;
 
-trait RepositoryDeleteTrait
+trait CrudRepositoryDeleteTrait
 {
 
     abstract protected function deleteByIdQuery($id): void;

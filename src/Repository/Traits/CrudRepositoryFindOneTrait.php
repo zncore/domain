@@ -12,9 +12,8 @@ use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Query\Entities\Query;
-use ZnCore\Domain\Repository\Helpers\RepositoryUniqueHelper;
 
-trait RepositoryFindOneTrait
+trait CrudRepositoryFindOneTrait
 {
 
     public function oneById($id, Query $query = null): EntityIdInterface
@@ -62,7 +61,7 @@ trait RepositoryFindOneTrait
         if (!empty($unique)) {
             foreach ($unique as $uniqueConfig) {
                 $oneEntity = $this->oneByUniqueGroup($entity, $uniqueConfig);
-                if($oneEntity) {
+                if ($oneEntity) {
                     return $oneEntity;
                 }
             }
@@ -72,11 +71,10 @@ trait RepositoryFindOneTrait
 
     private function oneByUniqueGroup(UniqueInterface $entity, $uniqueConfig): ?EntityIdInterface
     {
-        $isBreak = false;
         $query = new Query();
         foreach ($uniqueConfig as $uniqueName) {
             $value = EntityHelper::getValue($entity, $uniqueName);
-            if($value === null) {
+            if ($value === null) {
                 return null;
             }
             $query->where(Inflector::underscore($uniqueName), $value);

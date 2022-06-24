@@ -8,6 +8,8 @@ use ZnCore\Domain\Helpers\Repository\RelationHelper;
 use ZnCore\Domain\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Query\Entities\Query;
 
+
+
 class QueryFilter
 {
 
