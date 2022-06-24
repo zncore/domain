@@ -30,13 +30,6 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         return true;
     }
 
-    /*public function afterMethod(string $method, EventEntity $event)
-    {
-        $event->setMethod($method);
-        $event->setTarget($this);
-        $event->setType('after');
-    }*/
-
     protected function dispatchQueryEvent(Query $query, string $eventName): QueryEvent
     {
         $event = new QueryEvent($query);
