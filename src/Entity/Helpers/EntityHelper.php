@@ -6,10 +6,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
 use ReflectionClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Text\Helpers\Inflector;
 use ZnLib\Components\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
 
@@ -35,60 +33,6 @@ class EntityHelper
     {
         return is_object($data) && !($data instanceof Collection);
     }
-
-
-
-
-
-
-    /*public static function indexingCollection(Collection $collection, string $fieldName): array
-    {
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $array = [];
-        foreach ($collection as $item) {
-            $pkValue = $propertyAccessor->getValue($item, $fieldName);
-            $array[$pkValue] = $item;
-        }
-        return $array;
-    }
-
-    public static function createEntityCollection(string $entityClass, array $data = [], array $filedsOnly = []): Collection
-    {
-        foreach ($data as $key => $item) {
-            $entity = new $entityClass;
-            self::setAttributes($entity, $item, $filedsOnly);
-            $data[$key] = $entity;
-        }
-        $collection = new Collection($data);
-        return $collection;
-    }
-
-    public static function collectionToArray(Collection $collection): array
-    {
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $normalizeHandler = function ($value) use ($serializer) {
-            return $serializer->normalize($value);
-            //return is_object($value) ? self::toArray($value) : $value;
-        };
-        $normalizeCollection = $collection->map($normalizeHandler);
-        return $normalizeCollection->all();
-    }
-
-    public static function getColumn(Collection $collection, string $key): array
-    {
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $array = [];
-        foreach ($collection as $entity) {
-            $array[] = $propertyAccessor->getValue($entity, $key);
-        }
-        $array = array_values($array);
-        return $array;
-    }*/
-
-
-
-
-
 
     public static function toArrayForTablize(object $entity, array $columnList = []): array
     {
