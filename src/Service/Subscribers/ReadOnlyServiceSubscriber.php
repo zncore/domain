@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Service\Subscribers;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use ZnLib\Components\ReadOnly\Exceptions\ReadOnlyException;
+use ZnCore\Contract\Common\Exceptions\ReadOnlyException;
 use ZnCore\Domain\Domain\Enums\EventEnum;
 use ZnCore\Domain\Domain\Events\EntityEvent;
 use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
