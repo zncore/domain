@@ -10,7 +10,7 @@ use ZnCore\Contract\Common\Exceptions\InvalidConfigException;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Base\Container\Interfaces\ContainerConfiguratorInterface;
-use ZnCore\Base\I18Next\Facades\I18Next;
+use ZnLib\Components\I18Next\Facades\I18Next;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Base\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;

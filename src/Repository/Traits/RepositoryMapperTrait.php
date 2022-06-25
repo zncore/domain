@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Repository\Traits;
 
 use Illuminate\Support\Collection;
-use ZnCore\Base\Format\Encoders\ChainEncoder;
+use ZnLib\Components\Format\Encoders\ChainEncoder;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Base\Text\Helpers\Inflector;

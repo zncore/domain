@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Serializer;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Base\Text\Helpers\Inflector;
-use ZnCore\Base\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
+use ZnLib\Components\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
 
 class CollectionHelper
 {

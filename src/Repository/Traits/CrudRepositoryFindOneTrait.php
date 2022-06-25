@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
-use ZnCore\Base\I18Next\Facades\I18Next;
+use ZnLib\Components\I18Next\Facades\I18Next;
 use ZnCore\Base\Text\Helpers\Inflector;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Enums\EventEnum;
