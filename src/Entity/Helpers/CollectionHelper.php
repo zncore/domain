@@ -4,14 +4,9 @@ namespace ZnCore\Domain\Entity\Helpers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
-use ReflectionClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use ZnCore\Base\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
-use ZnCore\Base\Text\Helpers\Inflector;
-use ZnLib\Components\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
 
 class CollectionHelper
 {
