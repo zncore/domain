@@ -2,7 +2,6 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
-use ZnLib\Components\I18Next\Facades\I18Next;
 use ZnCore\Base\Text\Helpers\Inflector;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Enums\EventEnum;
@@ -12,9 +11,12 @@ use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Query\Entities\Query;
+use ZnLib\Components\I18Next\Facades\I18Next;
 
 trait CrudRepositoryFindOneTrait
 {
+
+    protected $primaryKey = ['id'];
 
     public function oneById($id, Query $query = null): EntityIdInterface
     {
