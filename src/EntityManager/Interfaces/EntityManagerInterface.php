@@ -23,7 +23,7 @@ interface EntityManagerInterface extends TransactionInterface, FindOneUniqueInte
 
     public function one(string $entityClass, Query $query = null): EntityIdInterface;
 
-    public function oneById(string $entityClass, $id, Query $query = null): EntityIdInterface;*/
+    public function findOneById(string $entityClass, $id, Query $query = null): EntityIdInterface;*/
 
 //    public function findOneByUnique(UniqueInterface $entity): ?EntityIdInterface;
 
