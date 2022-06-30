@@ -10,7 +10,7 @@ trait CrudRepositoryFindAllTrait
 {
 
 //    use FindAllTrait;
-
+    
     public function findAll(Query $query = null): Enumerable
     {
         $query = $this->forgeQuery($query);

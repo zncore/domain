@@ -12,9 +12,9 @@ use ZnCore\Domain\Query\Entities\Query;
 trait CrudServiceFindOneTrait
 {
 
-    use FindOneTrait;
+//    use FindOneTrait;
 
-    public function oneById($id, Query $query = null): EntityIdInterface
+    public function findOneById($id, Query $query = null): EntityIdInterface
     {
         if (empty($id)) {
             throw (new InvalidMethodParameterException('Empty ID'))

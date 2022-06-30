@@ -15,9 +15,9 @@ trait FindOneTrait
 
 //    abstract public function oneByUnique(UniqueInterface $entity): EntityIdInterface;
 
-    public function findOneById($id, Query $query = null): EntityIdInterface {
+    /*public function findOneById($id, Query $query = null): EntityIdInterface {
         return $this->oneById($id, $query);
-    }
+    }*/
 
     /*public function findOneByUnique(UniqueInterface $entity): EntityIdInterface {
         return $this->oneByUnique($entity);

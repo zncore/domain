@@ -14,7 +14,7 @@ trait CrudRepositoryUpdateTrait
     public function update(EntityIdInterface $entity)
     {
         ValidationHelper::validateEntity($entity);
-        $this->oneById($entity->getId());
+        $this->findOneById($entity->getId());
         $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_UPDATE_ENTITY);
         $data = $this->mapperEncodeEntity($entity);
         $this->updateQuery($entity->getId(), $data);

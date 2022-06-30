@@ -14,51 +14,8 @@ use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnLib\Components\I18Next\Facades\I18Next;
 
-trait CrudRepositoryFindOneTrait
+trait CrudRepositoryFindOneByUniqueTrait
 {
-
-//    use FindOneTrait;
-
-    protected $primaryKey = ['id'];
-
-    public function findOneById($id, Query $query = null): EntityIdInterface
-    {
-        if (empty($id)) {
-            throw (new InvalidMethodParameterException('Empty ID'))
-                ->setParameterName('id');
-        }
-        $query = $this->forgeQuery($query);
-        $query->where($this->primaryKey[0], $id);
-        $entity = $this->one($query);
-        return $entity;
-    }
-
-    public function one(Query $query = null)
-    {
-        $query->limit(1);
-        $collection = $this->findAll($query);
-        if ($collection->count() < 1) {
-            throw new NotFoundException('Not found entity!');
-        }
-        $entity = $collection->first();
-        $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_READ_ENTITY);
-        return $entity;
-    }
-
-    public function checkExists(EntityIdInterface $entity): void
-    {
-        try {
-            $existedEntity = $this->oneByUnique($entity);
-            if ($existedEntity) {
-                $message = I18Next::t('core', 'domain.message.entity_already_exist');
-                $e = new AlreadyExistsException($message);
-                $e->setEntity($existedEntity);
-                throw $e;
-            }
-        } catch (NotFoundException $e) {
-        }
-    }
-
 
     public function oneByUnique(UniqueInterface $entity): EntityIdInterface
     {

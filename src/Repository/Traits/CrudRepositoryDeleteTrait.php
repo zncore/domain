@@ -11,7 +11,7 @@ trait CrudRepositoryDeleteTrait
 
     public function deleteById($id)
     {
-        $entity = $this->oneById($id);
+        $entity = $this->findOneById($id);
         $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_DELETE_ENTITY);
         if (!$event->isSkipHandle()) {
             $this->deleteByIdQuery($id);
