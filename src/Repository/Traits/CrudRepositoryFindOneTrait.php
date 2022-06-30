@@ -36,7 +36,7 @@ trait CrudRepositoryFindOneTrait
     public function one(Query $query = null)
     {
         $query->limit(1);
-        $collection = $this->all($query);
+        $collection = $this->findAll($query);
         if ($collection->count() < 1) {
             throw new NotFoundException('Not found entity!');
         }
@@ -84,7 +84,7 @@ trait CrudRepositoryFindOneTrait
             }
             $query->where(Inflector::underscore($uniqueName), $value);
         }
-        $all = $this->all($query);
+        $all = $this->findAll($query);
         if ($all->count() > 0) {
             return $all->first();
         }

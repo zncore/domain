@@ -10,7 +10,7 @@ use ZnCore\Domain\Query\Entities\Query;
 trait CrudServiceFindAllTrait
 {
 
-    use FindAllTrait;
+//    use FindAllTrait;
 
     public function getDataProvider(Query $query = null): DataProvider
     {
@@ -18,7 +18,7 @@ trait CrudServiceFindAllTrait
         return $dataProvider;
     }
 
-    public function all(Query $query = null): Enumerable
+    public function findAll(Query $query = null): Enumerable
     {
         $query = $this->forgeQuery($query);
         $collection = $this->getRepository()->findAll($query);

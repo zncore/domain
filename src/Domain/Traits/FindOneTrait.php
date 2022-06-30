@@ -11,7 +11,7 @@ use ZnCore\Domain\Query\Entities\Query;
 trait FindOneTrait
 {
 
-    abstract public function oneById($id, Query $query = null): EntityIdInterface;
+//    abstract public function oneById($id, Query $query = null): EntityIdInterface;
 
 //    abstract public function oneByUnique(UniqueInterface $entity): EntityIdInterface;
 

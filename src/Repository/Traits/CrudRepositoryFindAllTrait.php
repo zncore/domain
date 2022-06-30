@@ -9,9 +9,9 @@ use ZnCore\Domain\Query\Entities\Query;
 trait CrudRepositoryFindAllTrait
 {
 
-    use FindAllTrait;
+//    use FindAllTrait;
 
-    public function all(Query $query = null): Enumerable
+    public function findAll(Query $query = null): Enumerable
     {
         $query = $this->forgeQuery($query);
         $collection = $this->findBy($query);
