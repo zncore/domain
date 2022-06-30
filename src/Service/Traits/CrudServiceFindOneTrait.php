@@ -26,8 +26,8 @@ trait CrudServiceFindOneTrait
         return $entity;
     }
 
-    public function oneByUnique(UniqueInterface $entity): EntityIdInterface
+    public function findOneByUnique(UniqueInterface $entity): EntityIdInterface
     {
-        return $this->getRepository()->oneByUnique($entity);
+        return $this->getRepository()->findOneByUnique($entity);
     }
 }

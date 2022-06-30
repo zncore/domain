@@ -17,7 +17,7 @@ use ZnLib\Components\I18Next\Facades\I18Next;
 trait CrudRepositoryFindOneTrait
 {
 
-//    use FindOneTrait;
+    use FindOneTrait;
 
     protected $primaryKey = ['id'];
 
@@ -48,7 +48,7 @@ trait CrudRepositoryFindOneTrait
     public function checkExists(EntityIdInterface $entity): void
     {
         try {
-            $existedEntity = $this->oneByUnique($entity);
+            $existedEntity = $this->findOneByUnique($entity);
             if ($existedEntity) {
                 $message = I18Next::t('core', 'domain.message.entity_already_exist');
                 $e = new AlreadyExistsException($message);
@@ -58,14 +58,13 @@ trait CrudRepositoryFindOneTrait
         } catch (NotFoundException $e) {
         }
     }
-
-
-    public function oneByUnique(UniqueInterface $entity): EntityIdInterface
+    
+    public function findOneByUnique(UniqueInterface $entity): EntityIdInterface
     {
         $unique = $entity->unique();
         if (!empty($unique)) {
             foreach ($unique as $uniqueConfig) {
-                $oneEntity = $this->oneByUniqueGroup($entity, $uniqueConfig);
+                $oneEntity = $this->findOneByUniqueGroup($entity, $uniqueConfig);
                 if ($oneEntity) {
                     return $oneEntity;
                 }
@@ -74,7 +73,7 @@ trait CrudRepositoryFindOneTrait
         throw new NotFoundException();
     }
 
-    private function oneByUniqueGroup(UniqueInterface $entity, $uniqueConfig): ?EntityIdInterface
+    private function findOneByUniqueGroup(UniqueInterface $entity, $uniqueConfig): ?EntityIdInterface
     {
         $query = new Query();
         foreach ($uniqueConfig as $uniqueName) {
