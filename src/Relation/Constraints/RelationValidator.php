@@ -45,7 +45,7 @@ class RelationValidator extends BaseValidator
         $repository = $em->getRepository($constraint->foreignEntityClass);
 
         try {
-            $repository->oneById($value);
+            $repository->findOneById($value);
         } catch (NotFoundException $e) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)

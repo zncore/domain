@@ -15,7 +15,7 @@ interface FindOneInterface
      * @return object|EntityIdInterface
      * @throws NotFoundException
      */
-    public function oneById($id, Query $query = null): EntityIdInterface;
+//    public function oneById($id, Query $query = null): EntityIdInterface;
 
     public function findOneById($id, Query $query = null): EntityIdInterface;
 }

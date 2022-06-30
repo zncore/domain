@@ -8,7 +8,7 @@ use ZnCore\Domain\Query\Entities\Query;
 trait FindAllTrait
 {
 
-    abstract public function all(Query $query = null): Enumerable;
+//    abstract public function all(Query $query = null): Enumerable;
 
     public function findAll(Query $query = null): Enumerable
     {

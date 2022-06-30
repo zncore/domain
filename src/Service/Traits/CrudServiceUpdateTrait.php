@@ -14,7 +14,7 @@ trait CrudServiceUpdateTrait
             $this->getEntityManager()->beginTransaction();
         }
         try {
-            $entity = $this->getRepository()->oneById($id);
+            $entity = $this->getRepository()->findOneById($id);
             EntityHelper::setAttributes($entity, $data);
             $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_UPDATE_ENTITY);
             $this->getRepository()->update($entity);

@@ -82,7 +82,7 @@ abstract class BaseRelation implements RelationInterface
             $query->limit(count($ids));
         }*/
         $query->limit(count($ids));
-        $collection = $foreignRepositoryInstance->all($query);
+        $collection = $foreignRepositoryInstance->findAll($query);
         return $collection;
     }
 

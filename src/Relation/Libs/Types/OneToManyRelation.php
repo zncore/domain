@@ -45,7 +45,7 @@ class OneToManyRelation extends BaseRelation implements RelationInterface
     protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Collection
     {
         //$query->limit(count($ids));
-        $collection = $foreignRepositoryInstance->all($query);
+        $collection = $foreignRepositoryInstance->findAll($query);
         return $collection;
     }
 }

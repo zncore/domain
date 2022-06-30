@@ -13,7 +13,7 @@ trait CrudServiceDeleteTrait
             $this->getEntityManager()->beginTransaction();
         }
         try {
-            $entity = $this->getRepository()->oneById($id);
+            $entity = $this->getRepository()->findOneById($id);
             $event = $this->dispatchEntityEvent($entity, EventEnum::BEFORE_DELETE_ENTITY);
             if (!$event->isSkipHandle()) {
                 $this->getRepository()->deleteById($id);

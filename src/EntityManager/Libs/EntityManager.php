@@ -104,7 +104,7 @@ class EntityManager implements EntityManagerInterface
     /*public function all(string $entityClass, Query $query = null): Collection
     {
         $repository = $this->getRepository($entityClass);
-        return $repository->all($query);
+        return $repository->findAll($query);
     }
 
     public function count(string $entityClass, Query $query = null): int
@@ -136,7 +136,7 @@ class EntityManager implements EntityManagerInterface
     public function oneById(string $entityClass, $id, Query $query = null): EntityIdInterface
     {
         $repository = $this->getRepository($entityClass);
-        return $repository->oneById($id, $query);
+        return $repository->findOneById($id, $query);
     }*/
 
     public function remove(EntityIdInterface $entity): void
