@@ -5,6 +5,7 @@ namespace ZnCore\Domain\Repository\Traits;
 use ZnCore\Base\Text\Helpers\Inflector;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Enums\EventEnum;
+use ZnCore\Domain\Domain\Traits\FindOneTrait;
 use ZnCore\Domain\Entity\Exceptions\AlreadyExistsException;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
@@ -15,6 +16,8 @@ use ZnLib\Components\I18Next\Facades\I18Next;
 
 trait CrudRepositoryFindOneTrait
 {
+
+    use FindOneTrait;
 
     protected $primaryKey = ['id'];
 

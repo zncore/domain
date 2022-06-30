@@ -8,10 +8,8 @@ use ZnCore\Domain\Query\Entities\Query;
 interface FindAllInterface
 {
 
-    /**
-     * @param Query|null $query
-     * @return Enumerable|array
-     */
     public function all(Query $query = null): Enumerable;
+
+    public function findAll(Query $query = null): Enumerable;
 
 }

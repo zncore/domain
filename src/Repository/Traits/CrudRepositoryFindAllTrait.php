@@ -3,10 +3,13 @@
 namespace ZnCore\Domain\Repository\Traits;
 
 use Illuminate\Support\Enumerable;
+use ZnCore\Domain\Domain\Traits\FindAllTrait;
 use ZnCore\Domain\Query\Entities\Query;
 
 trait CrudRepositoryFindAllTrait
 {
+
+    use FindAllTrait;
 
     public function all(Query $query = null): Enumerable
     {

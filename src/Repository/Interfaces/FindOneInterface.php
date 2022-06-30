@@ -19,4 +19,6 @@ interface FindOneInterface
      */
     public function oneById($id, Query $query = null): EntityIdInterface;
 
+    public function findOneById($id, Query $query = null): EntityIdInterface;
+
 }

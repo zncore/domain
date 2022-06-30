@@ -4,11 +4,13 @@ namespace ZnCore\Domain\Service\Traits;
 
 use Illuminate\Support\Enumerable;
 use ZnCore\Domain\DataProvider\Libs\DataProvider;
+use ZnCore\Domain\Domain\Traits\FindAllTrait;
 use ZnCore\Domain\Query\Entities\Query;
 
 trait CrudServiceFindAllTrait
 {
 
+    use FindAllTrait;
 
     public function getDataProvider(Query $query = null): DataProvider
     {
@@ -19,7 +21,7 @@ trait CrudServiceFindAllTrait
     public function all(Query $query = null): Enumerable
     {
         $query = $this->forgeQuery($query);
-        $collection = $this->getRepository()->all($query);
+        $collection = $this->getRepository()->findAll($query);
         return $collection;
     }
 

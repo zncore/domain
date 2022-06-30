@@ -135,7 +135,7 @@ class DataProvider implements DataProviderInterface
             $query = $this->forgeQuery();
             $query->limit($this->entity->getPageSize());
             $query->offset($this->entity->getPageSize() * ($this->entity->getPage() - 1));
-            $this->entity->setCollection($this->service->all($query));
+            $this->entity->setCollection($this->service->findAll($query));
         }
         return $this->entity->getCollection();
     }
