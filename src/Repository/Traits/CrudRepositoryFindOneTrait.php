@@ -29,10 +29,28 @@ trait CrudRepositoryFindOneTrait
         }
         $query = $this->forgeQuery($query);
         $query->where($this->primaryKey[0], $id);
-        $entity = $this->one($query);
+        $entity = $this->findOne($query);
         return $entity;
     }
 
+    public function findOne(Query $query = null)
+    {
+        $query->limit(1);
+        $collection = $this->findAll($query);
+        if ($collection->count() < 1) {
+            throw new NotFoundException('Not found entity!');
+        }
+        $entity = $collection->first();
+        $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_READ_ENTITY);
+        return $entity;
+    }
+
+    /**
+     * @param Query|null $query
+     * @return mixed
+     * @throws NotFoundException
+     * @deprecated
+     */
     public function one(Query $query = null)
     {
         $query->limit(1);
@@ -58,7 +76,7 @@ trait CrudRepositoryFindOneTrait
         } catch (NotFoundException $e) {
         }
     }
-    
+
     public function findOneByUnique(UniqueInterface $entity): EntityIdInterface
     {
         $unique = $entity->unique();
