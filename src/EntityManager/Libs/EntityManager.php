@@ -130,7 +130,7 @@ class EntityManager implements EntityManagerInterface
    /* public function one(string $entityClass, Query $query = null): EntityIdInterface
     {
         $repository = $this->getRepository($entityClass);
-        return $repository->one($query);
+        return $repository->findOne($query);
     }
 
     public function findOneById(string $entityClass, $id, Query $query = null): EntityIdInterface

@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
+use Illuminate\Support\Enumerable;
 use ZnCore\Base\Text\Helpers\Inflector;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Enums\EventEnum;
@@ -33,7 +34,7 @@ trait CrudRepositoryFindOneTrait
         return $entity;
     }
 
-    public function findOne(Query $query = null)
+    public function findOne(Query $query = null): object
     {
         $query->limit(1);
         $collection = $this->findAll($query);
@@ -45,23 +46,24 @@ trait CrudRepositoryFindOneTrait
         return $entity;
     }
 
-    /**
+    /*
      * @param Query|null $query
      * @return mixed
      * @throws NotFoundException
      * @deprecated
      */
-    public function one(Query $query = null)
-    {
-        $query->limit(1);
-        $collection = $this->findAll($query);
-        if ($collection->count() < 1) {
-            throw new NotFoundException('Not found entity!');
-        }
-        $entity = $collection->first();
-        $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_READ_ENTITY);
-        return $entity;
-    }
+//    public function one(Query $query = null)
+//    {
+//        $query->limit(1);
+//        /** @var Enumerable $collection */
+//        $collection = $this->findAll($query);
+//        if ($collection->count() < 1) {
+//            throw new NotFoundException('Not found entity!');
+//        }
+//        $entity = $collection->first();
+//        $event = $this->dispatchEntityEvent($entity, EventEnum::AFTER_READ_ENTITY);
+//        return $entity;
+//    }
 
     public function checkExists(EntityIdInterface $entity): void
     {
