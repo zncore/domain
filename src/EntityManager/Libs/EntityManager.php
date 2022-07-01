@@ -5,29 +5,26 @@ namespace ZnCore\Domain\EntityManager\Libs;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
 use Psr\Container\ContainerInterface;
-use ZnCore\Domain\Entity\Exceptions\AlreadyExistsException;
+use ZnCore\Base\Container\Interfaces\ContainerConfiguratorInterface;
+use ZnCore\Base\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Contract\Common\Exceptions\InvalidConfigException;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
+use ZnCore\Domain\Entity\Exceptions\AlreadyExistsException;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
-use ZnCore\Base\Container\Interfaces\ContainerConfiguratorInterface;
-use ZnLib\Components\I18Next\Facades\I18Next;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Base\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
+use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\EntityManager\Interfaces\EntityManagerConfiguratorInterface;
 use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
 use ZnCore\Domain\EntityManager\Interfaces\OrmInterface;
 use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
 use ZnCore\Domain\Repository\Interfaces\RepositoryInterface;
-use ZnCore\Domain\Query\Entities\Query;
+use ZnLib\Components\I18Next\Facades\I18Next;
 
 class EntityManager implements EntityManagerInterface
 {
 
     private $container;
-//    private $config;
-//    private $entityToRepository;
     private $entityManagerConfigurator;
     private $containerConfigurator;
     private static $instance;
@@ -55,16 +52,6 @@ class EntityManager implements EntityManagerInterface
         return self::$instance;
     }
 
-    /*public function setConfig(array $config): void
-    {
-        $this->config = $config;
-    }
-
-    public function bindEntity(string $entityClass, string $repositoryInterface): void
-    {
-        //$this->entityToRepository[$entityClass] = $repositoryInterface;
-    }*/
-
     /**
      * @param string $entityClass
      * @return RepositoryInterface | CrudRepositoryInterface
@@ -83,7 +70,6 @@ class EntityManager implements EntityManagerInterface
             }
         }
         $class = $this->entityManagerConfigurator->entityToRepository($entityClass);
-//        $class = $this->entityToRepository[$entityClass];
         return $this->getRepositoryByClass($class);
     }
 
@@ -101,22 +87,9 @@ class EntityManager implements EntityManagerInterface
         return null;
     }
 
-    /*public function all(string $entityClass, Query $query = null): Collection
-    {
-        $repository = $this->getRepository($entityClass);
-        return $repository->findAll($query);
-    }
-
-    public function count(string $entityClass, Query $query = null): int
-    {
-        $repository = $this->getRepository($entityClass);
-        return $repository->count($query);
-    }*/
-
     public function loadEntityRelations(object $entityOrCollection, array $with): void
     {
-//        $entityClass = get_class($entity);
-        if($entityOrCollection instanceof Enumerable) {
+        if ($entityOrCollection instanceof Enumerable) {
             $collection = $entityOrCollection;
         } else {
             $collection = new Collection([$entityOrCollection]);
@@ -126,18 +99,6 @@ class EntityManager implements EntityManagerInterface
         $repository = $this->getRepository($entityClass);
         $repository->loadRelations($collection, $with);
     }
-
-   /* public function one(string $entityClass, Query $query = null): EntityIdInterface
-    {
-        $repository = $this->getRepository($entityClass);
-        return $repository->findOne($query);
-    }
-
-    public function findOneById(string $entityClass, $id, Query $query = null): EntityIdInterface
-    {
-        $repository = $this->getRepository($entityClass);
-        return $repository->findOneById($id, $query);
-    }*/
 
     public function remove(EntityIdInterface $entity): void
     {
@@ -233,7 +194,6 @@ class EntityManager implements EntityManagerInterface
         $repository->update($entity);
     }
 
-//    public function findOneByUnique(UniqueInterface $entity): ?EntityIdInterface
     public function findOneByUnique(UniqueInterface $entity): EntityIdInterface
     {
         $entityClass = get_class($entity);
