@@ -10,12 +10,11 @@ interface FindOneInterface
 {
 
     /**
-     * @param $id
-     * @param Query|null $query
+     * Получить одну сущность по ID
+     * @param $id ID сущности
+     * @param Query|null $query Объект запроса
      * @return object|EntityIdInterface
      * @throws NotFoundException
      */
-//    public function findOneById($id, Query $query = null): EntityIdInterface;
-
     public function findOneById($id, Query $query = null): EntityIdInterface;
 }

@@ -10,22 +10,25 @@ interface ModifyInterface
 {
 
     /**
-     * @param array $data
+     * Создать и сохранить сущность в хранилище
+     * @param array $data массив атрибутов сущности
      * @return EntityIdInterface
      * @throws UnprocessibleEntityException
      */
     public function create($data): EntityIdInterface;
 
     /**
-     * @param int $id
-     * @param array $data
+     * Редактировать запись в хранилище по ID
+     * @param int $id ID сущности
+     * @param array $data массив атрибутов сущности
      * @throws NotFoundException
      * @throws UnprocessibleEntityException
      */
     public function updateById($id, $data);
 
     /**
-     * @param int $id
+     * Удалить запись из хранилища по ID
+     * @param int $id ID сущности
      * @throws NotFoundException
      */
     public function deleteById($id);
