@@ -26,7 +26,7 @@ class Query
     const JOIN = 'join';
 
     private $where;
-    private $whereNew;
+//    private $whereNew;
     private $select;
     private $with;
     private $page;

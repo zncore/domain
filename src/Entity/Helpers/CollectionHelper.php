@@ -4,16 +4,52 @@ namespace ZnCore\Domain\Entity\Helpers;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
-use ZnCore\Domain\Collection\Libs\Collection;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Domain\Collection\Libs\Collection;
+use ZnCore\Domain\Query\Entities\Query;
+use ZnCore\Domain\Query\Entities\Where;
 
 class CollectionHelper
 {
 
-    public static function where(Enumerable $collection, $field, $operator, $value) {
+    public static function filterByQuery(Enumerable $collection, Query $query): Enumerable
+    {
+        $criteria = self::query2criteria($query);
+        return $collection->matching($criteria);
+    }
+
+    public static function query2criteria(Query $query): Criteria
+    {
+        $criteria = new Criteria();
+        if($query->getWhere()) {
+            foreach ($query->getWhere() as $where) {
+                $expr = new Comparison($where->column, $where->operator, $where->value);
+                $criteria->andWhere($expr);
+            }
+        }
+        return $criteria;
+    }
+
+    /**
+     * @param Enumerable $collection
+     * @param array | Where[] $whereArray
+     * @return mixed
+     */
+    public static function whereArr(Enumerable $collection, array $whereArray)
+    {
+        $criteria = new Criteria();
+        foreach ($whereArray as $where) {
+            $expr = new Comparison($where->column, $where->operator, $where->value);
+            $criteria->andWhere($expr);
+        }
+        return $collection->matching($criteria);
+    }
+
+    public static function where(Enumerable $collection, $field, $operator, $value)
+    {
         $expr = new Comparison($field, $operator, $value);
         $criteria = new Criteria();
         $criteria->andWhere($expr);
@@ -24,9 +60,6 @@ class CollectionHelper
     {
         $result = clone $collection;
         self::appendCollection($result, $source);
-        /*foreach ($source as $item) {
-            $result->add($item);
-        }*/
         return $result;
     }
 
@@ -42,15 +75,14 @@ class CollectionHelper
         if ($size <= 0) {
             return new Collection();
         }
-
         $chunks = [];
-
         foreach (array_chunk($collection->toArray(), $size, true) as $chunk) {
             $chunks[] = new Collection($chunk);
         }
-
         return new Collection($chunks);
     }
+
+
 
 
 
@@ -76,10 +108,6 @@ class CollectionHelper
         return $collection;
     }
 
-    /**
-     * @param Enumerable $collection
-     * @return array
-     */
     public static function toArray(Enumerable $collection): array
     {
         $serializer = new Serializer([new ObjectNormalizer()]);
