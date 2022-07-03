@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
-use Illuminate\Support\Enumerable;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Query\Entities\Query;
 
 trait CrudRepositoryFindAllTrait

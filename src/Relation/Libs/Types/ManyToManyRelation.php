@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
-use Illuminate\Support\Collection;
+use ZnCore\Domain\Collection\Libs\Collection;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use yii\di\Container;

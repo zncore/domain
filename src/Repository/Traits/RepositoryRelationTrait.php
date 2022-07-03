@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
-use Illuminate\Support\Collection;
+use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Relation\Libs\RelationLoader;
 

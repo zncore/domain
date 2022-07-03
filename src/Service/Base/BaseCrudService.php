@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Service\Base;
 
-use Illuminate\Support\Enumerable;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Traits\DispatchEventTrait;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;

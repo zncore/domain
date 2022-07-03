@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Service\Traits;
 
-use Illuminate\Support\Enumerable;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\DataProvider\Libs\DataProvider;
 use ZnCore\Domain\Query\Entities\Query;
 

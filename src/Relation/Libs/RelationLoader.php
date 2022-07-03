@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs;
 
-use Illuminate\Support\Collection;
+use ZnCore\Domain\Collection\Libs\Collection;
 use InvalidArgumentException;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
