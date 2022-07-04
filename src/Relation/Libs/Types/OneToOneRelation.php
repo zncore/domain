@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Relation\Libs\Types;
 
 use ZnCore\Domain\Collection\Libs\Collection;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;

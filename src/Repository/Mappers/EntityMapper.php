@@ -21,7 +21,7 @@ class EntityMapper implements MapperInterface
     {
         $foreignEntity = $entityAttributes[$this->attribute] ?: null;
         if ($foreignEntity) {
-            $entityAttributes = EntityHelper::toArray($this->entityClass, $foreignEntity);
+            $entityAttributes[$this->attribute] = EntityHelper::toArray($this->entityClass, $foreignEntity);
         }
         return $entityAttributes;
     }
@@ -30,7 +30,7 @@ class EntityMapper implements MapperInterface
     {
         $foreignEntity = $rowAttributes[$this->attribute] ?: null;
         if ($foreignEntity) {
-            $rowAttributes = EntityHelper::createEntity($this->entityClass, $foreignEntity);
+            $rowAttributes[$this->attribute] = EntityHelper::createEntity($this->entityClass, $foreignEntity);
         }
         return $rowAttributes;
     }

@@ -5,7 +5,7 @@ namespace ZnCore\Domain\Entity\Helpers;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ReflectionClass;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Text\Helpers\Inflector;

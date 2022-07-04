@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Relation\Libs\Types;
 
 use ZnCore\Domain\Collection\Libs\Collection;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use yii\di\Container;
 use ZnCore\Domain\Domain\Interfaces\FindAllInterface;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;

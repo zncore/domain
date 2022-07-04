@@ -4,7 +4,7 @@ namespace ZnCore\Domain\Relation\Libs\Types;
 
 use ZnCore\Domain\Collection\Libs\Collection;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnCore\Domain\Domain\Interfaces\FindAllInterface;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Query\Entities\Where;
