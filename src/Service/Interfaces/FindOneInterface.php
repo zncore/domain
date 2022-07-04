@@ -11,7 +11,7 @@ interface FindOneInterface
 
     /**
      * Получить одну сущность по ID
-     * @param $id ID сущности
+     * @param $id int ID сущности
      * @param Query|null $query Объект запроса
      * @return object|EntityIdInterface
      * @throws NotFoundException
