@@ -35,7 +35,7 @@ class PropertyAccess
     protected static function getCacheItemPool(): AdapterInterface
     {
         $container = ContainerHelper::getContainer();
-        if ($container) {
+        if ($container && $container->has(AdapterInterface::class)) {
             $cacheItemPool = $container->get(AdapterInterface::class);
         } else {
             $cacheItemPool = new ArrayAdapter();
