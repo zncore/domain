@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnLib\Components\Format\Encoders\ChainEncoder;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
@@ -60,7 +61,7 @@ trait RepositoryMapperTrait
         return $entity;
     }
 
-    protected function mapperDecodeCollection(array $array): Collection
+    protected function mapperDecodeCollection(array $array): Enumerable
     {
         $collection = new Collection();
         foreach ($array as $item) {

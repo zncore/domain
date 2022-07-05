@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Domain\Entity\Factories\PropertyAccess;
@@ -76,7 +77,7 @@ abstract class BaseRelation implements RelationInterface
         return $this->loadCollection($foreignRepositoryInstance, $ids, $query);
     }
 
-    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Collection {
+    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Enumerable {
         // todo: костыль, надо проверить наверняка
         /*if (get_called_class() != OneToManyRelation::class) {
             $query->limit(count($ids));

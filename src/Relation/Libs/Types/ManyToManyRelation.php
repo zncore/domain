@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use Psr\Container\ContainerInterface;
 use ZnCore\Domain\Entity\Factories\PropertyAccess;
@@ -125,7 +126,7 @@ class ManyToManyRelation extends BaseRelation implements RelationInterface
         }
     }
 
-    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Collection
+    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Enumerable
     {
         //$query->limit(count($ids));
         $collection = $foreignRepositoryInstance->findAll($query);

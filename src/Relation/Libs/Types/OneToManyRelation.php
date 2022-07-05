@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use yii\di\Container;
@@ -42,7 +43,7 @@ class OneToManyRelation extends BaseRelation implements RelationInterface
         }
     }
 
-    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Collection
+    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Enumerable
     {
         //$query->limit(count($ids));
         $collection = $foreignRepositoryInstance->findAll($query);

@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\EntityManager\Interfaces;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Repository\Interfaces\FindOneUniqueInterface;
@@ -24,6 +25,6 @@ interface EntityManagerInterface extends TransactionInterface, FindOneUniqueInte
 
     public function createEntity(string $entityClassName, array $attributes = []): object;
 
-    public function createEntityCollection(string $entityClassName, array $items): Collection;
+    public function createEntityCollection(string $entityClassName, array $items): Enumerable;
 
 }

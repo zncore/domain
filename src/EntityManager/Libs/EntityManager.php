@@ -215,7 +215,7 @@ class EntityManager implements EntityManagerInterface
         return $entityInstance;
     }
 
-    public function createEntityCollection(string $entityClassName, array $items): Collection
+    public function createEntityCollection(string $entityClassName, array $items): Enumerable
     {
         $collection = new Collection();
         foreach ($items as $item) {
