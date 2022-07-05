@@ -3,34 +3,35 @@
 namespace ZnCore\Domain\Repository\Traits;
 
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Relation\Libs\RelationLoader;
 
 trait RepositoryRelationTrait
 {
 
-    public function relations() {
+    public function relations()
+    {
         return [];
     }
 
     public function loadRelations(Enumerable $collection, array $with)
     {
 //        if (method_exists($this, 'relations')) {
-            $relations = $this->relations();
-            if(empty($relations)) {
-                return;
-            }
-            $query = new Query();
-            $query->with($with);
-            $relationLoader = new RelationLoader();
-            $relationLoader->setRelations($relations);
-            $relationLoader->setRepository($this);
-            $relationLoader->loadRelations($collection, $query);
+        $relations = $this->relations();
+        if (empty($relations)) {
+            return;
+        }
+        $query = new Query();
+        $query->with($with);
+        $relationLoader = new RelationLoader();
+        $relationLoader->setRelations($relations);
+        $relationLoader->setRepository($this);
+        $relationLoader->loadRelations($collection, $query);
 //        }
     }
 
-    public function loadRelationsByQuery(Enumerable $collection, Query $query) {
+    public function loadRelationsByQuery(Enumerable $collection, Query $query)
+    {
         $this->loadRelations($collection, $query->getWith() ?: []);
     }
 

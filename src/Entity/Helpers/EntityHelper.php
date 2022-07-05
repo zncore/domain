@@ -2,13 +2,13 @@
 
 namespace ZnCore\Domain\Entity\Helpers;
 
-use ZnCore\Domain\Collection\Libs\Collection;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ReflectionClass;
-use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Domain\Collection\Libs\Collection;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnLib\Components\DynamicEntity\Interfaces\DynamicEntityAttributesInterface;
 
 class EntityHelper
@@ -31,7 +31,7 @@ class EntityHelper
 
     public static function isEntity($data)
     {
-        return is_object($data) && !($data instanceof Collection);
+        return is_object($data) && !($data instanceof Enumerable);
     }
 
     public static function toArrayForTablize(object $entity, array $columnList = []): array

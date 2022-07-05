@@ -2,14 +2,14 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Instance\Helpers\ClassHelper;
+use ZnCore\Base\Text\Helpers\Inflector;
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
-use ZnLib\Components\Format\Encoders\ChainEncoder;
-use ZnCore\Base\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
-use ZnCore\Base\Text\Helpers\Inflector;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
+use ZnLib\Components\Format\Encoders\ChainEncoder;
 
 trait RepositoryMapperTrait
 {

@@ -4,11 +4,11 @@ namespace ZnCore\Domain\Entity\Helpers;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
-use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Query\Entities\Where;
 
@@ -24,7 +24,7 @@ class CollectionHelper
     public static function query2criteria(Query $query): Criteria
     {
         $criteria = new Criteria();
-        if($query->getWhere()) {
+        if ($query->getWhere()) {
             foreach ($query->getWhere() as $where) {
                 $expr = new Comparison($where->column, $where->operator, $where->value);
                 $criteria->andWhere($expr);
@@ -81,9 +81,6 @@ class CollectionHelper
         }
         return new Collection($chunks);
     }
-
-
-
 
 
     public static function indexing(Enumerable $collection, string $fieldName): array

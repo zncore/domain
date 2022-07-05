@@ -2,11 +2,10 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
 use Psr\Container\ContainerInterface;
-use ZnCore\Domain\Entity\Factories\PropertyAccess;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Domain\Interfaces\FindAllInterface;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Query\Entities\Where;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
@@ -54,21 +53,24 @@ abstract class BaseRelation implements RelationInterface
         $collection = $this->prepareCollection($collection);
     }
 
-    protected function getValueFromPath($value) {
-        if($this->fromPath) {
+    protected function getValueFromPath($value)
+    {
+        if ($this->fromPath) {
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             $value = $propertyAccessor->getValue($value, $this->fromPath);
         }
         return $value;
     }
 
-    protected function prepareCollection(Enumerable $collection) {
-        if($this->prepareCollection) {
+    protected function prepareCollection(Enumerable $collection)
+    {
+        if ($this->prepareCollection) {
             call_user_func($this->prepareCollection, $collection);
         }
     }
 
-    protected function loadRelationByIds(array $ids) {
+    protected function loadRelationByIds(array $ids)
+    {
         $foreignRepositoryInstance = $this->getRepositoryInstance();
         //$primaryKey = $foreignRepositoryInstance->primaryKey()[0];
         $query = $this->getQuery();
@@ -77,7 +79,8 @@ abstract class BaseRelation implements RelationInterface
         return $this->loadCollection($foreignRepositoryInstance, $ids, $query);
     }
 
-    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Enumerable {
+    protected function loadCollection(FindAllInterface $foreignRepositoryInstance, array $ids, Query $query): Enumerable
+    {
         // todo: костыль, надо проверить наверняка
         /*if (get_called_class() != OneToManyRelation::class) {
             $query->limit(count($ids));
@@ -87,11 +90,13 @@ abstract class BaseRelation implements RelationInterface
         return $collection;
     }
 
-    protected function getQuery(): Query {
+    protected function getQuery(): Query
+    {
         return $this->query ? $this->query : new Query;
     }
 
-    protected function getRepositoryInstance()/*: CrudRepositoryInterface*/ {
+    protected function getRepositoryInstance()/*: CrudRepositoryInterface*/
+    {
         return $this->container->get($this->foreignRepositoryClass);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace ZnCore\Domain\DataProvider\Interfaces;
 
-use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
 
 /**

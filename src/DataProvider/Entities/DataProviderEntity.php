@@ -3,7 +3,6 @@
 namespace ZnCore\Domain\DataProvider\Entities;
 
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
 
 class DataProviderEntity
 {
@@ -67,7 +66,7 @@ class DataProviderEntity
 
     public function getPageCount(): ?int
     {
-        if ( ! isset($this->totalCount)) {
+        if (!isset($this->totalCount)) {
             return null;
         }
         $totalCount = $this->totalCount;

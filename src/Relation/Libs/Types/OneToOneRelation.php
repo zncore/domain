@@ -2,15 +2,11 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
-use ZnCore\Domain\Entity\Factories\PropertyAccess;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
-use ZnCore\Domain\Entity\Helpers\CollectionHelper;
-use ZnCore\Domain\Entity\Helpers\EntityHelper;
-use ZnCore\Domain\Query\Entities\Query;
-use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
 use yii\di\Container;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Domain\Entity\Factories\PropertyAccess;
+use ZnCore\Domain\Entity\Helpers\CollectionHelper;
+use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
 
 class OneToOneRelation extends BaseRelation implements RelationInterface
 {
@@ -30,29 +26,31 @@ class OneToOneRelation extends BaseRelation implements RelationInterface
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         foreach ($collection as $entity) {
             $relationIndex = $propertyAccessor->getValue($entity, $this->relationAttribute);
-            if(!empty($relationIndex)) {
+            if (!empty($relationIndex)) {
                 try {
-                    if(isset($foreignCollection[$relationIndex])) {
+                    if (isset($foreignCollection[$relationIndex])) {
                         $value = $foreignCollection[$relationIndex];
-                        if($this->matchCondition($value)) {
+                        if ($this->matchCondition($value)) {
                             $value = $this->getValueFromPath($value);
                             $propertyAccessor->setValue($entity, $this->relationEntityAttribute, $value);
                         }
                     }
-                } catch (\Throwable $e) {}
+                } catch (\Throwable $e) {
+                }
             }
         }
     }
 
-    protected function matchCondition($row) {
-        if(empty($this->condition)) {
+    protected function matchCondition($row)
+    {
+        if (empty($this->condition)) {
             return true;
         }
         foreach ($this->condition as $key => $value) {
-            if(empty($row[$key])) {
+            if (empty($row[$key])) {
                 return false;
             }
-            if($row[$key] !== $this->condition[$key]) {
+            if ($row[$key] !== $this->condition[$key]) {
                 return false;
             }
         }

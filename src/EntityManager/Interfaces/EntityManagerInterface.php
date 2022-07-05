@@ -3,7 +3,6 @@
 namespace ZnCore\Domain\EntityManager\Interfaces;
 
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Repository\Interfaces\FindOneUniqueInterface;
 use ZnCore\Domain\Repository\Interfaces\RepositoryInterface;
