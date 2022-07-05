@@ -52,13 +52,13 @@ class ManyToManyRelation extends BaseRelation implements RelationInterface
         $this->container = $container;
     }
 
-    public function run(Collection $collection)
+    public function run(Enumerable $collection)
     {
         $this->loadRelation($collection);
         $collection = $this->prepareCollection($collection);
     }
 
-    protected function prepareCollection(Collection $collection)
+    protected function prepareCollection(Enumerable $collection)
     {
         if ($this->prepareCollection) {
             call_user_func($this->prepareCollection, $collection);
@@ -96,7 +96,7 @@ class ManyToManyRelation extends BaseRelation implements RelationInterface
         return $this->container->get($this->viaRepositoryClass);
     }
 
-    protected function loadRelation(Collection $collection)
+    protected function loadRelation(Enumerable $collection)
     {
         $ids = CollectionHelper::getColumn($collection, $this->relationAttribute);
         $ids = array_unique($ids);

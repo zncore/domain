@@ -41,14 +41,14 @@ abstract class BaseRelation implements RelationInterface
 
     public $fromPath = null;
 
-    abstract protected function loadRelation(Collection $collection);
+    abstract protected function loadRelation(Enumerable $collection);
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function run(Collection $collection)
+    public function run(Enumerable $collection)
     {
         $this->loadRelation($collection);
         $collection = $this->prepareCollection($collection);
@@ -62,7 +62,7 @@ abstract class BaseRelation implements RelationInterface
         return $value;
     }
 
-    protected function prepareCollection(Collection $collection) {
+    protected function prepareCollection(Enumerable $collection) {
         if($this->prepareCollection) {
             call_user_func($this->prepareCollection, $collection);
         }

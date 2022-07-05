@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Domain\Entity\Factories\PropertyAccess;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
@@ -20,7 +21,7 @@ class OneToOneRelation extends BaseRelation implements RelationInterface
     //public $foreignPrimaryKey = 'id';
     //public $foreignAttribute = 'id';
 
-    protected function loadRelation(Collection $collection)
+    protected function loadRelation(Enumerable $collection)
     {
         $ids = CollectionHelper::getColumn($collection, $this->relationAttribute);
         $ids = array_unique($ids);

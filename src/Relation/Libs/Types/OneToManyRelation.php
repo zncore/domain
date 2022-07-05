@@ -20,7 +20,7 @@ class OneToManyRelation extends BaseRelation implements RelationInterface
     //public $foreignPrimaryKey = 'id';
     //public $foreignAttribute = 'id';
 
-    protected function loadRelation(Collection $collection)
+    protected function loadRelation(Enumerable $collection)
     {
         $ids = CollectionHelper::getColumn($collection, $this->relationAttribute);
         $ids = array_unique($ids);

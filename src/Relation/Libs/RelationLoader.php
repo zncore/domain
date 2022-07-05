@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use InvalidArgumentException;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
@@ -63,7 +64,7 @@ class RelationLoader
         return $relationTree;
     }
 
-    public function loadRelations(Collection $collection, Query $query)
+    public function loadRelations(Enumerable $collection, Query $query)
     {
         $relations = $this->relations;
         $relations = $this->prepareRelations($relations);

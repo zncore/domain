@@ -2,6 +2,7 @@
 
 namespace ZnCore\Domain\DataProvider\Entities;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 
 class DataProviderEntity
@@ -85,7 +86,7 @@ class DataProviderEntity
         return $this->collection;
     }
 
-    public function setCollection(Collection $collection): void
+    public function setCollection(Enumerable $collection): void
     {
         $this->collection = $collection;
     }
