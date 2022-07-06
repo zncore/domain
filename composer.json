@@ -10,7 +10,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "zncore/base": "0.x-dev|v0.0.*",
+    "zncore/base": "0.x-dev|v0.0.*"
   },
   "autoload": {
     "psr-4": {
