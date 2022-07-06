@@ -3,7 +3,7 @@
 namespace ZnCore\Domain\Domain\Events;
 
 use Symfony\Contracts\EventDispatcher\Event;
-use ZnCore\Domain\Query\Entities\Query;
+use ZnCore\Query\Entities\Query;
 
 class QueryEvent extends Event
 {

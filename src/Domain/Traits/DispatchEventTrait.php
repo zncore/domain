@@ -6,7 +6,7 @@ use ZnCore\EventDispatcher\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Domain\Events\EntityEvent;
 use ZnCore\Domain\Domain\Events\QueryEvent;
 use ZnCore\Domain\Domain\Interfaces\GetEntityClassInterface;
-use ZnCore\Domain\Query\Entities\Query;
+use ZnCore\Query\Entities\Query;
 
 trait DispatchEventTrait
 {
