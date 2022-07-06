@@ -1,6 +1,6 @@
 <?php
 
-namespace ZnCore\Domain\Domain\Interfaces;
+namespace ZnCore\Domain\Interfaces;
 
 use ZnCore\Contract\Common\Interfaces\GetNameInterface;
 

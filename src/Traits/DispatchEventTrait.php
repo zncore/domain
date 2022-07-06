@@ -1,11 +1,11 @@
 <?php
 
-namespace ZnCore\Domain\Domain\Traits;
+namespace ZnCore\Domain\Traits;
 
 use ZnCore\EventDispatcher\Traits\EventDispatcherTrait;
-use ZnCore\Domain\Domain\Events\EntityEvent;
-use ZnCore\Domain\Domain\Events\QueryEvent;
-use ZnCore\Domain\Domain\Interfaces\GetEntityClassInterface;
+use ZnCore\Domain\Events\EntityEvent;
+use ZnCore\Domain\Events\QueryEvent;
+use ZnCore\Domain\Interfaces\GetEntityClassInterface;
 use ZnCore\Query\Entities\Query;
 
 trait DispatchEventTrait

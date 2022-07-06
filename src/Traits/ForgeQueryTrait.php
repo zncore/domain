@@ -1,8 +1,8 @@
 <?php
 
-namespace ZnCore\Domain\Domain\Traits;
+namespace ZnCore\Domain\Traits;
 
-use ZnCore\Domain\Domain\Enums\EventEnum;
+use ZnCore\Domain\Enums\EventEnum;
 use ZnCore\Query\Entities\Query;
 
 trait ForgeQueryTrait

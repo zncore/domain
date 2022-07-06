@@ -1,6 +1,6 @@
 <?php
 
-namespace ZnCore\Domain\Domain\Events;
+namespace ZnCore\Domain\Events;
 
 use Symfony\Contracts\EventDispatcher\Event;
 use ZnCore\Entity\Interfaces\EntityIdInterface;
