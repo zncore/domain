@@ -3,11 +3,11 @@
 namespace ZnCore\Domain\QueryFilter\Helpers;
 
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
-use ZnCore\Domain\Entity\Helpers\EntityHelper;
+use ZnCore\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Query\Entities\Where;
-use ZnCore\Base\Validation\Exceptions\UnprocessibleEntityException;
-use ZnCore\Base\Validation\Helpers\ValidationHelper;
+use ZnCore\Validation\Exceptions\UnprocessibleEntityException;
+use ZnCore\Validation\Helpers\ValidationHelper;
 use ZnCore\Domain\QueryFilter\Exceptions\BadFilterValidateException;
 use ZnCore\Domain\QueryFilter\Interfaces\DefaultSortInterface;
 use ZnCore\Domain\QueryFilter\Interfaces\IgnoreAttributesInterface;

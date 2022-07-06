@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Domain\Interfaces;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Query\Entities\Query;
 
 interface FindAllInterface

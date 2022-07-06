@@ -4,8 +4,8 @@ namespace ZnCore\Domain\Service\Traits;
 
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Enums\EventEnum;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
+use ZnCore\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Query\Entities\Query;
 
 trait CrudServiceFindOneTrait

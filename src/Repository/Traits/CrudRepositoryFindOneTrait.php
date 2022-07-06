@@ -2,14 +2,14 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Enums\EventEnum;
-use ZnCore\Domain\Entity\Exceptions\AlreadyExistsException;
-use ZnCore\Domain\Entity\Exceptions\NotFoundException;
-use ZnCore\Domain\Entity\Helpers\EntityHelper;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
+use ZnCore\Entity\Exceptions\AlreadyExistsException;
+use ZnCore\Entity\Exceptions\NotFoundException;
+use ZnCore\Entity\Helpers\EntityHelper;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
+use ZnCore\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnLib\Components\I18Next\Facades\I18Next;
 

@@ -3,8 +3,8 @@
 namespace ZnCore\Domain\Domain\Events;
 
 use Symfony\Contracts\EventDispatcher\Event;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Base\EventDispatcher\Traits\EventSkipHandleTrait;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
+use ZnCore\EventDispatcher\Traits\EventSkipHandleTrait;
 
 class EntityEvent extends Event
 {

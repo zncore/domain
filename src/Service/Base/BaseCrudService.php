@@ -2,19 +2,19 @@
 
 namespace ZnCore\Domain\Service\Base;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Contract\Common\Exceptions\InvalidMethodParameterException;
 use ZnCore\Domain\Domain\Traits\DispatchEventTrait;
-use ZnCore\Domain\Entity\Exceptions\NotFoundException;
+use ZnCore\Entity\Exceptions\NotFoundException;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\QueryFilter\Interfaces\ForgeQueryByFilterInterface;
 use ZnCore\Domain\Domain\Enums\EventEnum;
 use ZnCore\Domain\Domain\Events\EntityEvent;
 use ZnCore\Domain\Domain\Events\QueryEvent;
-use ZnCore\Domain\Entity\Helpers\EntityHelper;
-use ZnCore\Base\Validation\Helpers\ValidationHelper;
-use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
+use ZnCore\Entity\Helpers\EntityHelper;
+use ZnCore\Validation\Helpers\ValidationHelper;
+use ZnCore\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
 use ZnCore\Domain\Domain\Traits\ForgeQueryTrait;
 use ZnCore\Domain\Service\Interfaces\CrudServiceInterface;

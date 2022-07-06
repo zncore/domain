@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Repository\Traits;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Relation\Libs\RelationLoader;
 

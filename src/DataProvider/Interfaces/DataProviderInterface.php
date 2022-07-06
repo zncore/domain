@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\DataProvider\Interfaces;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 
 /**
  * Провайдер данных

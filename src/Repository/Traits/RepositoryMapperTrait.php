@@ -4,11 +4,11 @@ namespace ZnCore\Domain\Repository\Traits;
 
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Text\Helpers\Inflector;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
-use ZnCore\Domain\Entity\Helpers\EntityHelper;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
+use ZnCore\Text\Helpers\Inflector;
+use ZnCore\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Libs\Collection;
+use ZnCore\Entity\Helpers\EntityHelper;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
 use ZnLib\Components\Format\Encoders\ChainEncoder;
 
 trait RepositoryMapperTrait

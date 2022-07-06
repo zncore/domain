@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\Relation\Libs\Types;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 
 interface RelationInterface
 {

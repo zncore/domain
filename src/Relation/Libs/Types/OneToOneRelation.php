@@ -3,9 +3,9 @@
 namespace ZnCore\Domain\Relation\Libs\Types;
 
 use yii\di\Container;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Entity\Factories\PropertyAccess;
-use ZnCore\Domain\Entity\Helpers\CollectionHelper;
+use ZnCore\Collection\Interfaces\Enumerable;
+use ZnCore\Entity\Factories\PropertyAccess;
+use ZnCore\Entity\Helpers\CollectionHelper;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;
 
 class OneToOneRelation extends BaseRelation implements RelationInterface

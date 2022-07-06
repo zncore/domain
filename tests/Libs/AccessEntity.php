@@ -3,8 +3,8 @@
 namespace ZnCore\Domain\Tests\Libs;
 
 use Symfony\Component\Validator\Mapping\ClassMetadata;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Base\Validation\Interfaces\ValidationByMetadataInterface;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
+use ZnCore\Validation\Interfaces\ValidationByMetadataInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class AccessEntity implements EntityIdInterface, ValidationByMetadataInterface

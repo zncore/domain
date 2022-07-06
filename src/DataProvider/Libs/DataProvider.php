@@ -2,7 +2,7 @@
 
 namespace ZnCore\Domain\DataProvider\Libs;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnCore\Domain\DataProvider\Entities\DataProviderEntity;
 use ZnCore\Domain\DataProvider\Interfaces\DataProviderInterface;

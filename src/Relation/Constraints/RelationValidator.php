@@ -5,10 +5,10 @@ namespace ZnCore\Domain\Relation\Constraints;
 use Exception;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
-use ZnCore\Domain\Entity\Exceptions\NotFoundException;
-use ZnCore\Base\Validation\Constraints\BaseValidator;
-use ZnCore\Base\Container\Helpers\ContainerHelper;
-use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
+use ZnCore\Entity\Exceptions\NotFoundException;
+use ZnCore\Validation\Constraints\BaseValidator;
+use ZnCore\Container\Helpers\ContainerHelper;
+use ZnCore\EntityManager\Interfaces\EntityManagerInterface;
 use ZnCore\Domain\Domain\Interfaces\ReadAllInterface;
 use ZnCore\Domain\Repository\Interfaces\FindOneInterface;
 

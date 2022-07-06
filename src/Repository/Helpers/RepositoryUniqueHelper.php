@@ -2,9 +2,9 @@
 
 namespace ZnCore\Domain\Repository\Helpers;
 
-use ZnCore\Base\Text\Helpers\Inflector;
-use ZnCore\Domain\Entity\Helpers\EntityHelper;
-use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
+use ZnCore\Text\Helpers\Inflector;
+use ZnCore\Entity\Helpers\EntityHelper;
+use ZnCore\Entity\Interfaces\UniqueInterface;
 use ZnCore\Domain\Query\Entities\Query;
 
 class RepositoryUniqueHelper

@@ -4,11 +4,11 @@ namespace ZnCore\Domain\Relation\Libs\Types;
 
 use Psr\Container\ContainerInterface;
 use yii\di\Container;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
+use ZnCore\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Libs\Collection;
 use ZnCore\Domain\Domain\Interfaces\FindAllInterface;
-use ZnCore\Domain\Entity\Factories\PropertyAccess;
-use ZnCore\Domain\Entity\Helpers\CollectionHelper;
+use ZnCore\Entity\Factories\PropertyAccess;
+use ZnCore\Entity\Helpers\CollectionHelper;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Query\Entities\Where;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;

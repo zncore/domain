@@ -2,8 +2,8 @@
 
 namespace ZnCore\Domain\Service\Interfaces;
 
-use ZnCore\Domain\Entity\Exceptions\NotFoundException;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
+use ZnCore\Entity\Exceptions\NotFoundException;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Query\Entities\Query;
 
 interface FindOneInterface

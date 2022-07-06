@@ -3,9 +3,9 @@
 namespace ZnCore\Domain\Relation\Libs\Types;
 
 use Psr\Container\ContainerInterface;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Domain\Interfaces\FindAllInterface;
-use ZnCore\Domain\Entity\Factories\PropertyAccess;
+use ZnCore\Entity\Factories\PropertyAccess;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Query\Entities\Where;
 use ZnCore\Domain\Relations\interfaces\CrudRepositoryInterface;

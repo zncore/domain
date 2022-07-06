@@ -5,7 +5,7 @@ namespace ZnCore\Domain\Relation\Libs;
 use InvalidArgumentException;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Relation\Libs\Types\RelationInterface;
 use ZnCore\Domain\Repository\Interfaces\RelationConfigInterface;
