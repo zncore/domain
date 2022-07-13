@@ -2,10 +2,9 @@
 
 namespace ZnCore\Domain\Traits;
 
-use ZnCore\EventDispatcher\Traits\EventDispatcherTrait;
 use ZnCore\Domain\Events\EntityEvent;
 use ZnCore\Domain\Events\QueryEvent;
-use ZnCore\Domain\Interfaces\GetEntityClassInterface;
+use ZnCore\EventDispatcher\Traits\EventDispatcherTrait;
 use ZnCore\Query\Entities\Query;
 
 trait DispatchEventTrait
